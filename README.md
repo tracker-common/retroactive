@@ -2,7 +2,7 @@
 RetroActive, the tool to keep your Retros... um... active
 
 # Installation:
-git clone https://github.com/tracker-common/retroactive.git
-cd react-rails-redux-sample
-bundle install
-npm install
+git clone https://github.com/tracker-common/retroactive.git \n
+cd react-rails-redux-sample \n
+bundle install \n
+npm install \n
