@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root to: 'welcome#index'
   get 'countIncrement' => 'welcome#increment'
+  get 'retro' => 'welcome#retro' #WILL NEED TO CHANGE THIS
+  resources :retrospectives
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

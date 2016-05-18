@@ -1,6 +1,7 @@
 class WelcomeController < ApplicationController
+
   def index
-  	@count = Counter.find(0);
+  	#@count = Counter.find(0);
   end
 
   def increment
