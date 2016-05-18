@@ -1,0 +1,1 @@
+cf push -b ruby_buildpack retroactive
