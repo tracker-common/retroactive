@@ -15,7 +15,5 @@ function getParameterByName(name, url) {
 }
 
 ReactDOM.render(<PivotSkillz
-  role={getParameterByName('role')}
-  name={getParameterByName('name')}
-  skills={getParameterByName('skills')} />,
+  data= {data} />,
   document.getElementById('app'));

@@ -80,9 +80,7 @@
 	}
 
 	_reactDom2.default.render(_react2.default.createElement(_app2.default, {
-	    role: getParameterByName('role'),
-	    name: getParameterByName('name'),
-	    skills: getParameterByName('skills') }), document.getElementById('app'));
+	    data: data }), document.getElementById('app'));
 
 /***/ },
 /* 2 */
@@ -19757,7 +19755,11 @@
 						)
 					)
 				),
-				_react2.default.createElement('div', { className: 'retro_dates' }),
+				_react2.default.createElement(
+					'div',
+					{ className: 'retro_dates' },
+					this.props.data
+				),
 				_react2.default.createElement(
 					'div',
 					{ className: 'dashboard-form' },

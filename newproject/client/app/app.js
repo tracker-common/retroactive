@@ -20,6 +20,7 @@ var PivotSkillz = React.createClass({
 				</div>
 			</div>
 			<div className="retro_dates">
+				{this.props.data}
 			</div>
 			<div className="dashboard-form"> 
 				<form>
