@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Newproject</title>
+  <title>RetroActive</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -12,7 +12,7 @@
 <%= yield %>
 
 <div id="app"></div>
-<script type="text/javascript">data = "<%= @date %>" </script>
+<script type="text/javascript">data = <%= raw(@json_object) %> </script>
 <%= javascript_include_tag 'bundle', 'data-turbolinks-track' => true %>
   
 </body>

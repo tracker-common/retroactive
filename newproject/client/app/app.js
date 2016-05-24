@@ -3,8 +3,9 @@ import Skill from './skill';
 import Chart from './chart';
 import Data from './data';
 import Summary from './Summary';
+import TrackerTokenForm from './tracker_token_form';
 
-var PivotSkillz = React.createClass({
+var RetroActive = React.createClass({
   render() {
     return (
     	<div>
@@ -19,13 +20,9 @@ var PivotSkillz = React.createClass({
 					<h1 >Name</h1>
 				</div>
 			</div>
+			<TrackerTokenForm/>
 			<div className="retro_dates">
-				{this.props.data}
-			</div>
-			<div className="dashboard-form"> 
-				<form>
-
-				</form>
+				{this.props.data.item} | {this.props.data.name}
 			</div>
 		</div>
 
@@ -34,4 +31,4 @@ var PivotSkillz = React.createClass({
 
 });
 
-export default PivotSkillz;
+export default RetroActive;

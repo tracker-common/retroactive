@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PivotSkillz from './app';
+import RetroActive from './app';
 
 // http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 function getParameterByName(name, url) {
@@ -14,6 +14,5 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-ReactDOM.render(<PivotSkillz
-  data= {data} />,
+ReactDOM.render(<RetroActive data= {data} />,
   document.getElementById('app'));
