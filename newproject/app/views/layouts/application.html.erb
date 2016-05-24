@@ -5,11 +5,14 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
-  <%=javascript_include_tag 'dev/app.js', 'data-turbolinks-track' => true %>
+  
 </head>
 <body>
 
 <%= yield %>
+ <script src="http://localhost:8080/webpack-dev-server.js"></script>
+   <script src="http://localhost:8080/bundle.js"></script>
+<div id="app"></div>
 
 </body>
 </html>

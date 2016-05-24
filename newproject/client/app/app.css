@@ -1,0 +1,27 @@
+body, html, #app {
+  margin: 0;
+  padding: 0;
+}
+
+@media print {
+	.noprint, .noprint * {
+		display: none !important;
+	}
+
+	.Summary__container {
+		width: 70% !important;
+		clear: both !important;
+		margin-top: 250px !important;
+	}
+
+	.Chart__container {
+		height: 300px !important;
+		width: 300px !important;
+		clear: both !important;
+	}
+
+	.App__header {
+		color: #000 !important;
+		border-bottom: 1px !important;
+	}
+}

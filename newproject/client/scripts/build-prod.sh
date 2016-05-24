@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm build/index.html
 rm build/favicon.png
 rm build/app.css
