@@ -7,7 +7,7 @@ import Summary from './Summary';
 var PivotSkillz = React.createClass({
   render() {
     return (
-      <div>Hi! I work!</div>
+      <div>Hi! I works!</div>
     );
   }
 
