@@ -12,6 +12,7 @@
 <%= yield %>
 
 <div id="app"></div>
+<script type="text/javascript">data = "<%= @date %>" </script>
 <%= javascript_include_tag 'bundle', 'data-turbolinks-track' => true %>
   
 </body>

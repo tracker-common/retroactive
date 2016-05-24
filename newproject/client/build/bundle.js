@@ -80,9 +80,7 @@
 	}
 
 	_reactDom2.default.render(_react2.default.createElement(_app2.default, {
-	    role: getParameterByName('role'),
-	    name: getParameterByName('name'),
-	    skills: getParameterByName('skills') }), document.getElementById('app'));
+	    data: data }), document.getElementById('app'));
 
 /***/ },
 /* 2 */
@@ -19699,7 +19697,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _react = __webpack_require__(2);
@@ -19725,14 +19723,50 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var PivotSkillz = _react2.default.createClass({
-	  displayName: 'PivotSkillz',
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      'Hi! I works!'
-	    );
-	  }
+		displayName: 'PivotSkillz',
+		render: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'div',
+					{ className: 'header' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'left' },
+						_react2.default.createElement('img', { src: 'RETROACTIVE.svg' })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'center header__text_box' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'Dashboard'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'right header__text_box' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'Name'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'retro_dates' },
+					this.props.data
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'dashboard-form' },
+					_react2.default.createElement('form', null)
+				)
+			);
+		}
 	});
 
 	exports.default = PivotSkillz;
