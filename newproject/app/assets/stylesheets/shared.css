@@ -108,6 +108,12 @@ body{
 	flex-direction: row;
 }
 
+.link{
+	color:blue;
+	text-decoration: underline;
+	cursor:pointer;
+}
+
 input{
 	margin-left: 5px;
 }

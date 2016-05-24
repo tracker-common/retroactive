@@ -25,10 +25,8 @@ var RetroActive = React.createClass({
 				{this.props.data.item} | {this.props.data.name}
 			</div>
 		</div>
-
     );
   }
-
 });
 
 export default RetroActive;

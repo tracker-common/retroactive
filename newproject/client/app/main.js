@@ -14,5 +14,5 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-ReactDOM.render(<RetroActive data= {data} />,
+ReactDOM.render(<RetroActive data= {db_entry} />,
   document.getElementById('app'));

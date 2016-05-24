@@ -79,7 +79,7 @@
 	    return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
-	_reactDom2.default.render(_react2.default.createElement(_app2.default, { data: data }), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(_app2.default, { data: db_entry }), document.getElementById('app'));
 
 /***/ },
 /* 2 */
@@ -20512,38 +20512,74 @@
 
 	var TrackerTokenForm = _react2.default.createClass({
 		displayName: "TrackerTokenForm",
+		getInitialState: function getInitialState() {
+			return {
+				token: this.props.token
+			};
+		},
 		render: function render() {
-			return _react2.default.createElement(
-				"div",
-				{ className: "dashboard-form" },
-				_react2.default.createElement(
+
+			if (this.state.token) {
+				return _react2.default.createElement(
 					"div",
-					null,
-					":) Hey there! It looks like you haven't provided your tracker token yet. RetroActive won't really work until you do. Please go get it from ",
+					{ className: "dashboard-form" },
 					_react2.default.createElement(
-						"a",
-						{ href: "https://www.pivotaltracker.com/profile" },
-						"https://www.pivotaltracker.com/profile"
-					)
-				),
-				_react2.default.createElement("br", null),
-				_react2.default.createElement(
-					"form",
-					null,
-					_react2.default.createElement(
-						"label",
+						"div",
 						null,
-						"Tracker API Token: "
+						"Woo! We have an API token for you! Everything is cool unless you need to ",
+						_react2.default.createElement(
+							"span",
+							{ className: "link", onClick: this.handleChangeToken_ },
+							"change it"
+						)
 					),
-					_react2.default.createElement("input", { type: "text" }),
+					"TOKEN: ",
+					this.state.token
+				);
+			} else {
+				return _react2.default.createElement(
+					"div",
+					{ className: "dashboard-form" },
 					_react2.default.createElement(
-						"button",
-						{ type: "button" },
-						"Save"
+						"div",
+						null,
+						":) Hey there! It looks like you haven't provided your tracker token yet. RetroActive won't really work until you do. Please go get it from ",
+						_react2.default.createElement(
+							"a",
+							{ href: "https://www.pivotaltracker.com/profile" },
+							"https://www.pivotaltracker.com/profile"
+						)
+					),
+					_react2.default.createElement("br", null),
+					_react2.default.createElement(
+						"form",
+						null,
+						_react2.default.createElement(
+							"label",
+							null,
+							"Tracker API Token: "
+						),
+						_react2.default.createElement("input", { type: "text", ref: "tokenText" }),
+						_react2.default.createElement(
+							"button",
+							{ type: "button", onClick: this.handleSaveToken_ },
+							"Save"
+						),
+						"TOKEN: ",
+						this.state.token
 					)
-				)
-			);
+				);
+			}
+		},
+
+
+		handleChangeToken_: function handleChangeToken_(event) {
+			this.setState({ token: undefined });
+		},
+		handleSaveToken_: function handleSaveToken_(event) {
+			this.setState({ token: _react2.default.findDOMNode(this.refs.tokenText).value });
 		}
+
 	});
 
 	exports.default = TrackerTokenForm;

@@ -12,7 +12,7 @@
 <%= yield %>
 
 <div id="app"></div>
-<script type="text/javascript">data = <%= raw(@json_object) %> </script>
+<script type="text/javascript">db_entry = <%= raw(@json_object) %> </script>
 <%= javascript_include_tag 'bundle', 'data-turbolinks-track' => true %>
   
 </body>
