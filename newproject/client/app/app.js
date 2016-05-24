@@ -7,11 +7,27 @@ import Summary from './Summary';
 var PivotSkillz = React.createClass({
   render() {
     return (
-<<<<<<< HEAD
-      <div>Hi!</div>
-=======
-      <div>Hi! I works!</div>
->>>>>>> 1e7a1b3833e874e64a10ae34c652e942057122c8
+    	<div>
+	    	<div className="header">
+				<div className="left"> 
+					<img src="RETROACTIVE.svg"/>
+				</div>
+				<div className="center header__text_box" >
+					<h1>Dashboard</h1>
+				</div>
+				<div className="right header__text_box">
+					<h1 >Name</h1>
+				</div>
+			</div>
+			<div className="retro_dates">
+			</div>
+			<div className="dashboard-form"> 
+				<form>
+
+				</form>
+			</div>
+		</div>
+
     );
   }
 
