@@ -7,9 +7,9 @@ class WelcomeController < ApplicationController
     documents.each do |document|
       #=> Yields a BSON::Document.
       puts document;
-      json_obj = document;
-      data_json = JSON.parse(document.to_json, object_class: OpenStruct);
-      @data = data_json.date
+      @json_object = document.to_json;
+      @data_json = JSON.parse(document.to_json, object_class: OpenStruct);
+      @data = @data_json.date
       @date = /(?<month>[A-Za-z]{3})\s(?<day>[0-9]{0,2})\s(?<year>[0-9]{4})/.match(@data);
       puts "HELLO I AM HERE \n\n\n\n"
       puts @month
