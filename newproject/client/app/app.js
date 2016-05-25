@@ -44,7 +44,6 @@ var RetroActive = React.createClass({
 	});
 	this.setState({token: newToken});
   },
-<<<<<<< HEAD
 
   checkEmail: function(){
   		var vm = this;
@@ -53,14 +52,12 @@ var RetroActive = React.createClass({
 			console.log(data);
 			vm.setState({token: data.tracker_token});
 		});
-	}
+	},
 
-=======
   handleCreateRetro_: function(newRetroId) {
 	this.setState({retroId: newRetroId});
 	window.location.replace('/show/' + newRetroId);
   }
->>>>>>> f93cc4da33491ef9024e0cb6962accae67ff3e5d
 });
 
 export default RetroActive;
