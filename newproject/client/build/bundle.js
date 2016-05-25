@@ -19727,6 +19727,11 @@
 
 	var RetroActive = _react2.default.createClass({
 		displayName: 'RetroActive',
+		getInitialState: function getInitialState() {
+			return {
+				token: "aa"
+			};
+		},
 		render: function render() {
 			return _react2.default.createElement(
 				'div',
@@ -19758,7 +19763,7 @@
 						)
 					)
 				),
-				_react2.default.createElement(_tracker_token_form2.default, null),
+				_react2.default.createElement(_tracker_token_form2.default, { token: this.state.token, handleSaveToken: this.handleSaveToken_, handleChangeToken: this.handleChangeToken_ }),
 				_react2.default.createElement(
 					'div',
 					{ className: 'retro_dates' },
@@ -19767,7 +19772,16 @@
 					this.props.data.name
 				)
 			);
+		},
+
+
+		handleChangeToken_: function handleChangeToken_(event) {
+			this.setState({ token: undefined });
+		},
+		handleSaveToken_: function handleSaveToken_(event, newToken) {
+			this.setState({ token: newToken });
 		}
+
 	});
 
 	exports.default = RetroActive;
@@ -20512,14 +20526,8 @@
 
 	var TrackerTokenForm = _react2.default.createClass({
 		displayName: "TrackerTokenForm",
-		getInitialState: function getInitialState() {
-			return {
-				token: this.props.token
-			};
-		},
 		render: function render() {
-
-			if (this.state.token) {
+			if (this.props.token) {
 				return _react2.default.createElement(
 					"div",
 					{ className: "dashboard-form" },
@@ -20529,12 +20537,12 @@
 						"Woo! We have an API token for you! Everything is cool unless you need to ",
 						_react2.default.createElement(
 							"span",
-							{ className: "link", onClick: this.handleChangeToken_ },
+							{ className: "link", onClick: this.props.handleChangeToken },
 							"change it"
 						)
 					),
 					"TOKEN: ",
-					this.state.token
+					this.props.token
 				);
 			} else {
 				return _react2.default.createElement(
@@ -20559,27 +20567,16 @@
 							null,
 							"Tracker API Token: "
 						),
-						_react2.default.createElement("input", { type: "text", ref: "tokenText" }),
+						_react2.default.createElement("input", { type: "text", ref: "tokenText", value: "" }),
 						_react2.default.createElement(
 							"button",
-							{ type: "button", onClick: this.handleSaveToken_ },
+							{ type: "button", onClick: this.props.handleSaveToken(this.refs.tokenText.value) },
 							"Save"
-						),
-						"TOKEN: ",
-						this.state.token
+						)
 					)
 				);
 			}
-		},
-
-
-		handleChangeToken_: function handleChangeToken_(event) {
-			this.setState({ token: undefined });
-		},
-		handleSaveToken_: function handleSaveToken_(event) {
-			this.setState({ token: _react2.default.findDOMNode(this.refs.tokenText).value });
 		}
-
 	});
 
 	exports.default = TrackerTokenForm;
