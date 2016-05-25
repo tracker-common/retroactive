@@ -1,11 +1,15 @@
 import React from 'react';
-import Skill from './skill';
-import Chart from './chart';
-import Data from './data';
-import Summary from './Summary';
 import TrackerTokenForm from './tracker_token_form';
+import CreateRetroForm from './createRetro';
+import { Link } from 'react-router'
 
 var RetroActive = React.createClass({
+	getInitialState() {
+		return {
+			data: data
+		};
+	},
+
   render() {
     return (
     	<div>
@@ -21,14 +25,13 @@ var RetroActive = React.createClass({
 				</div>
 			</div>
 			<TrackerTokenForm/>
+			<Link to="/createRetro">Create Retro Test</Link>
 			<div className="retro_dates">
-				{this.props.data.item} | {this.props.data.name}
+				{this.state.data.item} | {this.state.data.name}
 			</div>
 		</div>
-
     );
   }
-
 });
 
 export default RetroActive;

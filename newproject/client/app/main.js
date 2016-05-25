@@ -1,18 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, Link } from 'react-router'
+import CreateRetroForm from './createRetro';
 import RetroActive from './app';
+import createHistory from 'history/lib/createHashHistory'
 
-// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    url = url.toLowerCase(); // This is just to avoid case sensitiveness
-    name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+// Opt-out of persistent state, not recommended.
+let history = createHistory({
+  queryKey: false
+})
 
-ReactDOM.render(<RetroActive data= {data} />,
-  document.getElementById('app'));
+//ReactDOM.render(<RetroActive data= {data} />, document.getElementById('app'));
+
+ReactDOM.render((
+  <Router history={history}>
+    <Route name="home" path="/" component={RetroActive}/>
+    <Route name="/createRetro" path="/createRetro" component={CreateRetroForm}/>
+  </Router>
+), document.getElementById('app'));
