@@ -1,28 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 var CreateRetroForm = React.createClass({
+
+	handleClickRetro: function(){
+		console.log(this.refs.retroId.value);
+		this.props.handleCreateRetro(this.refs.retroId.value);
+	},
 	render() {
 		return (
 			<div className="createRetroForm">
-				<div className="header">
-					<div className="left"> 
-						<img src="RETROACTIVE.svg"/>
-					</div>
-					<div className="center header__text_box" >
-						<h1>Create A Retro</h1>
-					</div>
-					<div className="right header__text_box">
-						<h1 >Name</h1>
-					</div>
-				</div>
-
 				<form>
 					<h1>Create a new Retro</h1>
-					<input type="text" placeholder="Tracker ID" onChange={this.props.handleUpdateRetroId}/>
-					<button type="button" onClick={this.props.handleCreateRetro}>Create!</button>
+					<input type="text" placeholder="Tracker ID" ref="retroId" />
+					<button type="button" onClick={this.handleClickRetro}>Create!</button>
 				</form>
-				ID: {this.props.retroId}
 			</div>
 		);
 	}
