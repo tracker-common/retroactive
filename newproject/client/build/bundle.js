@@ -71,10 +71,13 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
+<<<<<<< HEAD
 	var _retro = __webpack_require__(224);
 
 	var _retro2 = _interopRequireDefault(_retro);
 
+=======
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 	var _sign_in = __webpack_require__(225);
 
 	var _sign_in2 = _interopRequireDefault(_sign_in);
@@ -86,37 +89,29 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// Opt-out of persistent state, not recommended.
+<<<<<<< HEAD
 	/*let history = createHistory({
 	  queryKey: false
 	})*/
+=======
+	var history = (0, _createHashHistory2.default)({
+			queryKey: false
+	});
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 
 	//ReactDOM.render(<RetroActive data= {data} />, document.getElementById('app'));
 
 	_reactDom2.default.render(_react2.default.createElement(
-		'div',
-		null,
-		_react2.default.createElement(
 			'div',
-			{ className: 'header' },
+			null,
 			_react2.default.createElement(
-				'div',
-				{ className: 'left' },
-				_react2.default.createElement('img', { src: 'RETROACTIVE.svg' })
-			),
-			_react2.default.createElement(
-				'div',
-				{ className: 'center header__text_box' },
-				_react2.default.createElement('h1', null)
-			),
-			_react2.default.createElement(
-				'div',
-				{ className: 'right header__text_box' },
-				_react2.default.createElement(
-					'h1',
-					null,
-					'Name'
-				)
+					_reactRouter.Router,
+					{ history: history },
+					_react2.default.createElement(_reactRouter.Route, { name: 'home', path: '/', component: _sign_in2.default }),
+					_react2.default.createElement(_reactRouter.Route, { name: 'Create Retro', path: '/createRetro', component: _createRetro2.default }),
+					_react2.default.createElement(_reactRouter.Route, { name: 'Dashboard', path: '/dashboard', component: _app2.default })
 			)
+<<<<<<< HEAD
 		),
 		_react2.default.createElement(
 			_reactRouter.Router,
@@ -126,6 +121,8 @@
 			_react2.default.createElement(_reactRouter.Route, { name: '/show', path: '/show/:retroId', component: _retro2.default }),
 			_react2.default.createElement(_reactRouter.Route, { name: 'Sign-in', path: '/signin', component: _sign_in2.default })
 		)
+=======
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 	), document.getElementById('app'));
 	//import createHistory from 'history/lib/createHashHistory'
 
@@ -20234,6 +20231,7 @@
 /***/ },
 /* 165 */
 /***/ function(module, exports, __webpack_require__) {
+<<<<<<< HEAD
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
@@ -20248,6 +20246,22 @@
 
 	var canUseMembrane = exports.canUseMembrane = false;
 
+=======
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	exports.__esModule = true;
+	exports.canUseMembrane = undefined;
+
+	var _routerWarning = __webpack_require__(162);
+
+	var _routerWarning2 = _interopRequireDefault(_routerWarning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var canUseMembrane = exports.canUseMembrane = false;
+
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 	// No-op by default.
 	var deprecateObjectProperties = function deprecateObjectProperties(object) {
 	  return object;
@@ -25317,6 +25331,10 @@
 
 	var _reactRouter = __webpack_require__(160);
 
+	var _header = __webpack_require__(224);
+
+	var _header2 = _interopRequireDefault(_header);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var RetroActive = _react2.default.createClass({
@@ -25335,7 +25353,12 @@
 		render: function render() {
 			return _react2.default.createElement(
 				'div',
+<<<<<<< HEAD
 				{ className: 'dashboard' },
+=======
+				null,
+				_react2.default.createElement(_header2.default, { user: window.context.user }),
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 				_react2.default.createElement(_tracker_token_form2.default, { token: this.state.token, handleSaveToken: this.handleSaveToken_, handleChangeToken: this.handleChangeToken_ }),
 				_react2.default.createElement(_createRetro2.default, { handleCreateRetro: this.handleCreateRetro_ }),
 				_react2.default.createElement(
@@ -25345,10 +25368,15 @@
 					' | ',
 					this.state.data.name,
 					' | ',
+<<<<<<< HEAD
 					this.state.retroId
 				),
 				'RetroID: ',
 				this.state.retroId
+=======
+					this.state.data.date
+				)
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 			);
 		},
 
@@ -25463,6 +25491,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+<<<<<<< HEAD
 	var Retro = _react2.default.createClass({
 		displayName: "Retro",
 		render: function render() {
@@ -25515,48 +25544,114 @@
 						"div",
 						{ className: "retro-column" },
 						_react2.default.createElement("div", { className: "retro-column__items" })
+=======
+	var Header = _react2.default.createClass({
+		displayName: "Header",
+		render: function render() {
+			return _react2.default.createElement(
+				"div",
+				{ className: "header" },
+				_react2.default.createElement(
+					"div",
+					{ className: "left" },
+					_react2.default.createElement("img", { src: "RETROACTIVE.svg" })
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "center header__text_box" },
+					_react2.default.createElement("h1", null)
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "right header__text_box" },
+					_react2.default.createElement(
+						"h1",
+						null,
+						this.props.user.name
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 					)
 				)
 			);
 		}
 	});
 
+<<<<<<< HEAD
 	exports.default = Retro;
+=======
+	exports.default = Header;
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 
 /***/ },
 /* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 			value: true
+=======
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+>>>>>>> 48a21cbda7bfc42fbf5fb10e9e6eb3cde8aa4400
 	});
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _header = __webpack_require__(224);
+
+	var _header2 = _interopRequireDefault(_header);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var SignIn = _react2.default.createClass({
-			displayName: "SignIn",
-			render: function render() {
-					return _react2.default.createElement(
-							"div",
-							{ className: "sign-in" },
-							_react2.default.createElement("div", { className: "g-signin2", "data-onsuccess": "this.onSignIn" })
-					);
-			},
+		displayName: 'SignIn',
+		render: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(_header2.default, { user: '' }),
+				_react2.default.createElement(
+					'div',
+					{ className: 'sign-in' },
+					_react2.default.createElement(
+						'h1',
+						null,
+						'Welcome to RetroActive!'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Please Sign-In'
+					),
+					_react2.default.createElement('div', { className: 'g-signin2', 'data-onsuccess': 'onSignIn' }),
+					_react2.default.createElement(
+						'div',
+						{ onClick: this.signOut },
+						'Sign Out'
+					)
+				)
+			);
+		},
 
 
-			onSignIn: function onSignIn(googleUser) {
-					var profile = googleUser.getBasicProfile();
-					console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-					console.log('Name: ' + profile.getName());
-					console.log('Image URL: ' + profile.getImageUrl());
-					console.log('Email: ' + profile.getEmail());
-			}
+		signOut: function signOut() {
+			var auth2 = gapi.auth2.getAuthInstance();
+			var profile = auth2.currentUser.get().getBasicProfile();
+			console.log('ID: ' + profile.getId());
+			console.log('Full Name: ' + profile.getName());
+			console.log('Given Name: ' + profile.getGivenName());
+			console.log('Family Name: ' + profile.getFamilyName());
+			console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail());
+			auth2.signOut().then(function () {
+				console.log('User signed out.');
+			});
+		}
 
 	});
 

@@ -2,6 +2,7 @@ import React from 'react';
 import TrackerTokenForm from './tracker_token_form';
 import CreateRetroForm from './createRetro';
 import { Link } from 'react-router'
+import Header from './header';
 
 var RetroActive = React.createClass({
   getInitialState() {
@@ -20,6 +21,7 @@ var RetroActive = React.createClass({
   render() {
     return (
     	<div className="dashboard">
+    		<Header user = {window.context.user} />
 			<TrackerTokenForm token={this.state.token} handleSaveToken={this.handleSaveToken_} handleChangeToken={this.handleChangeToken_}/>
 			<CreateRetroForm handleCreateRetro={this.handleCreateRetro_}/>
 			<div className="retro_dates">

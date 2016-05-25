@@ -1,23 +1,38 @@
 import React from 'react';
+import Header from './header';
 
 var SignIn= React.createClass({
 
+	
+
   	render() {
   		return (
-    	<div className="sign-in" > 
-			 <div className="g-signin2" data-onsuccess="this.onSignIn"></div>
-		</div>
-
+	    	<div>
+	    	<Header user = "" />
+	    	<div className="sign-in"> 
+	    		<h1>Welcome to RetroActive!</h1>
+	    		<p>Please Sign-In</p>
+	    		<div className="g-signin2" data-onsuccess="onSignIn"></div>
+				<div onClick={this.signOut}>Sign Out</div>
+			</div>
+			</div>
 		);
-  	},
-	
-    onSignIn: function(googleUser) {
-		var profile = googleUser.getBasicProfile();
-		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-		console.log('Name: ' + profile.getName());
+  	},    
+
+	signOut: function() {
+	    var auth2 = gapi.auth2.getAuthInstance();
+		var profile = auth2.currentUser.get().getBasicProfile();
+		console.log('ID: ' + profile.getId());
+		console.log('Full Name: ' + profile.getName());
+		console.log('Given Name: ' + profile.getGivenName());
+		console.log('Family Name: ' + profile.getFamilyName());
 		console.log('Image URL: ' + profile.getImageUrl());
 		console.log('Email: ' + profile.getEmail());
-	},
+	    auth2.signOut().then(function () {
+	      console.log('User signed out.');
+	    });
+  }
+
 
 });
 
