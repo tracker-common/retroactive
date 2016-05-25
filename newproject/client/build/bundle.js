@@ -84,11 +84,12 @@
 
 	//ReactDOM.render(<RetroActive data= {data} />, document.getElementById('app'));
 
-	_reactDom2.default.render(_react2.default.createElement(
+	render(_react2.default.createElement(
 	  _reactRouter.Router,
 	  { history: history },
 	  _react2.default.createElement(_reactRouter.Route, { name: 'home', path: '/', component: _app2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { name: '/createRetro', path: '/createRetro', component: _createRetro2.default })
+	  _react2.default.createElement(_reactRouter.Route, { name: '/createRetro', path: '/createRetro', component: _createRetro2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { name: '/show', path: '/show/:token', component: Retro })
 	), document.getElementById('app'));
 
 /***/ },

@@ -16,5 +16,6 @@ ReactDOM.render((
   <Router history={history}>
     <Route name="home" path="/" component={RetroActive}/>
     <Route name="/createRetro" path="/createRetro" component={CreateRetroForm}/>
+    <Route name = "/show" path="/show/:token" component={Retro}/>
   </Router>
 ), document.getElementById('app'));
