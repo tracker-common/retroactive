@@ -8,12 +8,13 @@ var RetroActive = React.createClass({
 	    return {
 	      token: "aa",
 	      data: db_entry,
+	      retroId: "",
 	   	}
 	},
 
   render() {
     return (
-    	<div>
+    	<div className="dashboard">
 	    	<div className="header">
 				<div className="left"> 
 					<img src="RETROACTIVE.svg"/>
@@ -26,10 +27,11 @@ var RetroActive = React.createClass({
 				</div>
 			</div>
 			<TrackerTokenForm token={this.state.token} handleSaveToken={this.handleSaveToken_} handleChangeToken={this.handleChangeToken_}/>
-			<Link to="/createRetro">Create Retro Test</Link>
+			<Link to="/createRetro" handleCreateRetro={this.handleCreateRetro_} handleUpdateRetroId={this.handleUpdateRetroId_}>Create Retro</Link>
 			<div className="retro_dates">
-				{this.state.data.item} | {this.state.data.name}
+				{this.state.data.item} | {this.state.data.name} | {this.state.retroId}
 			</div>
+			RetroID: {this.state.retroId}
 		</div>
     );
   },
@@ -40,7 +42,15 @@ var RetroActive = React.createClass({
   handleSaveToken_: function(event, newToken) {
 	this.setState({token: newToken});
   },
-
+  handleCreateRetro_: function() {
+	this.setState({retroId: "AAAAA"});
+	console.log(retroId);
+	window.location.replace("/");
+  },
+  handleUpdateRetroId_: function(event) {
+	this.setState({retroId: event.target.value});
+	console.log(retroId);
+  }
 });
 
 export default RetroActive;

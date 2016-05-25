@@ -1,8 +1,6 @@
 import React from 'react';
 
 var TrackerTokenForm = React.createClass({
-
-	
   	render() {
 	  	if(this.props.token){
 	  		return (
@@ -26,10 +24,6 @@ var TrackerTokenForm = React.createClass({
 			);
 	  	}
 	}
-
-	
-
 });
-
 
 export default TrackerTokenForm;

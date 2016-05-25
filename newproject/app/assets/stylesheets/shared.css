@@ -1,12 +1,22 @@
 body{
 	margin:0;
 	height: 100vh;
-	background-color:#F3F3F3;
 	font-family: 'Arial';
+}
+
+.dashboard{
+	height: 100vh;
+	background-color:#F3F3F3;
+}
+
+.createRetroForm{
+	height: 100vh;
+	background-color:#F3F3F3;
 }
 
 #retro-body {
 	background-color: #66B9DD;
+	height: 100vh;
 }
 
 .header {
@@ -20,7 +30,6 @@ body{
 }
 
 .header__retro {
-	
 	display: flex;
 	justify-content: center;
 	font-size:10px;
