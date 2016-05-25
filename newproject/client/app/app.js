@@ -11,20 +11,14 @@ var RetroActive = React.createClass({
 	   	}
 	},
 
+	componentDidMount: function() {
+		
+	},
+
+
   render() {
     return (
     	<div>
-	    	<div className="header">
-				<div className="left"> 
-					<img src="RETROACTIVE.svg"/>
-				</div>
-				<div className="center header__text_box" >
-					<h1>Dashboard</h1>
-				</div>
-				<div className="right header__text_box">
-					<h1 >Name</h1>
-				</div>
-			</div>
 			<TrackerTokenForm token={this.state.token} handleSaveToken={this.handleSaveToken_} handleChangeToken={this.handleChangeToken_}/>
 			<Link to="/createRetro">Create Retro Test</Link>
 			<div className="retro_dates">
@@ -37,7 +31,8 @@ var RetroActive = React.createClass({
   handleChangeToken_: function(event) {
 	this.setState({token: undefined});
   },
-  handleSaveToken_: function(event, newToken) {
+  
+  handleSaveToken_: function(newToken) {
 	this.setState({token: newToken});
   },
 

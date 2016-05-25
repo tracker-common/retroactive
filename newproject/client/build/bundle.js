@@ -71,6 +71,10 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
+	var _sign_in = __webpack_require__(224);
+
+	var _sign_in2 = _interopRequireDefault(_sign_in);
+
 	var _createHashHistory = __webpack_require__(170);
 
 	var _createHashHistory2 = _interopRequireDefault(_createHashHistory);
@@ -79,16 +83,44 @@
 
 	// Opt-out of persistent state, not recommended.
 	var history = (0, _createHashHistory2.default)({
-	  queryKey: false
+		queryKey: false
 	});
 
 	//ReactDOM.render(<RetroActive data= {data} />, document.getElementById('app'));
 
 	_reactDom2.default.render(_react2.default.createElement(
-	  _reactRouter.Router,
-	  { history: history },
-	  _react2.default.createElement(_reactRouter.Route, { name: 'home', path: '/', component: _app2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { name: '/createRetro', path: '/createRetro', component: _createRetro2.default })
+		'div',
+		null,
+		_react2.default.createElement(
+			'div',
+			{ className: 'header' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'left' },
+				_react2.default.createElement('img', { src: 'RETROACTIVE.svg' })
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'center header__text_box' },
+				_react2.default.createElement('h1', null)
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'right header__text_box' },
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Name'
+				)
+			)
+		),
+		_react2.default.createElement(
+			_reactRouter.Router,
+			{ history: history },
+			_react2.default.createElement(_reactRouter.Route, { name: 'home', path: '/', component: _app2.default }),
+			_react2.default.createElement(_reactRouter.Route, { name: 'Create Retro', path: '/createRetro', component: _createRetro2.default }),
+			_react2.default.createElement(_reactRouter.Route, { name: 'Sign-in', path: '/signin', component: _sign_in2.default })
+		)
 	), document.getElementById('app'));
 
 /***/ },
@@ -25283,37 +25315,14 @@
 				data: db_entry
 			};
 		},
+
+
+		componentDidMount: function componentDidMount() {},
+
 		render: function render() {
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(
-					'div',
-					{ className: 'header' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'left' },
-						_react2.default.createElement('img', { src: 'RETROACTIVE.svg' })
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'center header__text_box' },
-						_react2.default.createElement(
-							'h1',
-							null,
-							'Dashboard'
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'right header__text_box' },
-						_react2.default.createElement(
-							'h1',
-							null,
-							'Name'
-						)
-					)
-				),
 				_react2.default.createElement(_tracker_token_form2.default, { token: this.state.token, handleSaveToken: this.handleSaveToken_, handleChangeToken: this.handleChangeToken_ }),
 				_react2.default.createElement(
 					_reactRouter.Link,
@@ -25334,7 +25343,8 @@
 		handleChangeToken_: function handleChangeToken_(event) {
 			this.setState({ token: undefined });
 		},
-		handleSaveToken_: function handleSaveToken_(event, newToken) {
+
+		handleSaveToken_: function handleSaveToken_(newToken) {
 			this.setState({ token: newToken });
 		}
 
@@ -25360,6 +25370,12 @@
 
 	var TrackerTokenForm = _react2.default.createClass({
 		displayName: "TrackerTokenForm",
+
+
+		changeToken: function changeToken() {
+			this.props.handleSaveToken(this.refs.tokenText.value);
+		},
+
 		render: function render() {
 			if (this.props.token) {
 				return _react2.default.createElement(
@@ -25401,10 +25417,10 @@
 							null,
 							"Tracker API Token: "
 						),
-						_react2.default.createElement("input", { type: "text", ref: "tokenText", value: "" }),
+						_react2.default.createElement("input", { type: "text", ref: "tokenText" }),
 						_react2.default.createElement(
 							"button",
-							{ type: "button", onClick: this.props.handleSaveToken(this.refs.tokenText.value) },
+							{ type: "button", onClick: this.changeToken },
 							"Save"
 						)
 					)
@@ -25414,6 +25430,45 @@
 	});
 
 	exports.default = TrackerTokenForm;
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SignIn = _react2.default.createClass({
+			displayName: "SignIn",
+			render: function render() {
+					return _react2.default.createElement(
+							"div",
+							{ className: "sign-in" },
+							_react2.default.createElement("div", { className: "g-signin2", "data-onsuccess": "this.onSignIn" })
+					);
+			},
+
+
+			onSignIn: function onSignIn(googleUser) {
+					var profile = googleUser.getBasicProfile();
+					console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+					console.log('Name: ' + profile.getName());
+					console.log('Image URL: ' + profile.getImageUrl());
+					console.log('Email: ' + profile.getEmail());
+			}
+
+	});
+
+	exports.default = SignIn;
 
 /***/ }
 /******/ ]);
