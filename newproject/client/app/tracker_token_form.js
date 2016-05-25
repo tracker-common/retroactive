@@ -30,10 +30,6 @@ var TrackerTokenForm = React.createClass({
 			);
 	  	}
 	},
-
-	
-
 });
-
 
 export default TrackerTokenForm;

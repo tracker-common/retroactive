@@ -9,6 +9,7 @@ var RetroActive = React.createClass({
 	    return {
 	      token: window.context.user.token,
 	      data: db_entry,
+	      retroId: "",
 	   	}
 	},
 
@@ -19,14 +20,15 @@ var RetroActive = React.createClass({
 
   render() {
     return (
-    	<div>
-    	<Header user = {window.context.user} />
+    	<div className="dashboard">
+    		<Header user = {window.context.user} />
 			<TrackerTokenForm token={this.state.token} handleSaveToken={this.handleSaveToken_} handleChangeToken={this.handleChangeToken_}/>
-			<Link to="/createRetro">Create Retro Test</Link>
+			<CreateRetroForm handleCreateRetro={this.handleCreateRetro_}/>
 			<div className="retro_dates">
-				{this.state.data.item} | {this.state.data.name} | {this.state.data.date}
+				{this.state.data.item} | {this.state.data.name} | {this.state.retroId}
 			</div>
 			<button type="button" onClick={this.checkEmail}>Check Email</button>
+			RetroID: {this.state.retroId}
 		</div>
     );
   },
@@ -42,6 +44,7 @@ var RetroActive = React.createClass({
 	});
 	this.setState({token: newToken});
   },
+<<<<<<< HEAD
 
   checkEmail: function(){
   		var vm = this;
@@ -52,6 +55,12 @@ var RetroActive = React.createClass({
 		});
 	}
 
+=======
+  handleCreateRetro_: function(newRetroId) {
+	this.setState({retroId: newRetroId});
+	window.location.replace('/show/' + newRetroId);
+  }
+>>>>>>> f93cc4da33491ef9024e0cb6962accae67ff3e5d
 });
 
 export default RetroActive;
