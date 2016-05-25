@@ -15,21 +15,10 @@ let history = createHistory({
 
 ReactDOM.render((
   <div>
-	<div className="header">
-		<div className="left"> 
-			<img src="RETROACTIVE.svg"/>
-		</div>
-		<div className="center header__text_box" >
-			<h1></h1>
-		</div>
-		<div className="right header__text_box">
-			<h1 >Name</h1>
-		</div>
-	</div>
 	  <Router history={history}>
-	    <Route name="home" path="/" component={RetroActive}/>
+	    <Route name="home" path="/" component={SignIn}/>
 	    <Route name="Create Retro" path="/createRetro" component={CreateRetroForm}/>
-	    <Route name="Sign-in" path="/signin" component={SignIn}/>
+	    <Route name="Dashboard" path="/dashboard" component={RetroActive}/>
 	  </Router>
   </div>
 ), document.getElementById('app'));

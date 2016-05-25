@@ -5,31 +5,47 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <script type="text/javascript">
-	 
-	 window.onloadGoogle = function(){
-	 	gapi.load('auth2', function() {
-	 		
-		 	gapi.auth2.init();
-	 		setTimeout(function() {
-		        auth2 = gapi.auth2.getAuthInstance();
-				if (auth2.isSignedIn.get()) {
-					var profile = auth2.currentUser.get().getBasicProfile();
-					console.log('ID: ' + profile.getId());
-					console.log('Full Name: ' + profile.getName());
-					console.log('Given Name: ' + profile.getGivenName());
-					console.log('Family Name: ' + profile.getFamilyName());
-					console.log('Image URL: ' + profile.getImageUrl());
-					console.log('Email: ' + profile.getEmail());
-				}
-				else{
-					console.log("user not signed in");
-				}
-			}, 500);
-	     });
+	 onSignIn = function(googleUser) {
+		profile = googleUser.getBasicProfile();
+		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		console.log('Name: ' + profile.getName());
+		console.log('Image URL: ' + profile.getImageUrl());
+		console.log('Email: ' + profile.getEmail());
+		window.context = {};
+		window.context.user = {};
+		window.context.user.name = profile.getName();
+		window.context.user.email = profile.getEmail();
+		window.location.href = "/#/dashboard";
 	}
+
+	//  window.onloadGoogle = function(){
+	//  	gapi.load('auth2', function() {
+	// 	 	gapi.auth2.init();
+	// 	    auth2 = gapi.auth2.getAuthInstance();
+	//  		setTimeout(window.checkLogin, 5000);
+	//      });
+	// }
+
+	// window.checkLogin = function(){
+	// 	gapi.auth2.init();
+	// 	auth2 = gapi.auth2.getAuthInstance();
+	// 	if (auth2.isSignedIn.get()) {
+	// 		var profile = auth2.currentUser.get().getBasicProfile();
+	// 		console.log('ID: ' + profile.getId());
+	// 		console.log('Full Name: ' + profile.getName());
+	// 		console.log('Given Name: ' + profile.getGivenName());
+	// 		console.log('Family Name: ' + profile.getFamilyName());
+	// 		console.log('Image URL: ' + profile.getImageUrl());
+	// 		console.log('Email: ' + profile.getEmail());
+	// 		window.location = '#/dashboard';
+	// 	}
+	// 	else{
+	// 		console.log("user not signed in");
+	// 	}
+	// }
 		
 </script>
-  <script src="https://apis.google.com/js/platform.js?onload=onloadGoogle" async defer></script>
+  <script src="https://apis.google.com/js/platform.js?" async defer></script>
   <%= csrf_meta_tags %>
   <meta name="google-signin-client_id" content="569976604919-g796ovfj23d40fpi1jjerpn2vvp88mso.apps.googleusercontent.com">
   

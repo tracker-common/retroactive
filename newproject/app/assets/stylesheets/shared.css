@@ -26,6 +26,15 @@ body{
 	font-size:10px;
 }
 
+.sign-in {
+	display: flex;
+	justify-content: center;
+	flex-direction:column;
+	width:500px;
+	height:500px; 
+	margin:0 auto;
+}
+
 .left{
 	position: absolute;
 	left: 5px;

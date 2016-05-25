@@ -71,7 +71,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _sign_in = __webpack_require__(224);
+	var _sign_in = __webpack_require__(225);
 
 	var _sign_in2 = _interopRequireDefault(_sign_in);
 
@@ -83,44 +83,21 @@
 
 	// Opt-out of persistent state, not recommended.
 	var history = (0, _createHashHistory2.default)({
-		queryKey: false
+			queryKey: false
 	});
 
 	//ReactDOM.render(<RetroActive data= {data} />, document.getElementById('app'));
 
 	_reactDom2.default.render(_react2.default.createElement(
-		'div',
-		null,
-		_react2.default.createElement(
 			'div',
-			{ className: 'header' },
+			null,
 			_react2.default.createElement(
-				'div',
-				{ className: 'left' },
-				_react2.default.createElement('img', { src: 'RETROACTIVE.svg' })
-			),
-			_react2.default.createElement(
-				'div',
-				{ className: 'center header__text_box' },
-				_react2.default.createElement('h1', null)
-			),
-			_react2.default.createElement(
-				'div',
-				{ className: 'right header__text_box' },
-				_react2.default.createElement(
-					'h1',
-					null,
-					'Name'
-				)
+					_reactRouter.Router,
+					{ history: history },
+					_react2.default.createElement(_reactRouter.Route, { name: 'home', path: '/', component: _sign_in2.default }),
+					_react2.default.createElement(_reactRouter.Route, { name: 'Create Retro', path: '/createRetro', component: _createRetro2.default }),
+					_react2.default.createElement(_reactRouter.Route, { name: 'Dashboard', path: '/dashboard', component: _app2.default })
 			)
-		),
-		_react2.default.createElement(
-			_reactRouter.Router,
-			{ history: history },
-			_react2.default.createElement(_reactRouter.Route, { name: 'home', path: '/', component: _app2.default }),
-			_react2.default.createElement(_reactRouter.Route, { name: 'Create Retro', path: '/createRetro', component: _createRetro2.default }),
-			_react2.default.createElement(_reactRouter.Route, { name: 'Sign-in', path: '/signin', component: _sign_in2.default })
-		)
 	), document.getElementById('app'));
 
 /***/ },
@@ -25305,6 +25282,10 @@
 
 	var _reactRouter = __webpack_require__(160);
 
+	var _header = __webpack_require__(224);
+
+	var _header2 = _interopRequireDefault(_header);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var RetroActive = _react2.default.createClass({
@@ -25323,6 +25304,7 @@
 			return _react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement(_header2.default, { user: window.context.user }),
 				_react2.default.createElement(_tracker_token_form2.default, { token: this.state.token, handleSaveToken: this.handleSaveToken_, handleChangeToken: this.handleChangeToken_ }),
 				_react2.default.createElement(
 					_reactRouter.Link,
@@ -25334,7 +25316,9 @@
 					{ className: 'retro_dates' },
 					this.state.data.item,
 					' | ',
-					this.state.data.name
+					this.state.data.name,
+					' | ',
+					this.state.data.date
 				)
 			);
 		},
@@ -25438,7 +25422,7 @@
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+		value: true
 	});
 
 	var _react = __webpack_require__(2);
@@ -25447,24 +25431,101 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var Header = _react2.default.createClass({
+		displayName: "Header",
+		render: function render() {
+			return _react2.default.createElement(
+				"div",
+				{ className: "header" },
+				_react2.default.createElement(
+					"div",
+					{ className: "left" },
+					_react2.default.createElement("img", { src: "RETROACTIVE.svg" })
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "center header__text_box" },
+					_react2.default.createElement("h1", null)
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "right header__text_box" },
+					_react2.default.createElement(
+						"h1",
+						null,
+						this.props.user.name
+					)
+				)
+			);
+		}
+	});
+
+	exports.default = Header;
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _header = __webpack_require__(224);
+
+	var _header2 = _interopRequireDefault(_header);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var SignIn = _react2.default.createClass({
-			displayName: "SignIn",
-			render: function render() {
-					return _react2.default.createElement(
-							"div",
-							{ className: "sign-in" },
-							_react2.default.createElement("div", { className: "g-signin2", "data-onsuccess": "this.onSignIn" })
-					);
-			},
+		displayName: 'SignIn',
+		render: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(_header2.default, { user: '' }),
+				_react2.default.createElement(
+					'div',
+					{ className: 'sign-in' },
+					_react2.default.createElement(
+						'h1',
+						null,
+						'Welcome to RetroActive!'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Please Sign-In'
+					),
+					_react2.default.createElement('div', { className: 'g-signin2', 'data-onsuccess': 'onSignIn' }),
+					_react2.default.createElement(
+						'div',
+						{ onClick: this.signOut },
+						'Sign Out'
+					)
+				)
+			);
+		},
 
 
-			onSignIn: function onSignIn(googleUser) {
-					var profile = googleUser.getBasicProfile();
-					console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-					console.log('Name: ' + profile.getName());
-					console.log('Image URL: ' + profile.getImageUrl());
-					console.log('Email: ' + profile.getEmail());
-			}
+		signOut: function signOut() {
+			var auth2 = gapi.auth2.getAuthInstance();
+			var profile = auth2.currentUser.get().getBasicProfile();
+			console.log('ID: ' + profile.getId());
+			console.log('Full Name: ' + profile.getName());
+			console.log('Given Name: ' + profile.getGivenName());
+			console.log('Family Name: ' + profile.getFamilyName());
+			console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail());
+			auth2.signOut().then(function () {
+				console.log('User signed out.');
+			});
+		}
 
 	});
 
