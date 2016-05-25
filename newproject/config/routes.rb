@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
+  get 'users/check/:email' => 'user#check', :constraints => { :email => /[^\/]+/ }
+  get 'users/token/:email/:token' => 'user#editToken', :constraints => { :email => /[^\/]+/ }
   #match '/client', :to => redirect('/client/app.js')
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
