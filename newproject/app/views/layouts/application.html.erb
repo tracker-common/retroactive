@@ -11,11 +11,16 @@
 		console.log('Name: ' + profile.getName());
 		console.log('Image URL: ' + profile.getImageUrl());
 		console.log('Email: ' + profile.getEmail());
-		window.context = {};
-		window.context.user = {};
-		window.context.user.name = profile.getName();
-		window.context.user.email = profile.getEmail();
-		window.location.href = "/#/dashboard";
+		var user_data = {};
+		user_data.name = profile.getName();
+		user_data.email = profile.getEmail();
+		user_name = user_data.name;
+		user_email = user_data.email;
+		sessionStorage.setItem("user_name", user_name);
+		sessionStorage.setItem("user_email", user_email);
+		sessionStorage.getItem("user_name")
+		sessionStorage.getItem("user_email")
+		window.location.href = "/dashboard";
 	}
 
 	//  window.onloadGoogle = function(){

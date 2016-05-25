@@ -10,24 +10,21 @@ var RetroActive = React.createClass({
 	      token: "aa",
 	      data: db_entry,
 	      retroId: "",
+	      user_name: sessionStorage.getItem("user_name"),
+	      user_email: sessionStorage.getItem("user_email"),
 	   	}
 	},
-
-	componentDidMount: function() {
-		
-	},
-
 
   render() {
     return (
     	<div className="dashboard">
-    		<Header user = {window.context.user} />
+    		<Header user_name={this.state.user_name} />
 			<TrackerTokenForm token={this.state.token} handleSaveToken={this.handleSaveToken_} handleChangeToken={this.handleChangeToken_}/>
 			<CreateRetroForm handleCreateRetro={this.handleCreateRetro_}/>
 			<div className="retro_dates">
 				{this.state.data.item} | {this.state.data.name} | {this.state.retroId}
 			</div>
-			RetroID: {this.state.retroId}
+			USER_DATA: {this.state.user_name}
 		</div>
     );
   },
@@ -44,5 +41,6 @@ var RetroActive = React.createClass({
 	window.location.replace('/show/' + newRetroId);
   }
 });
+
 
 export default RetroActive;

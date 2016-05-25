@@ -28,6 +28,8 @@ var SignIn= React.createClass({
 		console.log('Family Name: ' + profile.getFamilyName());
 		console.log('Image URL: ' + profile.getImageUrl());
 		console.log('Email: ' + profile.getEmail());
+		sessionStorage.removeItem("user_email");
+		sessionStorage.removeItem("user_name");
 	    auth2.signOut().then(function () {
 	      console.log('User signed out.');
 	    });
