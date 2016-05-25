@@ -25,6 +25,7 @@ var TrackerTokenForm = React.createClass({
 					<label>Tracker API Token: </label><input type="text" ref="tokenText"/>
 					<button type="button" onClick={this.changeToken}>Save</button>
 				</form>
+
 			</div>
 			);
 	  	}

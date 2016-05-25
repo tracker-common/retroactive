@@ -7,12 +7,17 @@ import Header from './header';
 var RetroActive = React.createClass({
   getInitialState() {
 	    return {
-	      token: "aa",
+	      token: window.context.user.token,
 	      data: db_entry,
 	      retroId: "",
 	      user_name: sessionStorage.getItem("user_name"),
 	      user_email: sessionStorage.getItem("user_email"),
 	   	}
+	},
+
+
+	componentDidMount: function(){
+		this.checkEmail();
 	},
 
   render() {
@@ -25,6 +30,7 @@ var RetroActive = React.createClass({
 				{this.state.data.item} | {this.state.data.name} | {this.state.retroId}
 			</div>
 			USER_DATA: {this.state.user_name}
+
 		</div>
     );
   },
@@ -34,8 +40,22 @@ var RetroActive = React.createClass({
   },
   
   handleSaveToken_: function(newToken) {
+	$.get("/users/token/"+window.context.user.email+"/"+newToken, function( data ) {
+		window.context.user.token = newToken;
+		console.log( data );
+	});
 	this.setState({token: newToken});
   },
+
+  checkEmail: function(){
+  		var vm = this;
+		$.get("/users/check/"+window.context.user.email, function( data ) {
+			window.context.user.token = data.tracker_token;
+			console.log(data);
+			vm.setState({token: data.tracker_token});
+		});
+	},
+
   handleCreateRetro_: function(newRetroId) {
 	this.setState({retroId: newRetroId});
 	window.location.replace('/show/' + newRetroId);
