@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 var Header = React.createClass({
 	getDefaultProps : function() {
@@ -11,7 +12,9 @@ var Header = React.createClass({
 	    return (
 			<div className="header">
 				<div className="left"> 
-					<img src="/RETROACTIVE.svg"/>
+					<Link to="/dashboard">
+						<img src="/RETROACTIVE.svg"/>
+					</Link>
 				</div>
 				<div className="center header__text_box" >
 					<h1>{this.props.title}</h1>

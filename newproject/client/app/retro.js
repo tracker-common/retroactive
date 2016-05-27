@@ -1,10 +1,13 @@
 import React from 'react';
 import Header from './header';
+import RetroColumn from './retro_column';
 
 var Retro = React.createClass({
 	
 	getInitialState() {
 	    return {
+	      retroItems: [[],[],[]],
+	      actionItems: [],
 	      project_name: "",
 	      retro_date: ""
 	   	}
@@ -19,44 +22,21 @@ var Retro = React.createClass({
 		return (
 			<div id="retro-body">
 				<Header user_name={sessionStorage.getItem("user_name")} title={this.state.project_name + " - " + this.state.retro_date} />
-				<div id="retro-columns__titles"> 
-					<h1 className="retro-columns__title">Happy :)</h1>
-					<h1 className="retro-columns__title">Puzzler :|</h1>
-					<h1 className="retro-columns__title">Sad :( </h1>
-					<h1 className="retro-columns__title">Action Items</h1>
-				</div>
+				{/*<div id="retro-columns__titles"> 
+				</div>*/}
+				<br/>	
 
 				<div className="retro-columns">
-
-					<div className="retro-column">
-						
-						<div className="retro-column__items">
-						</div>
-					</div>
-
-					<div className="retro-column">
-						
-						<div className="retro-column__items">
-						</div>
-					</div>
-
-					<div className="retro-column">
-						
-						<div className="retro-column__items">
-						</div>
-					</div>
-
-					<div className="retro-column">
-						
-						<div className="retro-column__items">
-						</div>
-					</div>
+					<RetroColumn HeaderText="Happy :)" handleAdd={this.addRetroItem} columnId={0} items={this.state.retroItems[0]}/>
+					<RetroColumn HeaderText="Puzzler :|"  handleAdd={this.addRetroItem} columnId={1} items={this.state.retroItems[1]}/>
+					<RetroColumn HeaderText="Sad :(" handleAdd={this.addRetroItem} columnId={2} items={this.state.retroItems[2]}/>
+					<RetroColumn HeaderText="Action Items" handleAdd={this.addRetroItem} columnId={3} items={this.state.actionItems}/>
 				</div>
 			</div>
-		);
+		);a
 	},
 
-	buildRetro(){
+	buildRetro: function(){
 		var retroId = this.props.params.retroId;
 		var vm = this;
 		$.get("/retros/" + retroId, function(data){
@@ -71,7 +51,23 @@ var Retro = React.createClass({
 
 			vm.setState({project_name: data.project_name, retro_date: dateString});
 		});
+	},
+
+	addRetroItem: function(column, text){
+		
+		if(column < 3){
+			var items = this.state.retroItems;
+			items[column].unshift(text);
+			this.setState({retroItems: items});
+		}
+		else if (column == 3){
+			var items = this.state.actionItems;
+			items.unshift(text);
+			this.setState({actionItems: items});
+		}
 	}
+
+
 
 });
 
