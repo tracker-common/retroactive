@@ -10,8 +10,7 @@ import createHistory from 'history/lib/createHashHistory';
 ReactDOM.render((
 	  <Router history={browserHistory}>
 	    <Route name="home" path="/" component={SignIn}/>
-	    <Route name="Create Retro" path="/createRetro" component={CreateRetroForm}/>
-	    <Route name="/show" path="/show/:retroId" component={Retro}/>
+	    <Route name="Show Retro" path="/show/:retroId" component={Retro}/>
 	    <Route name="Dashboard" path="/dashboard" component={RetroActive}/>
 	  </Router>
 ), document.getElementById('app'));

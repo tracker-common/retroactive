@@ -6,7 +6,7 @@ var SignIn= React.createClass({
   	render() {
   		return (
 	    	<div>
-	    	<Header user = "" showSignOut={false}/>
+	    	<Header showSignOut={false}/>
 	    	<div className="sign-in"> 
 	    		<h1>Welcome to RetroActive!</h1>
 	    		<p>Please Sign-In</p>

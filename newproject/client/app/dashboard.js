@@ -1,7 +1,7 @@
 import React from 'react';
 import TrackerTokenForm from './tracker_token_form';
 import CreateRetroForm from './createRetro';
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import Header from './header';
 
 var RetroActive = React.createClass({
@@ -19,7 +19,6 @@ var RetroActive = React.createClass({
 	componentDidMount: function(){
 		this.checkEmail();
 	},
-
 
   render() {
     return (
@@ -52,9 +51,46 @@ var RetroActive = React.createClass({
 		});
 	},
 
+  startNewRetro: function(newRetroId){
+  	//console.log(this.state);
+  	var vm = this;
+  	var token = this.state.token;
+  	var ajaxPromise = $.ajax({
+  		 url: "https://www.pivotaltracker.com/services/v5/projects/" + newRetroId,
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-TrackerToken', token);
+          }
+  	});
+
+  	ajaxPromise.then(function(data){
+  		console.log(data);
+  		var project = {};
+  		project.name = data.name;
+  		project.id = data.id;
+
+  		vm.saveRetro(project);
+/*
+			this.setState({retroId: newRetroId});
+			*/
+  	});
+  },
+
+  saveRetro: function(project){
+		var ajaxPromise = $.ajax({
+			method: 'POST',
+  		url: "/retros/new",
+  		data: project
+  	});
+
+  	ajaxPromise.then(function(data){
+  		console.log("FROM POST:");
+  		console.log(data);
+  		browserHistory.push('/show/' + data._id.$oid);
+  	});
+  },
+
   handleCreateRetro_: function(newRetroId) {
-	this.setState({retroId: newRetroId});
-	window.location.replace('/show/' + newRetroId);
+  	this.startNewRetro(newRetroId);
   }
 });
 
