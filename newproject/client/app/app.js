@@ -7,7 +7,7 @@ import Header from './header';
 var RetroActive = React.createClass({
   getInitialState() {
 	    return {
-	      token: window.context.user.token,
+	      token: sessionStorage.getItem("tracker_token"),
 	      data: db_entry,
 	      retroId: "",
 	      user_name: sessionStorage.getItem("user_name"),
@@ -40,8 +40,8 @@ var RetroActive = React.createClass({
   },
   
   handleSaveToken_: function(newToken) {
-	$.get("/users/token/"+window.context.user.email+"/"+newToken, function( data ) {
-		window.context.user.token = newToken;
+	$.get("/users/token/"+sessionStorage.getItem("user_email")+"/"+newToken, function( data ) {
+		sessionStorage.setItem("tracker_token", newToken);
 		console.log( data );
 	});
 	this.setState({token: newToken});
@@ -49,8 +49,8 @@ var RetroActive = React.createClass({
 
   checkEmail: function(){
   		var vm = this;
-		$.get("/users/check/"+window.context.user.email, function( data ) {
-			window.context.user.token = data.tracker_token;
+		$.get("/users/check/"+sessionStorage.getItem("user_email"), function( data ) {
+			sessionStorage.setItem("tracker_token", data.tracker_token);
 			console.log(data);
 			vm.setState({token: data.tracker_token});
 		});
