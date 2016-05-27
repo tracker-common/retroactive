@@ -20,17 +20,13 @@ var RetroActive = React.createClass({
 		this.checkEmail();
 	},
 
+
   render() {
     return (
     	<div className="dashboard">
     		<Header user_name={this.state.user_name} />
 			<TrackerTokenForm token={this.state.token} handleSaveToken={this.handleSaveToken_} handleChangeToken={this.handleChangeToken_}/>
 			<CreateRetroForm handleCreateRetro={this.handleCreateRetro_}/>
-			<div className="retro_dates">
-				{this.state.data.item} | {this.state.data.name} | {this.state.retroId}
-			</div>
-			USER_DATA: {this.state.user_name}
-
 		</div>
     );
   },

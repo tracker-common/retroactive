@@ -28,6 +28,11 @@ body{
 	color: #F3F3F3;
 }
 
+.row{
+	display: flex;
+	flex-direction:row;
+}
+
 .header__retro {
 	display: flex;
 	justify-content: center;

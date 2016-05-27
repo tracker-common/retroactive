@@ -1,6 +1,11 @@
 import React from 'react';
 
 var Header = React.createClass({
+	getDefaultProps : function() {
+		return {
+			"showSignOut" : true,
+			};
+		},
 
  	render() {
 	    return (
@@ -12,18 +17,28 @@ var Header = React.createClass({
 					<h1>{this.props.title}</h1>
 				</div>
 				<div className="right header__text_box">
-					<h1>{this.props.user_name} <button type="button" onClick={this.signOut}>Sign Out</button> </h1>
-					
+					<h1>
+						{this.props.user_name} 
+						{this.props.showSignOut ? <SignOutButton/> : null}
+					</h1>
 				</div>
 			</div>
 		);
 	},
 
-	signOut: function(){
-		signOut();
-	}
-
+	
 });
 
+var SignOutButton = React.createClass( {
+	render() {
+		return (
+			<button type="button" onClick={this.signOut}>Sign Out</button> 
+		);
+	},
+	
+	signOut: function(){
+		signOut();
+	},
+});
 
 export default Header;

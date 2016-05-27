@@ -11,7 +11,7 @@ var CreateRetroForm = React.createClass({
 			<div className="createRetroForm">
 				<form>
 					<h1>Create a new Retro</h1>
-					<input type="text" placeholder="Tracker ID" ref="retroId" />
+					<input type="text" placeholder="Project Id" ref="retroId" />
 					<button type="button" onClick={this.handleClickRetro}>Create!</button>
 				</form>
 			</div>
