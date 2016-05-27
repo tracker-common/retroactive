@@ -140,3 +140,35 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+
+production:
+  # Configure available database clients. (required)
+  clients:
+    # Defines the default client. (required)
+    default:
+      # Defines the name of the default database that Mongoid can connect to.
+      # (required).
+      database: CloudFoundry_tpvig3j7_3th6669f
+      # Provides the hosts the default client can connect to. Must be an array
+      # of host:port pairs. (required)
+      hosts:
+        - ds025792.mlab.com:25792
+      options:
+        # Change the default write concern. (default = { w: 1 })
+        # write:
+        #   w: 1
+
+        # Change the default read preference. Valid options for mode are: :secondary,
+        # :secondary_preferred, :primary, :primary_preferred, :nearest
+        # (default: primary)
+        # read:
+        #   mode: :secondary_preferred
+        #   tag_sets:
+        #     - use: web
+
+        # The name of the user for authentication.
+        user: 'retroactive_app'
+
+        # The password of the user for authentication.
+        password: 'P1votal_FS'
+
