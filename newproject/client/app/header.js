@@ -12,10 +12,15 @@ var Header = React.createClass({
 					<h1>{this.props.title}</h1>
 				</div>
 				<div className="right header__text_box">
-					<h1>{this.props.user_name}</h1>
+					<h1>{this.props.user_name} <button type="button" onClick={this.signOut}>Sign Out</button> </h1>
+					
 				</div>
 			</div>
 		);
+	},
+
+	signOut: function(){
+		signOut();
 	}
 
 });
