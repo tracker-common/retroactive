@@ -7,9 +7,14 @@ Rails.application.routes.draw do
 
   get 'users/check/:email' => 'user#check', :constraints => { :email => /[^\/]+/ }
   get 'users/token/:email/:token' => 'user#editToken', :constraints => { :email => /[^\/]+/ }
+  get 'users/projects/:projectIds' => 'user#getProjects', :constraints => { :email => /[^\/]+/ }
+
 
   post 'retros/new' => 'retro#create'
   get 'retros/:retroId' => 'retro#get'
+  post 'retros/additem/:retroId/:column' => 'retro#addItem'
+
+
 
   #match '/client', :to => redirect('/client/app.js')
   # Example of regular route:

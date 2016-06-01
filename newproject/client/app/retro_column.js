@@ -6,24 +6,30 @@ var RetroColumn = React.createClass({
 
 	//Props: Header Text, Items
 	render() {
-		var self = this;
-		var retroItems = this.props.items.map(function(item) {
-	      return (
-	        <RetroItem itemText={item} handleShowModal={self.handleShowModal} handleCloseModal={self.handleCloseModal} showModal={self.props.showModal}/>
-	      );
-	    });
-
+		var self = this;		
+		var trackerTest = this.props.trackerTest;
 		return(
 			<div className="full-height">
 				<h1 className="retro-columns__title">{this.props.HeaderText}</h1>
 				<div className="retro-column">			
 					<input type="text" placeholder="Type and hit enter to add..." onKeyPress={this.handleSubmit} ref="itemText"/>
 					<div className="retro-column-items">
-						{retroItems}
+						{
+							this.props.items.map(function(item, index) {
+						      return (
+						        <RetroItem itemText={item.text} 
+						        object_id={item.id} 
+						        showModal={self.props.showModal}
+						        handleShowModal={self.handleShowModal}
+						        key={index}
+						        postToTracker = {trackerTest}/>
+						      );
+						    })
+						}
 					</div>
 				</div>
 			</div>
-			);
+		);
 	},
 
 	handleSubmit: function(e){
