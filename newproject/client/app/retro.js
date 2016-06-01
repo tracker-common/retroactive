@@ -33,12 +33,13 @@ var Retro = React.createClass({
 					<RetroColumn HeaderText="Action Items" handleAdd={this.addRetroItem} columnId={3} items={this.state.actionItems}/>
 				</div>
 			</div>
-		);a
+		);
 	},
 
 	buildRetro: function(){
 		var retroId = this.props.params.retroId;
 		var vm = this;
+
 		$.get("/retros/" + retroId, function(data){
 			console.log(data);
 
@@ -49,7 +50,13 @@ var Retro = React.createClass({
 			var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 			//end date magic
 
-			vm.setState({project_name: data.project_name, retro_date: dateString});
+			//parse items into their own columns
+			var itemSet = [[],[],[]]
+			data.retro_items.forEach(function(item, index){
+				itemSet[item.column].unshift(item);
+			});
+
+			vm.setState({project_name: data.project_name, retro_date: dateString, retroItems: itemSet});
 		});
 	},
 
@@ -57,7 +64,25 @@ var Retro = React.createClass({
 		
 		if(column < 3){
 			var items = this.state.retroItems;
-			items[column].unshift(text);
+
+			
+			var newItem = {};
+			newItem.text = text;
+			newItem.id = null;
+			newItem.colum = column;
+
+			//Ajax call to add the item
+			var postPromise = $.ajax({
+			
+				method: 'POST',
+		  		url: "/retros/additem/" + this.props.params.retroId + "/" + column,
+		  		data: newItem
+		  	});
+
+
+			//add the item to the array of items
+			items[column].unshift(newItem);
+
 			this.setState({retroItems: items});
 		}
 		else if (column == 3){

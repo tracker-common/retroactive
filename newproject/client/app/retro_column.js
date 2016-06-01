@@ -7,7 +7,7 @@ var RetroColumn = React.createClass({
 
 		var retroItems = this.props.items.map(function(item) {
 	      return (
-	        <RetroItem itemText={item}/>
+	        <RetroItem itemText={item.text} object_id={item.id}/>
 	      );
 	    });
 

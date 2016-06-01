@@ -85,6 +85,8 @@ var RetroActive = React.createClass({
   	ajaxPromise.then(function(data){
   		console.log("FROM POST:");
   		console.log(data);
+
+      //redirect to the retrospective
   		browserHistory.push('/show/' + data._id.$oid);
   	});
   },
