@@ -4,13 +4,12 @@ import RetroItem from './retro_item'
 
 var RetroColumn = React.createClass({
 
-
 	//Props: Header Text, Items
 	render() {
 		var self = this;
 		var retroItems = this.props.items.map(function(item) {
 	      return (
-	        <RetroItem itemText={item} modalShow={self.modalShow} closeModal={self.closeModal} showModal={self.showModal}/>
+	        <RetroItem itemText={item} handleShowModal={self.handleShowModal} handleCloseModal={self.handleCloseModal} showModal={self.props.showModal}/>
 	      );
 	    });
 
@@ -35,11 +34,8 @@ var RetroColumn = React.createClass({
   			}
 		}
 	},
-	showModal: function(){
+	handleShowModal: function(){
 		this.props.updateModalState(true);
-	},
-	closeModal: function(){
-		this.props.updateModalState(false);
 	}
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal, {closeStyle} from 'simple-react-modal';
+
 
 var RetroItem = React.createClass({
 	render() {
@@ -11,26 +11,12 @@ var RetroItem = React.createClass({
 				</div>
 
 				<a onClick={this.show}>Open Modal</a>
-				<Modal
-					closeOnOuterClick={true}
-					show={this.props.modalShow}
-					onClose={this.close}
-					transitionSpeed={1000}>
-
-					<a className="close" onClick={this.close}>X</a>
-					<div>hey</div>
-
-				</Modal>
-
 			</div>
 		)
 	},
 	show: function(){
-		this.props.showModal();
-	},
-	close: function(){
-		this.props.closeModal();
-	},
+		this.props.handleShowModal();
+	}
 });
 
 export default RetroItem;
