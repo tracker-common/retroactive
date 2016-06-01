@@ -20,7 +20,7 @@ var RetroColumn = React.createClass({
 						        <RetroItem itemText={item.text} 
 						        object_id={item.id} 
 						        showModal={self.props.showModal}
-						        handleShowModal={self.handleShowModal}
+						        handleShowEditModal={self.handleShowEditModal}
 						        key={index}
 						        postToTracker = {trackerTest}/>
 						      );
@@ -40,8 +40,8 @@ var RetroColumn = React.createClass({
   			}
 		}
 	},
-	handleShowModal: function(){
-		this.props.updateModalState(true);
+	handleShowEditModal: function(id, text){
+		this.props.handleShowModal(id, text);
 	}
 });
 

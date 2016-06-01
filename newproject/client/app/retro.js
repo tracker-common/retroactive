@@ -13,7 +13,8 @@ var Retro = React.createClass({
 	      project_name: "",
 	      retro_date: "",
 	      modal_show: false,
-	      text: "",
+	      current_item_id: "",
+	      current_item_text: "",
 	      project_id: ""
 	   	}
 	},
@@ -23,6 +24,7 @@ var Retro = React.createClass({
 	},
 
 	render() {
+
 		name = sessionStorage.getItem("user_name");
 		
 		return (
@@ -37,7 +39,7 @@ var Retro = React.createClass({
 			          <ModalDialog onClose={this.handleClose}>
 			            <form>
 			            	<h1>Description</h1>
-			            	<input type="text" onChange={this.handleChangeText} value={this.state.text} ref="editRetroItem"/>
+			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text} ref="editRetroItem"/>
 			            	<button type="button"  onClick={this.handleEditItem}>Submit</button>
 			            </form>
 			          </ModalDialog>
@@ -50,7 +52,7 @@ var Retro = React.createClass({
 						columnId={0} 
 						items={this.state.retroItems[0]} 
 						showModal={this.state.modal_show}
-						updateModalState={this.updateModalState}
+						handleShowModal={this.handleShowModal}
 						trackerTest={this.addActionItemToTracker}/>
 					<RetroColumn 
 						HeaderText="Puzzler :|"  
@@ -58,33 +60,36 @@ var Retro = React.createClass({
 						columnId={1} 
 						items={this.state.retroItems[1]} 
 						showModal={this.state.modal_show}
-						updateModalState={this.updateModalState} 
+						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}/>
 					<RetroColumn 
 						HeaderText="Sad :(" 
 						handleAdd={this.addRetroItem} 
 						columnId={2} items={this.state.retroItems[2]} 
 						showModal={this.state.modal_show} 
-						updateModalState={this.updateModalState} 
+						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}/>
 					<ActionColumn 
 						HeaderText="Action Items" 
 						columnId={3} 
 						items={this.state.actionItems} 
 						showModal={this.state.modal_show} 
-						updateModalState={this.updateModalState} 
+						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}/>
 				</div>
 			</div>
 		);
 	},
 	handleChangeText: function(){
-		this.setState({text: this.refs.editRetroItem.value});
+		this.setState({current_item_text: this.refs.editRetroItem.value});
 	},
 
 	handleEditItem: function(){
-		this.setState({text: this.refs.editRetroItem.value});
+		this.setState({current_item_text: this.refs.editRetroItem.value});
 		this.handleClose();
+		//make ajax call to update database entry 
+		//we have the item id
+
 	},
 	buildRetro: function(){
 		var retroId = this.props.params.retroId;
@@ -142,7 +147,7 @@ var Retro = React.createClass({
 		}
 	},
 	handleClick: function() {this.setState({modal_show: true})},
-	handleClose: function() {this.setState({modal_show: false})},
+	handleClose: function() { this.setState({modal_show: false})},
 	addActionItemToTracker: function(actionItem){
 		console.log(actionItem);
         var token = sessionStorage.getItem("tracker_token");
@@ -160,14 +165,13 @@ var Retro = React.createClass({
 	          }
 	  	});
 	},
-	updateModalState: function(showOrHide){
-		console.log("level 3 show");
-		this.setState({modal_show: showOrHide});
+	handleShowModal: function(id, item_text){
+		//get the item id of the item being edited to get the text for that item
+		this.setState({current_item_id: id});
+		this.setState({current_item_text: item_text});
+		this.setState({modal_show: true});
+
 	},
-	handleCloseModal: function(){
-		console.log("level 3 close");
-		this.setState({modal_show: false});
-	}
 });
 
 export default Retro;

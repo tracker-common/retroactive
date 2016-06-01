@@ -16,7 +16,7 @@ var RetroItem = React.createClass({
 		)
 	},
 	show: function(){
-		this.props.handleShowModal();
+		this.props.handleShowEditModal(this.props.object_id, this.props.itemText);
 	},
 	newTrackerChore: function(){
 		this.props.postToTracker(this);
