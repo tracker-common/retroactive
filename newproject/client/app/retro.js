@@ -29,7 +29,6 @@ var Retro = React.createClass({
 			<div id="retro-body">
 				<Header user_name={sessionStorage.getItem("user_name")} title={this.state.project_name + " - " + this.state.retro_date} />
 				{}
-
 				<br/>	
 				<div className="modal" onClick={this.handleClick}>
 			      {
@@ -37,14 +36,14 @@ var Retro = React.createClass({
 			        <ModalContainer onClose={this.handleClose}>
 			          <ModalDialog onClose={this.handleClose}>
 			            <form>
-			            	<input type="text" ref="editRetroItem"/>
+			            	<h1>Description</h1>
+			            	<input type="text" onChange={this.handleChangeText} value={this.state.text} ref="editRetroItem"/>
 			            	<button type="button"  onClick={this.handleEditItem}>Submit</button>
 			            </form>
 			          </ModalDialog>
 			        </ModalContainer>
 			      }
 			    </div>
-			    {this.state.text}
 				<div className="retro-columns">
 					<RetroColumn HeaderText="Happy :)" 
 						handleAdd={this.addRetroItem} 
@@ -78,6 +77,9 @@ var Retro = React.createClass({
 				</div>
 			</div>
 		);
+	},
+	handleChangeText: function(){
+		this.setState({text: this.refs.editRetroItem.value});
 	},
 
 	handleEditItem: function(){

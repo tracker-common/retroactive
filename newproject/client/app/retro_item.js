@@ -9,8 +9,9 @@ var RetroItem = React.createClass({
 				<div className="retro-item-description">
 					{this.props.itemText} <button type="button" onClick={this.newTrackerChore}>PTT</button>
 				</div>
-
-				<a onClick={this.show}>Open Modal</a>
+				<div className="status-and-action-bar">
+					<a className="edit-link" onClick={this.show}>Edit</a>
+				</div>
 			</div>
 		)
 	},
