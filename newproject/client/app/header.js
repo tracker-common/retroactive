@@ -35,7 +35,7 @@ var Header = React.createClass({
 var SignOutButton = React.createClass( {
 	render() {
 		return (
-			<button type="button" onClick={this.signOut}>Sign Out</button> 
+			<button onClick={this.signOut}>Sign Out</button> 
 		);
 	},
 	

@@ -4,10 +4,8 @@ import RetroItem from './retro_item'
 
 var RetroColumn = React.createClass({
 
-
 	//Props: Header Text, Items
 	render() {
-
 		var self = this;		
 		var trackerTest = this.props.trackerTest;
 		return(
@@ -21,9 +19,8 @@ var RetroColumn = React.createClass({
 						      return (
 						        <RetroItem itemText={item.text} 
 						        object_id={item.id} 
-						        modalShow={self.modalShow} 
-						        closeModal={self.closeModal} 
-						        showModal={self.showModal} 
+						        showModal={self.props.showModal}
+						        handleShowEditModal={self.handleShowEditModal}
 						        key={index}
 						        postToTracker = {trackerTest}/>
 						      );
@@ -43,11 +40,8 @@ var RetroColumn = React.createClass({
   			}
 		}
 	},
-	showModal: function(){
-		this.props.updateModalState(true);
-	},
-	closeModal: function(){
-		this.props.updateModalState(false);
+	handleShowEditModal: function(id, text){
+		this.props.handleShowModal(id, text);
 	}
 });
 
