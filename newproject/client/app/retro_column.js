@@ -5,11 +5,6 @@ var RetroColumn = React.createClass({
 	//Props: Header Text, Items
 	render() {
 
-		var retroItems = this.props.items.map(function(item) {
-	      return (
-	        <RetroItem itemText={item.text} object_id={item.id}/>
-	      );
-	    });
 
 		return(
 			<div className="full-height">
@@ -17,7 +12,13 @@ var RetroColumn = React.createClass({
 				<div className="retro-column">			
 					<input type="text" placeholder="Type and hit enter to add..." onKeyPress={this.handleSubmit} ref="itemText"/>
 					<div className="retro-column__items">
-						{retroItems}
+						{
+							this.props.items.map(function(item, index) {
+						      return (
+						        <RetroItem itemText={item.text} object_id={item.id} key={index}/>
+						      );
+						    })
+						}
 					</div>
 				</div>
 			</div>

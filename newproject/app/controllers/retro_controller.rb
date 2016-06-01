@@ -5,6 +5,7 @@ class RetroController < ActionController::Base
 		@newRet.project_id = params[:id]
 		@newRet.project_name = params[:name]
 		@newRet.created_on = DateTime.now.to_date
+		@newRet.retro_items = nil;
 		@newRet.save
 
 		render json: @newRet

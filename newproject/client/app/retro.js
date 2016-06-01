@@ -52,9 +52,11 @@ var Retro = React.createClass({
 
 			//parse items into their own columns
 			var itemSet = [[],[],[]]
-			data.retro_items.forEach(function(item, index){
-				itemSet[item.column].unshift(item);
-			});
+			if(data.retro_items){
+				data.retro_items.forEach(function(item, index){
+					itemSet[item.column].unshift(item);
+				});
+			}
 
 			vm.setState({project_name: data.project_name, retro_date: dateString, retroItems: itemSet});
 		});
