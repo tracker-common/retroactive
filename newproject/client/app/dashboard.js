@@ -12,6 +12,7 @@ var RetroActive = React.createClass({
 	      retroId: "",
 	      user_name: sessionStorage.getItem("user_name"),
 	      user_email: sessionStorage.getItem("user_email"),
+        project_retros: []
 	   	}
 	},
 
@@ -23,10 +24,13 @@ var RetroActive = React.createClass({
   render() {
     return (
     	<div className="dashboard">
-    		<Header user_name={this.state.user_name} />
-			<TrackerTokenForm token={this.state.token} handleSaveToken={this.handleSaveToken_} handleChangeToken={this.handleChangeToken_}/>
-			<CreateRetroForm handleCreateRetro={this.handleCreateRetro_}/>
-		</div>
+      	<Header user_name={this.state.user_name} />
+  			<TrackerTokenForm 
+        token={this.state.token} 
+        handleSaveToken={this.handleSaveToken_} 
+        handleChangeToken={this.handleChangeToken_}/>
+        <CreateRetroForm projectRetros={this.state.projectRetros} handleCreateRetro={this.handleCreateRetro_}/>
+		  </div>
     );
   },
 
@@ -46,32 +50,63 @@ var RetroActive = React.createClass({
   		var vm = this;
 		$.get("/users/check/"+sessionStorage.getItem("user_email"), function( data ) {
 			sessionStorage.setItem("tracker_token", data.tracker_token);
-			console.log(data);
+			//console.log(data);
 			vm.setState({token: data.tracker_token});
+      vm.getProjectsFromTracker();
 		});
 	},
 
-  startNewRetro: function(newRetroId){
+  getProjectsFromTracker:function(){
+        //console.log(this.state);
+    var vm = this;
+    var token = this.state.token;
+    var ajaxPromise = $.ajax({
+       url: "https://www.pivotaltracker.com/services/v5/projects/",
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-TrackerToken', token);
+          }
+    });
+
+    ajaxPromise.then(function(data){
+      //console.log("newData");
+      //console.log(data);   
+      var projectIds= "";
+      //extract Id's from each project and place them in a comma seperated string
+      data.forEach(function (item, index){
+        var projectid = item.id;
+        projectIds += projectid + ",";
+      })
+
+      //ajax call to our rails server to get project retros
+      $.get("/users/projects/" + projectIds, function( data ){
+        console.log("New Data")
+        console.log(data);
+        //setState with projectRetros
+        vm.setState({projectRetros: data});
+
+      });
+    });
+  },
+
+  startNewRetro: function(projectId){
   	//console.log(this.state);
   	var vm = this;
   	var token = this.state.token;
   	var ajaxPromise = $.ajax({
-  		 url: "https://www.pivotaltracker.com/services/v5/projects/" + newRetroId,
+  		 url: "https://www.pivotaltracker.com/services/v5/projects/" + projectId,
           beforeSend: function(xhr) {
             xhr.setRequestHeader('X-TrackerToken', token);
           }
   	});
 
   	ajaxPromise.then(function(data){
-  		console.log(data);
+  		//console.log(data);
   		var project = {};
   		project.name = data.name;
   		project.id = data.id;
 
   		vm.saveRetro(project);
-/*
-			this.setState({retroId: newRetroId});
-			*/
+
   	});
   },
 
@@ -83,8 +118,8 @@ var RetroActive = React.createClass({
   	});
 
   	ajaxPromise.then(function(data){
-  		console.log("FROM POST:");
-  		console.log(data);
+  		//console.log("FROM POST:");
+  		//console.log(data);
 
       //redirect to the retrospective
   		browserHistory.push('/show/' + data._id.$oid);

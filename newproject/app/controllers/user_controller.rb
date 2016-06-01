@@ -34,6 +34,28 @@ class UserController < ActionController::Base
 		@user.save
 
 		render json: @user
+	end
 
+	def getProjects
+		projects = params[:projectIds]
+
+		projects = projects.split(",")
+
+		#the object to return
+		return_obj = []
+
+		projects.each do |project_id|
+			#each project
+			return_proj = {}
+
+			return_proj[:project_id] = project_id
+			retros = Retro.where(project_id: project_id)
+			return_proj[:project_name] = retros.first.project_name
+			return_proj[:retros] = retros
+
+			return_obj.push(return_proj);
+		end
+
+		render json: return_obj
 	end
 end

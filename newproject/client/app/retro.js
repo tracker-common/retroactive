@@ -11,7 +11,8 @@ var Retro = React.createClass({
 	      actionItems: [],
 	      project_name: "",
 	      retro_date: "",
-	      modal_show: false
+	      modal_show: false,
+	      project_id: ""
 	   	}
 	},
 
@@ -29,10 +30,35 @@ var Retro = React.createClass({
 				<br/>	
 
 				<div className="retro-columns">
-					<RetroColumn HeaderText="Happy :)" handleAdd={this.addRetroItem} columnId={0} items={this.state.retroItems[0]} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
-					<RetroColumn HeaderText="Puzzler :|"  handleAdd={this.addRetroItem} columnId={1} items={this.state.retroItems[1]} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
-					<RetroColumn HeaderText="Sad :(" handleAdd={this.addRetroItem} columnId={2} items={this.state.retroItems[2]} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
-					<ActionColumn HeaderText="Action Items" columnId={3} items={this.state.actionItems} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
+					<RetroColumn HeaderText="Happy :)" 
+						handleAdd={this.addRetroItem} 
+						columnId={0} 
+						items={this.state.retroItems[0]} 
+						modalShow={this.state.modalShow} 
+						updateModalState={this.updateModalState}
+						trackerTest={this.addActionItemToTracker}/>
+					<RetroColumn 
+						HeaderText="Puzzler :|"  
+						handleAdd={this.addRetroItem} 
+						columnId={1} 
+						items={this.state.retroItems[1]} 
+						modalShow={this.state.modalShow} 
+						updateModalState={this.updateModalState} 
+						trackerTest={this.addActionItemToTracker}/>
+					<RetroColumn 
+						HeaderText="Sad :(" 
+						handleAdd={this.addRetroItem} 
+						columnId={2} items={this.state.retroItems[2]} 
+						modalShow={this.state.modalShow} 
+						updateModalState={this.updateModalState} 
+						trackerTest={this.addActionItemToTracker}/>
+					<ActionColumn 
+						HeaderText="Action Items" 
+						columnId={3} 
+						items={this.state.actionItems} 
+						modalShow={this.state.modalShow} 
+						updateModalState={this.updateModalState} 
+						trackerTest={this.addActionItemToTracker}/>
 				</div>
 			</div>
 		);
@@ -60,7 +86,7 @@ var Retro = React.createClass({
 				});
 			}
 
-			vm.setState({project_name: data.project_name, retro_date: dateString, retroItems: itemSet});
+			vm.setState({project_name: data.project_name, retro_date: dateString, retroItems: itemSet, project_id: data.project_id});
 		});
 	},
 
@@ -82,8 +108,6 @@ var Retro = React.createClass({
 		  		url: "/retros/additem/" + this.props.params.retroId + "/" + column,
 		  		data: newItem
 		  	});
-
-
 			//add the item to the array of items
 			items[column].unshift(newItem);
 
@@ -95,6 +119,25 @@ var Retro = React.createClass({
 			this.setState({actionItems: items});
 		}
 	},
+	
+	addActionItemToTracker: function(actionItem){
+		console.log(actionItem);
+        var token = sessionStorage.getItem("tracker_token");
+		var ajaxPromise = $.ajax({
+			 method: 'POST',
+	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ this.state.project_id +"/stories",
+	          beforeSend: function(xhr) {
+	            xhr.setRequestHeader('X-TrackerToken', token);
+	          },
+	          data: {
+	          	"name": "RetroActive Action Item",
+	          	"description": actionItem.props.itemText,
+	          	"project_id": this.state.project_id,
+	          	"story_type": "chore"
+	          }
+	  	});
+	},
+
 	updateModalState: function(showOrHide){
 		this.setState({modal_show: showOrHide})
 	}

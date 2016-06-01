@@ -9,7 +9,7 @@ var RetroColumn = React.createClass({
 	render() {
 
 		var self = this;		
-
+		var trackerTest = this.props.trackerTest;
 		return(
 			<div className="full-height">
 				<h1 className="retro-columns__title">{this.props.HeaderText}</h1>
@@ -24,7 +24,8 @@ var RetroColumn = React.createClass({
 						        modalShow={self.modalShow} 
 						        closeModal={self.closeModal} 
 						        showModal={self.showModal} 
-						        key={index}/>
+						        key={index}
+						        postToTracker = {trackerTest}/>
 						      );
 						    })
 						}

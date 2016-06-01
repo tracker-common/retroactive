@@ -7,7 +7,7 @@ var RetroItem = React.createClass({
 		return (
 			<div className="retro-item">
 				<div className="retro-item-description">
-					{this.props.itemText}
+					{this.props.itemText} <button type="button" onClick={this.newTrackerChore}>PTT</button>
 				</div>
 
 				<a onClick={this.show}>Open Modal</a>
@@ -31,6 +31,10 @@ var RetroItem = React.createClass({
 	close: function(){
 		this.props.closeModal();
 	},
+
+	newTrackerChore: function(){
+		this.props.postToTracker(this);
+	}
 });
 
 export default RetroItem;

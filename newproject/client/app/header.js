@@ -4,9 +4,9 @@ import { Link } from 'react-router';
 var Header = React.createClass({
 	getDefaultProps : function() {
 		return {
-			"showSignOut" : true,
-			};
-		},
+		"showSignOut" : true,
+		};
+	},
 
  	render() {
 	    return (
