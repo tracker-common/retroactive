@@ -27,6 +27,8 @@
     "react": "^0.14.7",
     "react-chartjs": "^0.7.3",
     "react-dom": "^0.14.7",
-    "react-router": "^2.4.1"
+    "react-router": "^2.4.1",
+    "simple-modal": "^1.0.1",
+    "simple-react-modal": "^0.4.9"
   }
 }

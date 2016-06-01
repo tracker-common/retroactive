@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './header';
 import RetroColumn from './retro_column';
+import ActionColumn from './action_column';
 
 var Retro = React.createClass({
 	
@@ -9,7 +10,8 @@ var Retro = React.createClass({
 	      retroItems: [[],[],[]],
 	      actionItems: [],
 	      project_name: "",
-	      retro_date: ""
+	      retro_date: "",
+	      modal_show: false
 	   	}
 	},
 
@@ -27,10 +29,10 @@ var Retro = React.createClass({
 				<br/>	
 
 				<div className="retro-columns">
-					<RetroColumn HeaderText="Happy :)" handleAdd={this.addRetroItem} columnId={0} items={this.state.retroItems[0]}/>
-					<RetroColumn HeaderText="Puzzler :|"  handleAdd={this.addRetroItem} columnId={1} items={this.state.retroItems[1]}/>
-					<RetroColumn HeaderText="Sad :(" handleAdd={this.addRetroItem} columnId={2} items={this.state.retroItems[2]}/>
-					<RetroColumn HeaderText="Action Items" handleAdd={this.addRetroItem} columnId={3} items={this.state.actionItems}/>
+					<RetroColumn HeaderText="Happy :)" handleAdd={this.addRetroItem} columnId={0} items={this.state.retroItems[0]} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
+					<RetroColumn HeaderText="Puzzler :|"  handleAdd={this.addRetroItem} columnId={1} items={this.state.retroItems[1]} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
+					<RetroColumn HeaderText="Sad :(" handleAdd={this.addRetroItem} columnId={2} items={this.state.retroItems[2]} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
+					<ActionColumn HeaderText="Action Items" columnId={3} items={this.state.actionItems} modalShow={this.state.modalShow} updateModalState={this.updateModalState}/>
 				</div>
 			</div>
 		);
@@ -92,6 +94,9 @@ var Retro = React.createClass({
 			items.unshift(text);
 			this.setState({actionItems: items});
 		}
+	},
+	updateModalState: function(showOrHide){
+		this.setState({modal_show: showOrHide})
 	}
 
 
