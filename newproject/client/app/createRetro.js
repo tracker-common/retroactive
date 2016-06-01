@@ -6,6 +6,7 @@ var CreateRetroForm = React.createClass({
 	getDefaultProps : function() {
 		return {
 			"projectRetros" : [],
+
 		};
 	},
 
@@ -30,9 +31,12 @@ var CreateRetroForm = React.createClass({
 				      return (
 				        <ProjectRetros 
 				        projectName={item.project_name}
-				        projectId={item.project_id}  
+				        projectId={item.project_id}
+				        key={item.project_id}  
 				        retros={item.retros} 
-				        handleCreateRetro = {vm.props.handleCreateRetro}/>
+				        showLinks = {item.showLinks || false}
+				        handleCreateRetro = {vm.props.handleCreateRetro}
+				        toggleShowHide = {vm.props.toggleShowHide}/>
 				      );
 				    })
 				}

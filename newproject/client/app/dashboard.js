@@ -29,7 +29,10 @@ var RetroActive = React.createClass({
         token={this.state.token} 
         handleSaveToken={this.handleSaveToken_} 
         handleChangeToken={this.handleChangeToken_}/>
-        <CreateRetroForm projectRetros={this.state.projectRetros} handleCreateRetro={this.handleCreateRetro_}/>
+        <CreateRetroForm 
+          projectRetros={this.state.projectRetros} 
+          handleCreateRetro={this.handleCreateRetro_}
+          toggleShowHide={this.toggleShowLinks}/>
 		  </div>
     );
   },
@@ -80,12 +83,22 @@ var RetroActive = React.createClass({
       //ajax call to our rails server to get project retros
       $.get("/users/projects/" + projectIds, function( data ){
         console.log("New Data")
-        console.log(data);
+        //console.log(data);
         //setState with projectRetros
         vm.setState({projectRetros: data});
 
       });
     });
+  },
+
+  toggleShowLinks: function(ShowingNow, projectId){
+    var rets =this.state.projectRetros;
+    rets.forEach(function (item, index){
+      if(item.project_id == projectId){
+        item.showLinks = !ShowingNow;
+      }
+    });
+    this.setState({projectRetros: rets});
   },
 
   startNewRetro: function(projectId){
