@@ -68,6 +68,6 @@ class RetroController < ActionController::Base
 		retro_item.save
 		retro.save
 
-		render json: retro
+		render json: action_item
 	end
 end

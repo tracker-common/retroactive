@@ -41,7 +41,7 @@ var Retro = React.createClass({
 				<div className="modal" onClick={this.handleClick}>
 			      {
 			        this.state.modal_show &&
-			        <ModalContainer onClose={this.handleClose} style={customStyles}>
+			        <ModalContainer onClose={this.handleClose}>
 			          <ModalDialog onClose={this.handleClose}>
 			          <div> 
 			          {
@@ -121,6 +121,7 @@ var Retro = React.createClass({
 	},
 	handleAddActionItem: function(e){
 		e.preventDefault();
+		var vm = this;
 		this.setState({AddActionItem: false});
 		this.handleClose();
 		//make ajax call to update database entry 
@@ -131,6 +132,10 @@ var Retro = React.createClass({
 			method: 'POST',
 	  		url: "/retros/addActionItem/" + retroId + "/" + this.state.current_item_id,
 	  		data: {text : this.refs.actionItem.value}
+	  	});
+
+	  	postPromise.then(function(data){
+	  		vm.addActionItemToTracker(data);
 	  	});
 	},
 	buildRetro: function(){
@@ -202,6 +207,7 @@ var Retro = React.createClass({
 	},
 	handleClick: function() {this.setState({modal_show: true})},
 	handleClose: function() { this.setState({modal_show: false})},
+
 	addActionItemToTracker: function(actionItem){
         var token = sessionStorage.getItem("tracker_token");
 
@@ -213,7 +219,7 @@ var Retro = React.createClass({
 	          },
 	          data: {
 	          	"name": "RetroActive Action Item",
-	          	"description": actionItem.props.itemText,
+	          	"description": actionItem.text,
 	          	"project_id": this.state.project_id,
 	          	"story_type": "chore"
 	          }
