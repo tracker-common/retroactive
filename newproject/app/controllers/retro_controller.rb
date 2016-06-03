@@ -75,6 +75,6 @@ class RetroController < ActionController::Base
 		retro_id = params[:retroId]
 		ret = Retro.find(retro_id)
 		ret.delete
-		render json: "Success!"
+		render status: 200, json: {}
 	end
 end

@@ -34,6 +34,7 @@ var ProjectRetros = React.createClass({
 								</tr>
 							</thead>
 							<tbody>
+
 							{	
 								this.props.retros.map(function(item, index) {
 							      
@@ -51,6 +52,7 @@ var ProjectRetros = React.createClass({
 								}
 							</tbody>
 						</table>
+
 					)}
 				</div>
 			</div>

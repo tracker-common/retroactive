@@ -23,10 +23,14 @@ var Retro = React.createClass({
 	componentDidMount: function(){
 		var vm = this;
 		this.buildRetro();
-		setInterval(function(){
+		this.refreshIntervalId = setInterval(function(){
 			vm.buildRetro();
 			console.log("refreshed");
-		}, 5000);
+		}, 3000);
+	},
+
+	componentWillUnmount: function(){
+		clearInterval(this.refreshIntervalId);
 	},
 
 	render() {
@@ -143,12 +147,10 @@ var Retro = React.createClass({
 		var vm = this;
 
 		$.get("/retros/" + retroId, function(data){
-			console.log(data);
 
 			//Date Magic from stack overflow
 			var date = new Date(data.created_on);
 			date = new Date(date.getTime() + date.getTimezoneOffset()*60000)
-			console.log(date);
 			var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 			//end date magic
 
