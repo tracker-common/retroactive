@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post 'retros/additem/:retroId/:column' => 'retro#addItem'
   post 'retros/editItemText/:retroId/:item' => 'retro#editItem'
   post 'retros/addActionItem/:retroId/:item' => 'retro#newAction'
+  delete '/retros/delete/:retroId' => 'retro#delete'
 
 
 

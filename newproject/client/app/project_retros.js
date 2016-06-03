@@ -1,5 +1,5 @@
 import React from 'react';
-
+import RetroTableRow from './retro_table_row'
 import { Link } from 'react-router';
 
 var ProjectRetros = React.createClass({
@@ -7,7 +7,7 @@ var ProjectRetros = React.createClass({
 
 	//Props: ProjectName, ProjectId, Retros
 	render() {
-		
+		var vm = this;
 		return(
 			<div className="project-retros">
 				<div className="project-retros-header">
@@ -29,28 +29,21 @@ var ProjectRetros = React.createClass({
 								<td>In Progress</td>
 								<td>Rejected</td>
 								<td>Accepted</td>
+								<td >X</td>
 							</tr>
 							{	
-								
 								this.props.retros.map(function(item, index) {
 							      
-									var date = new Date(item.created_on);
-									date = new Date(date.getTime() + date.getTimezoneOffset()*60000);
+							      	var date = new Date(item.created_on);
+							      	date = new Date(date.getTime() + date.getTimezoneOffset()*60000);
 									var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-								    var linkPath = "/show/" + item._id.$oid;
-								    return (
-								      	<tr>
-								        	<td key={item._id.$oid}><Link to={linkPath}>{dateString}</Link></td>
-								        	<td>0</td>
-								        	<td>0</td>
-								        	<td>0</td>
-								        	<td>0</td>
-								        	<td>0</td>
-								        	<td>0</td>
-								        	<td>0</td>
-								        	<td>0</td> 	
-								        </tr>
-							    	);
+							      return(<RetroTableRow 
+							      	key={item._id.$oid}
+							      	item = {item}
+							      	linkPath ={"/show/" + item._id.$oid}
+							      	dateString = {dateString}
+							      	deleteRetro = {vm.deleteRetro}/>);
+								    
 							    })
 							}
 					</table>
@@ -58,6 +51,10 @@ var ProjectRetros = React.createClass({
 				</div>
 			</div>
 		);
+	},
+
+	deleteRetro: function(retroId){
+		this.props.deleteRetro(retroId)
 	},
 
 	newRetro: function(){

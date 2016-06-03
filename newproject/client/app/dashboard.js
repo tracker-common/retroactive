@@ -32,7 +32,8 @@ var RetroActive = React.createClass({
         <CreateRetroForm 
           projectRetros={this.state.projectRetros} 
           handleCreateRetro={this.handleCreateRetro_}
-          toggleShowHide={this.toggleShowLinks}/>
+          toggleShowHide={this.toggleShowLinks}
+          deleteRetro={this.deleteRetro}/>
 		  </div>
     );
   },
@@ -41,6 +42,19 @@ var RetroActive = React.createClass({
 	this.setState({token: undefined});
   },
   
+  deleteRetro: function(retro_id){
+    var vm = this;
+
+    var ajaxPromise = $.ajax({
+      method: 'Delete',
+      url: "/retros/delete/" + retro_id,
+    });
+
+    ajaxPromise.then(function(data){
+      vm.getProjectsFromTracker();
+    });
+  },
+
   handleSaveToken_: function(newToken) {
 	$.get("/users/token/"+sessionStorage.getItem("user_email")+"/"+newToken, function( data ) {
 		sessionStorage.setItem("tracker_token", newToken);
@@ -61,6 +75,7 @@ var RetroActive = React.createClass({
 
   getProjectsFromTracker:function(){
         //console.log(this.state);
+        alert("in the functoin");
     var vm = this;
     var token = this.state.token;
     var ajaxPromise = $.ajax({

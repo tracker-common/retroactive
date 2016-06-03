@@ -36,7 +36,8 @@ var CreateRetroForm = React.createClass({
 				        retros={item.retros} 
 				        showLinks = {item.showLinks || false}
 				        handleCreateRetro = {vm.props.handleCreateRetro}
-				        toggleShowHide = {vm.props.toggleShowHide}/>
+				        toggleShowHide = {vm.props.toggleShowHide}
+				        deleteRetro = {vm.props.deleteRetro}/>
 				      );
 				    })
 				}
