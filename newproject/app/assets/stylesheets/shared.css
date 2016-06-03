@@ -171,6 +171,12 @@ button{
 
 /* retro_item.js */
 
+.action-link{
+	font-size: 12px;
+	color: blue;
+	margin-left: 5px;
+	margin-right: auto;
+}
 
 .edit-link{
 	font-size: 12px;

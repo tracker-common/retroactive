@@ -8,6 +8,9 @@ var RetroColumn = React.createClass({
 	render() {
 		var self = this;		
 		var trackerTest = this.props.trackerTest;
+		// console.log("Items");
+		// console.log(this.props.items);
+
 		return(
 			<div className="full-height">
 				<h1 className="retro-columns__title">{this.props.HeaderText}</h1>
@@ -18,11 +21,12 @@ var RetroColumn = React.createClass({
 							this.props.items.map(function(item, index) {
 						      return (
 						        <RetroItem itemText={item.text} 
-						        object_id={item.id} 
+						        object_id={item._id} 
 						        showModal={self.props.showModal}
 						        handleShowEditModal={self.handleShowEditModal}
 						        key={index}
-						        postToTracker = {trackerTest}/>
+						        postToTracker = {trackerTest}
+						        handleShowActionModal = {self.handleShowActionModal}/>
 						      );
 						    })
 						}
@@ -42,6 +46,9 @@ var RetroColumn = React.createClass({
 	},
 	handleShowEditModal: function(id, text){
 		this.props.handleShowModal(id, text);
+	},
+	handleShowActionModal: function(id, text){
+		this.props.handleActionModal(id, text);
 	}
 });
 

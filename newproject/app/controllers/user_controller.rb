@@ -49,11 +49,16 @@ class UserController < ActionController::Base
 			return_proj = {}
 
 			return_proj[:project_id] = project_id
-			retros = Retro.where(project_id: project_id)
-			return_proj[:project_name] = retros.first.project_name
+
+			begin
+				retros = Retro.where(project_id: project_id)
+			rescue
+				retros = []
+			end
+
 			return_proj[:retros] = retros
 
-			return_obj.push(return_proj);
+			return_obj.push(return_proj)
 		end
 
 		render json: return_obj
