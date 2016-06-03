@@ -7,7 +7,10 @@ var ActionColumn = React.createClass({
 		var vm = this;
 		var actionItems = this.props.items.map(function(item, index) {
 	      return (
-	        <ActionItem itemText={item.text} modalShow={vm.props.modal_show} key={index}/>
+	        <ActionItem itemText={item.text} 
+	        modalShow={vm.props.modal_show} 
+	        key={index}
+	        status= {item.status ? item.status : undefined }/>
 	      );
 	    });
 
