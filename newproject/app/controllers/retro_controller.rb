@@ -34,7 +34,6 @@ class RetroController < ActionController::Base
 	end
 
 	def editItem
-
 		retro_id = params[:retroId]
 		id = params[:item]
 		retro = Retro.find(retro_id)
@@ -48,7 +47,25 @@ class RetroController < ActionController::Base
 		#retro.items[column].unshift(@additem)
 		item.text = text
 		item.save
-		
+		retro.save
+
+		render json: retro
+	end
+
+
+	def newAction
+		retro_id = params[:retroId]
+		retro_item_id = params[:item]
+		retro = Retro.find(retro_id)
+		retro_item = retro.retro_items.find(retro_item_id)
+
+
+		text = params[:text]
+
+		action_item = retro.action_items.build(text: text, retro_item_id: retro_item_id)
+		retro_item.action_item_id = action_item._id
+
+		retro_item.save
 		retro.save
 
 		render json: retro

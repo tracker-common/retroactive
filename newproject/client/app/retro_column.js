@@ -21,12 +21,13 @@ var RetroColumn = React.createClass({
 							this.props.items.map(function(item, index) {
 						      return (
 						        <RetroItem itemText={item.text} 
-						        object_id={item._id} 
+						        object_id={item._id ? item._id.$oid : null} 
 						        showModal={self.props.showModal}
 						        handleShowEditModal={self.handleShowEditModal}
 						        key={index}
 						        postToTracker = {trackerTest}
-						        handleShowActionModal = {self.handleShowActionModal}/>
+						        handleShowActionModal = {self.handleShowActionModal}
+						        action_item_id = {item.action_item_id}/>
 						      );
 						    })
 						}

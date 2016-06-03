@@ -48,7 +48,7 @@ var Retro = React.createClass({
 			          	this.state.AddActionItem ?
 			            <form onSubmit={this.handleAddActionItem} >
 			            	<h1>Add Action Item</h1>
-			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text} ref="actionItem"/>
+			            	<input type="text" ref="actionItem"/>
 			            	<button type="submit">Submit</button>
 			            </form>
 			            :
@@ -106,27 +106,32 @@ var Retro = React.createClass({
 	},
 	handleEditItem: function(e){
 		e.preventDefault();
-		alert(this.refs.editRetroItem.value);
 		this.setState({current_item_text: this.refs.editRetroItem.value});
 		this.handleClose();
 		//make ajax call to update database entry 
 		//we have the item id
-		var retroId = this.props.params.retroId.$oid;
+		var retroId = this.props.params.retroId;
 
 		var postPromise = $.ajax({
-				method: 'POST',
-		  		url: "/retros/editItemText/" + retroId +"/" +this.state.current_item_id,
-		  		data: {text : this.refs.editRetroItem.value}
-		  	});
+			method: 'POST',
+	  		url: "/retros/editItemText/" + retroId + "/" + this.state.current_item_id,
+	  		data: {text : this.refs.editRetroItem.value}
+	  	});
 
 	},
 	handleAddActionItem: function(e){
 		e.preventDefault();
-		alert(this.refs.actionItem.value);
 		this.setState({AddActionItem: false});
 		this.handleClose();
 		//make ajax call to update database entry 
 		//we have the item id
+		var retroId = this.props.params.retroId;
+
+		var postPromise = $.ajax({
+			method: 'POST',
+	  		url: "/retros/addActionItem/" + retroId + "/" + this.state.current_item_id,
+	  		data: {text : this.refs.actionItem.value}
+	  	});
 	},
 	buildRetro: function(){
 		var retroId = this.props.params.retroId;
@@ -150,7 +155,20 @@ var Retro = React.createClass({
 				});
 			}
 
-			vm.setState({project_name: data.project_name, retro_date: dateString, retroItems: itemSet, project_id: data.project_id});
+			var actionSet = []
+
+			if(data.action_items){
+				data.action_items.forEach(function(item, index){
+					actionSet.unshift(item);
+				});
+			}
+
+
+			vm.setState({project_name: data.project_name, 
+				retro_date: dateString, 
+				retroItems: itemSet, 
+				project_id: data.project_id, 
+				actionItems: actionSet});
 		});
 	},
 	addRetroItem: function(column, text){
@@ -185,8 +203,8 @@ var Retro = React.createClass({
 	handleClick: function() {this.setState({modal_show: true})},
 	handleClose: function() { this.setState({modal_show: false})},
 	addActionItemToTracker: function(actionItem){
-		console.log(actionItem);
         var token = sessionStorage.getItem("tracker_token");
+
 		var ajaxPromise = $.ajax({
 			 method: 'POST',
 	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ this.state.project_id +"/stories",
@@ -204,7 +222,6 @@ var Retro = React.createClass({
 	handleShowModal: function(id, item_text){
 		//get the item id of the item being edited to get the text for that item
 		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: false});
-		alert(id);
 
 	},
 	handleActionModal: function(id, item_text){

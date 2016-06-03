@@ -1,13 +1,13 @@
 import React from 'react';
-import RetroItem from './retro_item'
+import ActionItem from './action_item'
 
 var ActionColumn = React.createClass({
 	//Props: Header Text, Items
 	render() {
-
-		var actionItems = this.props.items.map(function(item) {
+		var vm = this;
+		var actionItems = this.props.items.map(function(item, index) {
 	      return (
-	        <ActionItem itemText={item} modalShow={this.props.modal_show}/>
+	        <ActionItem itemText={item.text} modalShow={vm.props.modal_show} key={index}/>
 	      );
 	    });
 

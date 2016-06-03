@@ -3,7 +3,6 @@ import React from 'react';
 var ActionItem = React.createClass({
 
 	render() {
-		name = sessionStorage.getItem("user_name");
 		return (
 			<div className="retro-item">
 				<div className="item-description">
@@ -20,4 +19,4 @@ var ActionItem = React.createClass({
 	}
 });
 
-export default RetroItem;
+export default ActionItem;

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'retros/:retroId' => 'retro#get'
   post 'retros/additem/:retroId/:column' => 'retro#addItem'
   post 'retros/editItemText/:retroId/:item' => 'retro#editItem'
+  post 'retros/addActionItem/:retroId/:item' => 'retro#newAction'
 
 
 
