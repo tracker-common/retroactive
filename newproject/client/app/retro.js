@@ -41,7 +41,7 @@ var Retro = React.createClass({
 				<div className="modal" onClick={this.handleClick}>
 			      {
 			        this.state.modal_show &&
-			        <ModalContainer onClose={this.handleClose}>
+			        <ModalContainer onClose={this.handleClose} style={customStyles}>
 			          <ModalDialog onClose={this.handleClose}>
 			          <div> 
 			          {
