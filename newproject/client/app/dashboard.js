@@ -45,7 +45,6 @@ var RetroActive = React.createClass({
   handleSaveToken_: function(newToken) {
 	$.get("/users/token/"+sessionStorage.getItem("user_email")+"/"+newToken, function( data ) {
 		sessionStorage.setItem("tracker_token", newToken);
-		console.log( data );
 	});
 	this.setState({token: newToken});
   },
@@ -54,14 +53,12 @@ var RetroActive = React.createClass({
   		var vm = this;
 		$.get("/users/check/"+sessionStorage.getItem("user_email"), function( data ) {
 			sessionStorage.setItem("tracker_token", data.tracker_token);
-			//console.log(data);
 			vm.setState({token: data.tracker_token});
       vm.getProjectsFromTracker();
 		});
 	},
 
   getProjectsFromTracker:function(){
-        //console.log(this.state);
     var vm = this;
     var token = this.state.token;
     var ajaxPromise = $.ajax({
@@ -72,8 +69,6 @@ var RetroActive = React.createClass({
     });
 
     ajaxPromise.then(function(data){
-      console.log("trackerData");
-      console.log(data);   
       var projectIds= "";
       //extract Id's from each project and place them in a comma seperated string
       var projectNameMap = {};
@@ -91,9 +86,7 @@ var RetroActive = React.createClass({
           project.project_name = projectNameMap[project.project_id];
         });
 
-        console.log("New Data")
-        //console.log(data);
-        console.log(vm.state);
+
         if(vm.state.projectRetros && vm.state.projectRetros.length > 0){
             //Create map from project ID to boolean for showLinks
             alert("should be called after delete")
@@ -109,7 +102,6 @@ var RetroActive = React.createClass({
               item.showLinks = showLinksMap[item.project_id]
             });
 
-            console.log(data);
         }
 
         //setState with projectRetros
@@ -146,7 +138,6 @@ var RetroActive = React.createClass({
   },
 
   startNewRetro: function(projectId){
-  	//console.log(this.state);
   	var vm = this;
   	var token = this.state.token;
   	var ajaxPromise = $.ajax({
@@ -157,7 +148,6 @@ var RetroActive = React.createClass({
   	});
 
   	ajaxPromise.then(function(data){
-  		//console.log(data);
   		var project = {};
   		project.name = data.name;
   		project.id = data.id;
@@ -175,8 +165,6 @@ var RetroActive = React.createClass({
   	});
 
   	ajaxPromise.then(function(data){
-  		//console.log("FROM POST:");
-  		//console.log(data);
 
       //redirect to the retrospective
   		browserHistory.push('/show/' + data._id.$oid);

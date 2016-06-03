@@ -6,12 +6,16 @@ var RetroItem = React.createClass({
 		return (
 			<div className="retro-item">
 				<div className="retro-item-description">
-					{this.props.itemText} <button type="button" onClick={this.newTrackerChore}>PTT</button>
+					{this.props.itemText}
 				</div>
 				<div className="status-and-action-bar">
 					<a className="edit-link link" onClick={this.show}>Edit</a>
-					{ (this.props.action_item_id == null) ? <a className="action-link link" onClick={this.showActionModal}>Action</a> : 
-					<span className="item-info">Action Item Created</span>}
+
+					{ this.props.object_id ? 
+						((this.props.action_item_id == null) ? 
+							<a className="action-link link" onClick={this.showActionModal}>Action</a> : 
+							<span className="item-info">Action Item Created</span>
+						) : null}
 				</div>
 			</div>
 		)

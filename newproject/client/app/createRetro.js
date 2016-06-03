@@ -11,7 +11,6 @@ var CreateRetroForm = React.createClass({
 	},
 
 	handleClickRetro: function(){
-		console.log(this.refs.retroId.value);
 		this.props.handleCreateRetro(this.refs.retroId.value);
 	},
 	render() {
