@@ -32,4 +32,25 @@ class RetroController < ActionController::Base
 
 		render json: retro
 	end
+
+	def editItem
+
+		retro_id = params[:retroId]
+		id = params[:item]
+		retro = Retro.find(retro_id)
+		item = retro.retro_items.find(id)
+
+		text = params[:text]
+		# @additem = RetroItem.new
+		# @additem.text = text
+		# @additem.retro_id = retro._id
+		# @additem.save
+		#retro.items[column].unshift(@additem)
+		item.text = text
+		item.save
+		
+		retro.save
+
+		render json: retro
+	end
 end

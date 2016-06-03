@@ -15,7 +15,8 @@ var Retro = React.createClass({
 	      modal_show: false,
 	      current_item_id: "",
 	      current_item_text: "",
-	      project_id: ""
+	      project_id: "",
+	      AddActionItem: false
 	   	}
 	},
 
@@ -42,11 +43,22 @@ var Retro = React.createClass({
 			        this.state.modal_show &&
 			        <ModalContainer onClose={this.handleClose}>
 			          <ModalDialog onClose={this.handleClose}>
-			            <form>
+			          <div> 
+			          {
+			          	this.state.AddActionItem ?
+			            <form onSubmit={this.handleAddActionItem} >
+			            	<h1>Add Action Item</h1>
+			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text} ref="actionItem"/>
+			            	<button type="submit">Submit</button>
+			            </form>
+			            :
+			            <form onSubmit={this.handleEditItem} >
 			            	<h1>Description</h1>
 			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text} ref="editRetroItem"/>
-			            	<button type="button"  onClick={this.handleEditItem}>Submit</button>
+			            	<button type="submit">Submit</button>
 			            </form>
+			          }
+			        </div>
 			          </ModalDialog>
 			        </ModalContainer>
 			      }
@@ -58,7 +70,8 @@ var Retro = React.createClass({
 						items={this.state.retroItems[0]} 
 						showModal={this.state.modal_show}
 						handleShowModal={this.handleShowModal}
-						trackerTest={this.addActionItemToTracker}/>
+						trackerTest={this.addActionItemToTracker}
+						handleActionModal = {this.handleActionModal}/>
 					<RetroColumn 
 						HeaderText="Puzzler :|"  
 						handleAdd={this.addRetroItem} 
@@ -66,21 +79,24 @@ var Retro = React.createClass({
 						items={this.state.retroItems[1]} 
 						showModal={this.state.modal_show}
 						handleShowModal={this.handleShowModal} 
-						trackerTest={this.addActionItemToTracker}/>
+						trackerTest={this.addActionItemToTracker}
+						handleActionModal = {this.handleActionModal}/>
 					<RetroColumn 
 						HeaderText="Sad :(" 
 						handleAdd={this.addRetroItem} 
 						columnId={2} items={this.state.retroItems[2]} 
 						showModal={this.state.modal_show} 
 						handleShowModal={this.handleShowModal} 
-						trackerTest={this.addActionItemToTracker}/>
+						trackerTest={this.addActionItemToTracker}
+						handleActionModal = {this.handleActionModal}/>
 					<ActionColumn 
 						HeaderText="Action Items" 
 						columnId={3} 
 						items={this.state.actionItems} 
 						showModal={this.state.modal_show} 
 						handleShowModal={this.handleShowModal} 
-						trackerTest={this.addActionItemToTracker}/>
+						trackerTest={this.addActionItemToTracker}
+						handleActionModal = {this.handleActionModal}/>
 				</div>
 			</div>
 		);
@@ -88,13 +104,29 @@ var Retro = React.createClass({
 	handleChangeText: function(){
 		this.setState({current_item_text: this.refs.editRetroItem.value});
 	},
-
-	handleEditItem: function(){
+	handleEditItem: function(e){
+		e.preventDefault();
+		alert(this.refs.editRetroItem.value);
 		this.setState({current_item_text: this.refs.editRetroItem.value});
 		this.handleClose();
 		//make ajax call to update database entry 
 		//we have the item id
+		var retroId = this.props.params.retroId.$oid;
 
+		var postPromise = $.ajax({
+				method: 'POST',
+		  		url: "/retros/editItemText/" + retroId +"/" +this.state.current_item_id,
+		  		data: {text : this.refs.editRetroItem.value}
+		  	});
+
+	},
+	handleAddActionItem: function(e){
+		e.preventDefault();
+		alert(this.refs.actionItem.value);
+		this.setState({AddActionItem: false});
+		this.handleClose();
+		//make ajax call to update database entry 
+		//we have the item id
 	},
 	buildRetro: function(){
 		var retroId = this.props.params.retroId;
@@ -121,7 +153,6 @@ var Retro = React.createClass({
 			vm.setState({project_name: data.project_name, retro_date: dateString, retroItems: itemSet, project_id: data.project_id});
 		});
 	},
-
 	addRetroItem: function(column, text){
 		
 		if(column < 3){
@@ -172,10 +203,13 @@ var Retro = React.createClass({
 	},
 	handleShowModal: function(id, item_text){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({current_item_id: id});
-		this.setState({current_item_text: item_text});
-		this.setState({modal_show: true});
+		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: false});
+		alert(id);
 
+	},
+	handleActionModal: function(id, item_text){
+		//get the item id of the item being edited to get the text for that item
+		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: true});
 	},
 });
 

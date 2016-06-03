@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post 'retros/new' => 'retro#create'
   get 'retros/:retroId' => 'retro#get'
   post 'retros/additem/:retroId/:column' => 'retro#addItem'
+  post 'retros/editItemText/:retroId/:item' => 'retro#editItem'
 
 
 
