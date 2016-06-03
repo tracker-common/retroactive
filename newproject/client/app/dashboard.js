@@ -71,19 +71,28 @@ var RetroActive = React.createClass({
     });
 
     ajaxPromise.then(function(data){
-      //console.log("newData");
-      //console.log(data);   
+      console.log("trackerData");
+      console.log(data);   
       var projectIds= "";
       //extract Id's from each project and place them in a comma seperated string
+      var projectNameMap = {};
       data.forEach(function (item, index){
         var projectid = item.id;
         projectIds += projectid + ",";
+        projectNameMap[item.id] = item.name;
       })
 
       //ajax call to our rails server to get project retros
       $.get("/users/projects/" + projectIds, function( data ){
+        
+
+        data.forEach(function(project, index){
+          project.project_name = projectNameMap[project.project_id];
+        });
+
         console.log("New Data")
-        //console.log(data);
+        console.log(data);
+
         //setState with projectRetros
         vm.setState({projectRetros: data});
 
