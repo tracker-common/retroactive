@@ -52,6 +52,25 @@ class RetroController < ActionController::Base
 		render json: retro
 	end
 
+	def editAction
+		retro_id = params[:retroId]
+		id = params[:item]
+		retro = Retro.find(retro_id)
+		item = retro.action_items.find(id)
+
+		text = params[:text]
+		# @additem = RetroItem.new
+		# @additem.text = text
+		# @additem.retro_id = retro._id
+		# @additem.save
+		#retro.items[column].unshift(@additem)
+		item.text = text
+		item.save
+		retro.save
+
+		render json: retro
+	end
+
 
 	def newAction
 		retro_id = params[:retroId]
@@ -61,11 +80,13 @@ class RetroController < ActionController::Base
 
 
 		text = params[:text]
+		tracker_id = params[:tracker_action_id]
 
-		action_item = retro.action_items.build(text: text, retro_item_id: retro_item_id)
+		action_item = retro.action_items.build(text: text, retro_item_id: retro_item_id, tracker_action_id: tracker_id)
 		retro_item.action_item_id = action_item._id
 
 		retro_item.save
+		action_item.save
 		retro.save
 
 		render json: action_item

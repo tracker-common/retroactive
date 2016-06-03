@@ -3,3 +3,4 @@ career-paths/
 .git/
 scripts/
 app/
+client/node_modules/

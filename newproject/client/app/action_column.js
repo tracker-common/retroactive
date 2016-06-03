@@ -10,7 +10,10 @@ var ActionColumn = React.createClass({
 	        <ActionItem itemText={item.text} 
 	        modalShow={vm.props.modal_show} 
 	        key={index}
-	        status= {item.status ? item.status : undefined }/>
+	        status= {item.status ? item.status : undefined }
+	        tracker_id={item.tracker_action_id}
+	        handleShowEditModal={vm.handleShowEditModal}
+	        object_id={item._id ? item._id.$oid : null} />
 	      );
 	    });
 
@@ -24,7 +27,10 @@ var ActionColumn = React.createClass({
 				</div>
 			</div>
 			);
-		},
+	},
+	handleShowEditModal: function(dbId, trackerId, text){
+		this.props.handleShowActionEditModal(dbId, trackerId, text);
+	},
 });
 
 export default ActionColumn;

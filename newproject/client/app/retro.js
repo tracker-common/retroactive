@@ -14,6 +14,7 @@ var Retro = React.createClass({
 	      retro_date: "",
 	      modal_show: false,
 	      current_item_id: "",
+	      current_tracker_action_id: null,
 	      current_item_text: "",
 	      project_id: "",
 	      AddActionItem: false
@@ -98,7 +99,7 @@ var Retro = React.createClass({
 						columnId={3} 
 						items={this.state.actionItems} 
 						showModal={this.state.modal_show} 
-						handleShowModal={this.handleShowModal} 
+						handleShowActionEditModal={this.handleShowActionEditModal} 
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal = {this.handleActionModal}/>
 				</div>
@@ -110,17 +111,22 @@ var Retro = React.createClass({
 	},
 	handleEditItem: function(e){
 		e.preventDefault();
-		this.setState({current_item_text: this.refs.editRetroItem.value});
-		this.handleClose();
-		//make ajax call to update database entry 
-		//we have the item id
-		var retroId = this.props.params.retroId;
+		if(this.state.current_tracker_action_id != null){
+			this.handleEditActionItem(e, this.refs.editRetroItem.value);
+		}
+		else{
+			this.setState({current_item_text: this.refs.editRetroItem.value});
+			this.handleClose();
+			//make ajax call to update database entry 
+			//we have the item id
+			var retroId = this.props.params.retroId;
 
-		var postPromise = $.ajax({
-			method: 'POST',
-	  		url: "/retros/editItemText/" + retroId + "/" + this.state.current_item_id,
-	  		data: {text : this.refs.editRetroItem.value}
-	  	});
+			var postPromise = $.ajax({
+				method: 'POST',
+		  		url: "/retros/editItemText/" + retroId + "/" + this.state.current_item_id,
+		  		data: {text : this.refs.editRetroItem.value}
+		  	});
+		}	
 
 	},
 	handleAddActionItem: function(e){
@@ -132,15 +138,66 @@ var Retro = React.createClass({
 		//we have the item id
 		var retroId = this.props.params.retroId;
 
+		var token = sessionStorage.getItem("tracker_token");
+		var actionItemText = vm.refs.actionItem.value;
+
 		var postPromise = $.ajax({
-			method: 'POST',
-	  		url: "/retros/addActionItem/" + retroId + "/" + this.state.current_item_id,
-	  		data: {text : this.refs.actionItem.value}
+			 method: 'POST',
+	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.project_id +"/stories",
+	          beforeSend: function(xhr) {
+	            xhr.setRequestHeader('X-TrackerToken', token);
+	          },
+	          data: {
+	          	"name": "RetroActive Action Item",
+	          	"description": actionItemText,
+	          	"project_id": vm.state.project_id,
+	          	"story_type": "chore"
+	          }
 	  	});
 
-	  	postPromise.then(function(data){
-	  		vm.addActionItemToTracker(data);
+		postPromise.then(function(data){
+			var postPromise = $.ajax({
+				method: 'POST',
+		  		url: "/retros/addActionItem/" + retroId + "/" + vm.state.current_item_id,
+		  		data: {
+		  			"tracker_action_id": data.id,
+		  			"text": actionItemText
+		  			
+		  		}
+	  		});
+		});
+	},
+	handleEditActionItem: function(e, actionItemText){
+		e.preventDefault();
+		var vm = this;
+		this.setState({AddActionItem: false});
+		this.handleClose();
+		//make ajax call to update database entry 
+		//we have the item id
+		var retroId = this.props.params.retroId;
+
+		var token = sessionStorage.getItem("tracker_token");
+
+		var postPromise = $.ajax({
+			 method: 'PUT',
+	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.project_id 
+	  		 	+ "/stories/" + vm.state.current_tracker_action_id,
+	          beforeSend: function(xhr) {
+	            xhr.setRequestHeader('X-TrackerToken', token);
+	          },
+	          data: {
+	          	"description": actionItemText
+	          }
 	  	});
+
+		postPromise.then(function(data){
+			var postPromise = $.ajax({
+				method: 'POST',
+		  		url: "/retros/editActionText/" + retroId + "/" + vm.state.current_item_id,
+		  		data: {text : actionItemText}
+	  		});
+	  		vm.setState({current_tracker_action_id: null});
+		});
 	},
 	buildRetro: function(){
 		var retroId = this.props.params.retroId;
@@ -226,11 +283,15 @@ var Retro = React.createClass({
 	          	"story_type": "chore"
 	          }
 	  	});
+
 	},
 	handleShowModal: function(id, item_text){
 		//get the item id of the item being edited to get the text for that item
 		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: false});
-
+	},
+	handleShowActionEditModal: function(dbId, trackerId, item_text){
+		//get the item id of the item being edited to get the text for that item
+		this.setState({current_item_id: dbId, current_tracker_action_id: trackerId, current_item_text: item_text, modal_show: true, AddActionItem: false});
 	},
 	handleActionModal: function(id, item_text){
 		//get the item id of the item being edited to get the text for that item
