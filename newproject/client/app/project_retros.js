@@ -13,40 +13,46 @@ var ProjectRetros = React.createClass({
 				<div className="project-retros-header">
 					<button onClick={this.showOrHide}>{this.props.showLinks ? "V " : ">"}</button>
 					{this.props.projectName} 
-					<button type="button" onClick={this.newRetro}>+</button>
+					<button className="project-retros-new-button" type="button" onClick={this.newRetro}>+</button>
 				</div>
-				<div className="retroNames">
+				<div className="retro-table">
 					{
 						this.props.showLinks && (
-						<table><tbody>
-							<tr>
-								<td>Date</td>
-								<td>Happy</td>
-								<td>Puzzler</td>
-								<td>Sad</td>
-								<td>Unscheduled</td>
-								<td>Scheduled</td>
-								<td>In Progress</td>
-								<td>Rejected</td>
-								<td>Accepted</td>
-								<td >X</td>
-							</tr>
+						<table>
+							<thead>
+								<tr>
+									<td style={{fontWeight: 'bold'}}>Date</td>
+									<td style={{fontWeight: 'bold'}}>Happy</td>
+									<td style={{fontWeight: 'bold'}}>Puzzler</td>
+									<td style={{fontWeight: 'bold'}}>Sad</td>
+									<td style={{color: '#88C1DE', fontWeight: 'bold'}}>Unscheduled</td>
+									<td style={{color: '#A7A7A7', fontWeight: 'bold'}}>Scheduled</td>
+									<td style={{color: '#DCD003', fontWeight: 'bold'}}>In Progress</td>
+									<td style={{color: '#F26373', fontWeight: 'bold'}}>Rejected</td>
+									<td style={{color: '#72BF02', fontWeight: 'bold'}}>Accepted</td>
+									<td >Delete?</td>
+								</tr>
+							</thead>
+							<tbody>
+
 							{	
 								this.props.retros.map(function(item, index) {
 							      
 							      	var date = new Date(item.created_on);
 							      	date = new Date(date.getTime() + date.getTimezoneOffset()*60000);
 									var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-							      return(<RetroTableRow 
-							      	key={item._id.$oid}
-							      	item = {item}
-							      	linkPath ={"/show/" + item._id.$oid}
-							      	dateString = {dateString}
-							      	deleteRetro = {vm.deleteRetro}/>);
-								    
-							    })
-							}
-					</tbody></table>
+								    return(
+								    	<RetroTableRow 
+								      	key={item._id.$oid}
+								      	item = {item}
+								      	linkPath ={"/show/" + item._id.$oid}
+								      	dateString = {dateString}
+								      	deleteRetro = {vm.deleteRetro}/>);    
+								    })
+								}
+							</tbody>
+						</table>
+
 					)}
 				</div>
 			</div>
