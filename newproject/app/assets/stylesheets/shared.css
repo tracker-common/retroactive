@@ -6,6 +6,7 @@ body{
 }
 
 html { height: 100%; }
+
 .dashboard{
 	height: 100vh;
 	background-color:#F3F3F3;
@@ -139,7 +140,7 @@ html { height: 100%; }
 	border-color: #A9A9A9;
 	border-width: 1px;
 	width: 80%;
-	margin:50px;
+	margin: 30px auto;
 	padding: 20px;
 	flex-direction: column;
 }
@@ -222,4 +223,39 @@ button{
 	font-size: 12px;
 	margin-left: auto;
 	margin-right: 5px;
+}
+
+
+/*Retro tables in dashboard*/
+.project-retros {
+	width: 80%;
+	margin: 20px auto;
+}
+
+.project-retros-header {
+	display: flex;
+	background-color: white;
+	border-style: solid;
+	border-color: #A9A9A9;
+	border-width: 1px;
+	border-radius: 5px 5px 0px 0px;
+	padding: 10px;
+	justify-content: flex-start;
+}
+
+.project-retros-new-button {
+	align-self: flex-end;
+}
+
+.retro-table {
+	background-color: white;
+	border-style: solid;
+	border-color: #A9A9A9;
+	border-width: 1px;
+	border-radius: 0px 0px 5px 5px;
+}
+
+.retro-table td {
+	text-align: center;
+	padding: 5px 10px;
 }
