@@ -41,19 +41,6 @@ var RetroActive = React.createClass({
   handleChangeToken_: function(event) {
 	this.setState({token: undefined});
   },
-  
-  deleteRetro: function(retro_id){
-    var vm = this;
-
-    var ajaxPromise = $.ajax({
-      method: 'Delete',
-      url: "/retros/delete/" + retro_id,
-    });
-
-    ajaxPromise.then(function(data){
-      vm.getProjectsFromTracker();
-    });
-  },
 
   handleSaveToken_: function(newToken) {
 	$.get("/users/token/"+sessionStorage.getItem("user_email")+"/"+newToken, function( data ) {
@@ -75,7 +62,6 @@ var RetroActive = React.createClass({
 
   getProjectsFromTracker:function(){
         //console.log(this.state);
-        alert("in the functoin");
     var vm = this;
     var token = this.state.token;
     var ajaxPromise = $.ajax({
@@ -108,6 +94,10 @@ var RetroActive = React.createClass({
         console.log("New Data")
         console.log(data);
 
+        if(vm.state.projectRetros.size > 0){
+
+        }
+
         //setState with projectRetros
         vm.setState({projectRetros: data});
 
@@ -115,8 +105,24 @@ var RetroActive = React.createClass({
     });
   },
 
+  deleteRetro: function(retro_id){
+    var vm = this;
+
+    var ajaxPromise = $.ajax({
+      method: 'DELETE',
+      url: "/retros/delete/" + retro_id,
+      success: function(data){
+        vm.getProjectsFromTracker();
+      },
+      error: function(data){
+        vm.getProjectsFromTracker();
+      },
+    });
+
+  },
+
   toggleShowLinks: function(ShowingNow, projectId){
-    var rets =this.state.projectRetros;
+    var rets = this.state.projectRetros;
     rets.forEach(function (item, index){
       if(item.project_id == projectId){
         item.showLinks = !ShowingNow;
