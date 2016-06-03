@@ -18,7 +18,7 @@ var ProjectRetros = React.createClass({
 				<div className="retroNames">
 					{
 						this.props.showLinks && (
-						<table>
+						<table><tbody>
 							<tr>
 								<td>Date</td>
 								<td>Happy</td>
@@ -46,7 +46,7 @@ var ProjectRetros = React.createClass({
 								    
 							    })
 							}
-					</table>
+					</tbody></table>
 					)}
 				</div>
 			</div>

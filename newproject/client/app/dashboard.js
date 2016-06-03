@@ -12,7 +12,7 @@ var RetroActive = React.createClass({
 	      retroId: "",
 	      user_name: sessionStorage.getItem("user_name"),
 	      user_email: sessionStorage.getItem("user_email"),
-        project_retros: []
+        projectRetros: []
 	   	}
 	},
 
@@ -92,10 +92,24 @@ var RetroActive = React.createClass({
         });
 
         console.log("New Data")
-        console.log(data);
+        //console.log(data);
+        console.log(vm.state);
+        if(vm.state.projectRetros && vm.state.projectRetros.length > 0){
+            //Create map from project ID to boolean for showLinks
+            alert("should be called after delete")
+            var showLinksMap = {};
 
-        if(vm.state.projectRetros.size > 0){
+            vm.state.projectRetros.forEach(function(proj, index){
+              showLinksMap[proj.project_id] = proj.showLinks;
+            });
 
+            //for each projectRetroGroup in data, if showLinks is true in the coresponding existing projectRetro
+            //set that property to true in data's projectRetroGroup 
+            data.forEach(function(item, index){
+              item.showLinks = showLinksMap[item.project_id]
+            });
+
+            console.log(data);
         }
 
         //setState with projectRetros
