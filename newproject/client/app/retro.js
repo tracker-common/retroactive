@@ -27,7 +27,7 @@ var Retro = React.createClass({
 		this.refreshIntervalId = setInterval(function(){
 			vm.buildRetro();
 			console.log("refreshed");
-		}, 3000);
+		}, 1000);
 	},
 
 	componentWillUnmount: function(){
