@@ -40,12 +40,13 @@ var Retro = React.createClass({
 				<div className="modal" onClick={this.handleClick}>
 			      {
 			        this.state.modal_show &&
-			        <ModalContainer onClose={this.handleClose}>
+			        <ModalContainer onClose={this.handleClose} style={customStyles}>
 			          <ModalDialog onClose={this.handleClose}>
 			            <form>
 			            	<h1>Description</h1>
 			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text} ref="editRetroItem"/>
 			            	<button type="button"  onClick={this.handleEditItem}>Submit</button>
+			            	
 			            </form>
 			          </ModalDialog>
 			        </ModalContainer>
