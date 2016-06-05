@@ -44,7 +44,7 @@ var ProjectRetros = React.createClass({
 								    return(
 								    	<RetroTableRow 
 								      	key={item._id.$oid}
-								      	item = {item}
+								      	retro = {item}
 								      	linkPath ={"/show/" + item._id.$oid}
 								      	dateString = {dateString}
 								      	deleteRetro = {vm.deleteRetro}/>);    
