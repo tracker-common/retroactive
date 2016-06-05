@@ -5,10 +5,13 @@ var RetroTableRow = React.createClass({
 	render() {
 
 		//happy, puzzler, sad
+		console.log(this.props.retro);
 		var emotesCountArray = [0,0,0];
-		this.props.retro.retroItems.forEach(function(item, index){
-			emotesCountArray[item.column] += 1;
-		});
+		if(this.props.retro.retro_items){
+			this.props.retro.retro_items.forEach(function(item, index){
+				emotesCountArray[item.column] += 1;
+			});
+		}
 
 		return(
 			<tr>
