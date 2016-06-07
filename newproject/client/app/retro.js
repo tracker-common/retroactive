@@ -4,6 +4,11 @@ import RetroColumn from './retro_column';
 import ActionColumn from './action_column';
 import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 
+import { Component } from 'react';
+import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
+//import TabletBreakpoint from './responsive_utilities/tablet_breakpoint';
+import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
+
 var Retro = React.createClass({
 	
 	getInitialState() {
@@ -41,7 +46,6 @@ var Retro = React.createClass({
 		return (
 			<div id="retro-body">
 				<Header user_name={sessionStorage.getItem("user_name")} title={this.state.project_name + " - " + this.state.retro_date} />
-				{}
 				<br/>	
 				<div className="modal" onClick={this.handleClick}>
 			      {
@@ -68,41 +72,50 @@ var Retro = React.createClass({
 			        </ModalContainer>
 			      }
 			    </div>
-				<div className="retro-columns">
-					<RetroColumn HeaderText="Happy :)" 
-						handleAdd={this.addRetroItem} 
-						columnId={0} 
-						items={this.state.retroItems[0]} 
-						showModal={this.state.modal_show}
-						handleShowModal={this.handleShowModal}
-						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
-					<RetroColumn 
-						HeaderText="Puzzler :|"  
-						handleAdd={this.addRetroItem} 
-						columnId={1} 
-						items={this.state.retroItems[1]} 
-						showModal={this.state.modal_show}
-						handleShowModal={this.handleShowModal} 
-						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
-					<RetroColumn 
-						HeaderText="Sad :(" 
-						handleAdd={this.addRetroItem} 
-						columnId={2} items={this.state.retroItems[2]} 
-						showModal={this.state.modal_show} 
-						handleShowModal={this.handleShowModal} 
-						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
-					<ActionColumn 
-						HeaderText="Action Items" 
-						columnId={3} 
-						items={this.state.actionItems} 
-						showModal={this.state.modal_show} 
-						handleShowActionEditModal={this.handleShowActionEditModal} 
-						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
-				</div>
+			    <DesktopBreakpoint>
+          			<div className="retro-columns">
+						<RetroColumn HeaderText="Happy :)" 
+							handleAdd={this.addRetroItem} 
+							columnId={0} 
+							items={this.state.retroItems[0]} 
+							showModal={this.state.modal_show}
+							handleShowModal={this.handleShowModal}
+							trackerTest={this.addActionItemToTracker}
+							handleActionModal = {this.handleActionModal}/>
+						<RetroColumn 
+							HeaderText="Puzzler :|"  
+							handleAdd={this.addRetroItem} 
+							columnId={1} 
+							items={this.state.retroItems[1]} 
+							showModal={this.state.modal_show}
+							handleShowModal={this.handleShowModal} 
+							trackerTest={this.addActionItemToTracker}
+							handleActionModal = {this.handleActionModal}/>
+						<RetroColumn 
+							HeaderText="Sad :(" 
+							handleAdd={this.addRetroItem} 
+							columnId={2} items={this.state.retroItems[2]} 
+							showModal={this.state.modal_show} 
+							handleShowModal={this.handleShowModal} 
+							trackerTest={this.addActionItemToTracker}
+							handleActionModal = {this.handleActionModal}/>
+						<ActionColumn 
+							HeaderText="Action Items" 
+							columnId={3} 
+							items={this.state.actionItems} 
+							showModal={this.state.modal_show} 
+							handleShowActionEditModal={this.handleShowActionEditModal} 
+							trackerTest={this.addActionItemToTracker}
+							handleActionModal = {this.handleActionModal}/>
+					</div>
+				</DesktopBreakpoint>
+        	
+
+		      	<PhoneBreakpoint>
+		        	<div>You are a tablet or mobile phone</div>
+		        </PhoneBreakpoint>
+		
+				
 			</div>
 		);
 	},
