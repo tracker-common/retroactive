@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="11px" viewBox="0 0 12 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Retro" transform="translate(-681.000000, -301.000000)" fill="#9B9B9B">
+            <g id="Sad" transform="translate(660.000000, 53.000000)">
+                <g id="not-voted-unactioned" transform="translate(10.000000, 189.000000)">
+                    <path d="M21.5464962,60.2327597 C21.0806726,59.7186944 20.1490254,59.2046291 19.6832018,59.2046291 C18.7515546,59.2046291 16.8882602,60.746825 16.8882602,60.746825 C16.8882602,60.746825 15.0249658,59.2046291 14.0933186,59.2046291 C13.1616714,59.2046291 12.6958478,59.7186944 12.2300242,60.2327597 C10.8325534,61.2608903 10.8325534,63.3171514 12.2300242,64.8593472 L16.8882602,70 L21.5464962,64.8593472 C22.943967,63.3171514 22.943967,61.2608903 21.5464962,60.2327597 Z" id="Shape"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
