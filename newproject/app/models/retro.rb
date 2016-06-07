@@ -4,5 +4,5 @@ class Retro
   embeds_many :action_items, cascade_callbacks: true
   field :project_name, type: String
   field :project_id, type: Integer
-  field :created_on, type: Date
+  field :created_on, type: DateTime
 end

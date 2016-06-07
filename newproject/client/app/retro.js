@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Header from './header';
 import RetroColumn from './retro_column';
 import ActionColumn from './action_column';
@@ -33,6 +34,25 @@ var Retro = React.createClass({
 			vm.buildRetro();
 			console.log("refreshed");
 		}, 1000);
+
+
+	},
+
+	componentDidUpdate: function(){
+		if(ReactDOM.findDOMNode(this.refs.editRetroItem) != null){
+			var input = ReactDOM.findDOMNode(this.refs.editRetroItem);
+			input.focus();
+			var current = input.value;
+			input.value = '';
+			input.value = current;
+		}
+		if(ReactDOM.findDOMNode(this.refs.actionItem) != null){
+			var input = ReactDOM.findDOMNode(this.refs.actionItem);
+			input.focus();
+			var current = input.value;
+			input.value = '';
+			input.value = current;
+		}
 	},
 
 	componentWillUnmount: function(){
@@ -57,13 +77,13 @@ var Retro = React.createClass({
 			          	this.state.AddActionItem ?
 			            <form onSubmit={this.handleAddActionItem} >
 			            	<h1>Add Action Item</h1>
-			            	<input type="text" ref="actionItem"/>
+			            	<input type="text"  ref="actionItem"/>
 			            	<button type="submit">Submit</button>
 			            </form>
 			            :
 			            <form onSubmit={this.handleEditItem} >
 			            	<h1>Description</h1>
-			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text} ref="editRetroItem"/>
+			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text}  ref="editRetroItem"/>
 			            	<button type="submit">Submit</button>
 			            </form>
 			          }
@@ -241,12 +261,16 @@ var Retro = React.createClass({
 			}
 
 
+			document.title = "RetroActive - " + data.project_name  + dateString;
+
 			vm.setState({project_name: data.project_name, 
 				retro_date: dateString, 
 				retroItems: itemSet, 
 				project_id: data.project_id, 
 				actionItems: actionSet});
+
 		});
+
 	},
 	addRetroItem: function(column, text){
 		
@@ -301,14 +325,18 @@ var Retro = React.createClass({
 	handleShowModal: function(id, item_text){
 		//get the item id of the item being edited to get the text for that item
 		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: false});
+		
+
 	},
 	handleShowActionEditModal: function(dbId, trackerId, item_text){
 		//get the item id of the item being edited to get the text for that item
 		this.setState({current_item_id: dbId, current_tracker_action_id: trackerId, current_item_text: item_text, modal_show: true, AddActionItem: false});
+ 
 	},
 	handleActionModal: function(id, item_text){
-		//get the item id of the item being edited to get the text for that item
+		//get the item id of the item being added to get the text for that item
 		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: true});
+
 	},
 });
 

@@ -22,22 +22,27 @@ html { height: 100%; }
 	background-color: #66B9DD;
 	height: 100vh;
 }
+.full-height{
+	height: 100%;
+	max-width:450px;
+	min-width:250px;
+	margin:5px;
+	width: 25vw;
+}
 
 .retro-columns{
 	display: flex;
 	flex-direction: row;
 	justify-content:space-around;
 	font-size:12px;
-	height: 100%;
+	height: 90vh;
 }
 
 .retro-column {
 	display: flex;
 	flex-direction: column;
 	min-width:250px;
-	width: 25%;
 	max-width: 400px;
-	margin:0px 5px;
 	min-height:100px;
 	background-color: #F3F3F3;
 	border-radius: 12px;
@@ -166,12 +171,7 @@ button{
 	background-color: #FFFFFF;
 }
 
-.full-height{
-	height: 100%;
-	max-width:450px;
-	min-width:250px;
-	margin-right:5px;
-}
+
 
 /* retro_item.js */
 

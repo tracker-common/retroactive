@@ -11,13 +11,13 @@ var ProjectRetros = React.createClass({
 		return(
 			<div className="project-retros">
 				<div className="project-retros-header">
-					<button onClick={this.showOrHide}>{this.props.showLinks ? "V " : ">"}</button>
+					{this.props.retros.length > 0  &&(<button onClick={this.showOrHide}>{this.props.showLinks ? "V " : ">"}</button>)}
 					{this.props.projectName} 
 					<button className="project-retros-new-button" type="button" onClick={this.newRetro}>+</button>
 				</div>
 				<div className="retro-table">
 					{
-						this.props.showLinks && (
+						this.props.showLinks && this.props.retros.length > 0  &&(
 						<table>
 							<thead>
 								<tr>
@@ -39,12 +39,12 @@ var ProjectRetros = React.createClass({
 								this.props.retros.map(function(item, index) {
 							      
 							      	var date = new Date(item.created_on);
-							      	date = new Date(date.getTime() + date.getTimezoneOffset()*60000);
-									var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+							      	date = new Date(date.getTime());
+									var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + " " + (date.getHours()) + ":" + date.getMinutes() + ":" + date.getSeconds();
 								    return(
 								    	<RetroTableRow 
 								      	key={item._id.$oid}
-								      	item = {item}
+								      	retro = {item}
 								      	linkPath ={"/show/" + item._id.$oid}
 								      	dateString = {dateString}
 								      	deleteRetro = {vm.deleteRetro}/>);    
@@ -68,7 +68,7 @@ var ProjectRetros = React.createClass({
 	},
 
 	showOrHide: function(){
-		//pass the current showLinks thing
+		//pass the current showLinks boolean
 		this.props.toggleShowHide(this.props.showLinks, this.props.projectId);
 	}
 });

@@ -51,7 +51,7 @@ class UserController < ActionController::Base
 			return_proj[:project_id] = project_id
 
 			begin
-				retros = Retro.where(project_id: project_id)
+				retros = Retro.where(project_id: project_id).order(created_on: :asc)
 			rescue
 				retros = []
 			end

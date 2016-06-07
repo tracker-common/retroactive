@@ -4,7 +4,7 @@ class RetroController < ActionController::Base
 		@newRet = Retro.new
 		@newRet.project_id = params[:id]
 		@newRet.project_name = params[:name]
-		@newRet.created_on = DateTime.now.to_date
+		@newRet.created_on = DateTime.now
 		@newRet.retro_items = nil;
 		@newRet.save
 
