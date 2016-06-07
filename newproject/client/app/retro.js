@@ -350,21 +350,27 @@ var Retro = React.createClass({
 
 	handleVote: function(item){
 		//console.log(item);
-		var self = this;
-		var postPromise = $.ajax({
-			method: 'POST',
-	  		url: "/retros/vote/",
-	  		data: {
-	  			item : item.props.object_id,
-	  			retroId : this.props.params.retroId,
-	  			email : sessionStorage.getItem("user_email")
-	  		}
-  		});
-
-  		postPromise.then(function(data){
-  			//console.log(data);
-  			self.setState({retroItems: data})
-  		});
+		if(this.state.MaxUserVotes > this.state.UserCurrentVotes)
+		{
+			var self = this;
+			var postPromise = $.ajax({
+				method: 'POST',
+		  		url: "/retros/vote/",
+		  		data: {
+		  			item : item.props.object_id,
+		  			retroId : this.props.params.retroId,
+		  			email : sessionStorage.getItem("user_email")
+		  		}
+	  		});
+	
+	  		postPromise.then(function(data){
+	  			//console.log(data);
+	  			self.setState({retroItems: data})
+	  		});
+		  }
+		  else{
+		  	alert("Max Votes Reached!");
+		  }
 	},
 
 	handleUnVote: function(item){
