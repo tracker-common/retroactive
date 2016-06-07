@@ -7,6 +7,11 @@ body{
 
 html { height: 100%; }
 
+.main_wrapper{
+	width:80%;
+	margin:0 auto;
+}
+
 .dashboard{
 	height: 100vh;
 	background-color:#F3F3F3;
@@ -60,6 +65,7 @@ html { height: 100%; }
 
 }
 
+/* header.js */
 .header {
 	display: -webkit-flex;
 	display: flex;
@@ -75,22 +81,13 @@ html { height: 100%; }
 	flex-direction: row;
 }
 
-.sign-in {
-	display: flex;
-	justify-content: center;
-	flex-direction:column;
-	width:500px;
-	height:500px; 
-	margin:0 auto;
-}
-
-.left{
+.header .left{
 	position: absolute;
 	left: 5px;
 	top: 6px;
 }
 
-.right{
+.header .right{
 	position: absolute;
 	right: 5px;
 	top: -8px;
@@ -107,6 +104,53 @@ html { height: 100%; }
 	font-size: 12px;
 }
 
+/* mobile_header.js*/
+
+.mobile_header {
+	display: -webkit-flex;
+	display: flex;
+	background-color: #956EAB;
+	height: 50px;
+	width: 100%;
+	align-content:flex-start;
+	color: #F3F3F3;
+}
+.mobile_header h1 {
+	font-size: 18px;
+	margin-bottom: 0px;
+}
+
+.mobile_header button {
+	margin: 0 0 0 50px;
+}
+
+.mobile_header .right{
+	position: absolute;
+	right: 5px;
+	top: -8px;	
+}
+
+.mobile_header .left{
+	position: absolute;
+	left: 5px;
+	top: 6px;
+}
+
+
+
+/* sign_in.js */
+.sign-in {
+	display: flex;
+	justify-content: center;
+	flex-direction:column;
+	width:500px;
+	height:500px; 
+	margin:0 auto;
+}
+
+
+/* retro-columns */
+
 .retro-columns__title{
 	display: flex;
 	min-width: 200px;
@@ -114,8 +158,6 @@ html { height: 100%; }
 	justify-content:space-around;
 	font-size: 18px;
 }
-
-
 
 .retro-column-items{
 	display:block;
@@ -137,6 +179,8 @@ html { height: 100%; }
 	height: 96.8%;
 }
 
+/* dasboard.js */
+
 .dashboard-form{
 	display: flex;
 	background-color: #FFFFFF;
@@ -144,8 +188,7 @@ html { height: 100%; }
 	border-style: solid;
 	border-color: #A9A9A9;
 	border-width: 1px;
-	width: 80%;
-	margin: 30px auto;
+	margin: 30px 0;
 	padding: 20px;
 	flex-direction: column;
 }
@@ -225,11 +268,12 @@ button{
 	margin-right: 5px;
 }
 
+/* createRetro.js */
 
 /*Retro tables in dashboard*/
 .project-retros {
-	width: 80%;
-	margin: 20px auto;
+	width: 100%;
+	margin: 20px 0;
 }
 
 .project-retros-header {
@@ -258,4 +302,10 @@ button{
 .retro-table td {
 	text-align: center;
 	padding: 5px 10px;
+}
+
+/* tracker_token_form.js */
+
+.token_label{
+	font-size: 12px;
 }

@@ -9,6 +9,8 @@ import { Component } from 'react';
 import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
 //import TabletBreakpoint from './responsive_utilities/tablet_breakpoint';
 import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
+import Loader from 'react-loader-advanced';
+
 
 var Retro = React.createClass({
 	
@@ -23,7 +25,8 @@ var Retro = React.createClass({
 	      current_tracker_action_id: null,
 	      current_item_text: "",
 	      project_id: "",
-	      AddActionItem: false
+	      AddActionItem: false,
+	      loading: true
 	   	}
 	},
 
@@ -64,36 +67,37 @@ var Retro = React.createClass({
 		name = sessionStorage.getItem("user_name");
 		
 		return (
-			<div id="retro-body">
-				<Header user_name={sessionStorage.getItem("user_name")} title={this.state.project_name + " - " + this.state.retro_date} />
-				<br/>	
-				<div className="modal" onClick={this.handleClick}>
-			      {
-			        this.state.modal_show &&
-			        <ModalContainer onClose={this.handleClose}>
-			          <ModalDialog onClose={this.handleClose}>
-			          <div> 
-			          {
-			          	this.state.AddActionItem ?
-			            <form onSubmit={this.handleAddActionItem} >
-			            	<h1>Add Action Item</h1>
-			            	<input type="text"  ref="actionItem"/>
-			            	<button type="submit">Submit</button>
-			            </form>
-			            :
-			            <form onSubmit={this.handleEditItem} >
-			            	<h1>Description</h1>
-			            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text}  ref="editRetroItem"/>
-			            	<button type="submit">Submit</button>
-			            </form>
-			          }
-			        </div>
-			          </ModalDialog>
-			        </ModalContainer>
-			      }
-			    </div>
-			    <DesktopBreakpoint>
-          			<div className="retro-columns">
+			<Loader show={this.state.loading}  message={'loading...'}>
+				<div id="retro-body">
+					<Header user_name={sessionStorage.getItem("user_name")} title={this.state.project_name + " - " + this.state.retro_date} />
+					<br/>	
+					<div className="modal" onClick={this.handleClick}>
+				      {
+				        this.state.modal_show &&
+				        <ModalContainer onClose={this.handleClose}>
+				          <ModalDialog onClose={this.handleClose}>
+				          <div> 
+				          {
+				          	this.state.AddActionItem ?
+				            <form onSubmit={this.handleAddActionItem} >
+				            	<h1>Add Action Item</h1>
+				            	<input type="text"  ref="actionItem"/>
+				            	<button type="submit">Submit</button>
+				            </form>
+				            :
+				            <form onSubmit={this.handleEditItem} >
+				            	<h1>Description</h1>
+				            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text}  ref="editRetroItem"/>
+				            	<button type="submit">Submit</button>
+				            </form>
+				          }
+				        </div>
+				          </ModalDialog>
+				        </ModalContainer>
+				      }
+				    </div>
+				    
+	      			<div className="retro-columns">
 						<RetroColumn HeaderText="Happy :)" 
 							handleAdd={this.addRetroItem} 
 							columnId={0} 
@@ -128,15 +132,9 @@ var Retro = React.createClass({
 							trackerTest={this.addActionItemToTracker}
 							handleActionModal = {this.handleActionModal}/>
 					</div>
-				</DesktopBreakpoint>
-        	
-
-		      	<PhoneBreakpoint>
-		        	<div>You are a tablet or mobile phone</div>
-		        </PhoneBreakpoint>
-		
-				
-			</div>
+					
+				</div>
+			</Loader>
 		);
 	},
 	handleChangeText: function(){
@@ -267,7 +265,8 @@ var Retro = React.createClass({
 				retro_date: dateString, 
 				retroItems: itemSet, 
 				project_id: data.project_id, 
-				actionItems: actionSet});
+				actionItems: actionSet,
+				loading: false });
 
 		});
 
