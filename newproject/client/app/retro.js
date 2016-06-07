@@ -102,9 +102,9 @@ var Retro = React.createClass({
 						showModal={this.state.modal_show}
 						handleShowModal={this.handleShowModal}
 						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}
-						handleUnVote = {this.handleUnVote}
-						handleVote = {this.handleVote}/>
+						handleActionModal={this.handleActionModal}
+						handleUnVote={this.handleUnVote}
+						handleVote={this.handleVote}/>
 					<RetroColumn 
 						HeaderText="Puzzler :|"  
 						handleAdd={this.addRetroItem} 
@@ -113,19 +113,20 @@ var Retro = React.createClass({
 						showModal={this.state.modal_show}
 						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}
-						handleUnVote = {this.handleUnVote}					
-						handleVote = {this.handleVote}/>
+						handleActionModal={this.handleActionModal}
+						handleUnVote={this.handleUnVote}					
+						handleVote={this.handleVote}/>
 					<RetroColumn 
 						HeaderText="Sad :(" 
 						handleAdd={this.addRetroItem} 
-						columnId={2} items={this.state.retroItems[2]} 
+						columnId={2} 
+						items={this.state.retroItems[2]} 
 						showModal={this.state.modal_show} 
 						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}
-						handleVote = {this.handleVote}
-						handleUnVote = {this.handleUnVote}/>
+						handleActionModal={this.handleActionModal}
+						handleVote={this.handleVote}
+						handleUnVote={this.handleUnVote}/>
 					<ActionColumn 
 						HeaderText="Action Items" 
 						columnId={3} 
@@ -133,7 +134,7 @@ var Retro = React.createClass({
 						showModal={this.state.modal_show} 
 						handleShowActionEditModal={this.handleShowActionEditModal} 
 						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
+						handleActionModal={this.handleActionModal}/>
 				</div>
 			</div>
 		);
@@ -364,8 +365,14 @@ var Retro = React.createClass({
 	  		});
 	
 	  		postPromise.then(function(data){
-	  			//console.log(data);
-	  			self.setState({retroItems: data})
+	  			var itemSet = [[],[],[]];
+				var userEmail = sessionStorage.getItem("user_email");
+				
+				data.forEach(function(item, index){
+					itemSet[item.column].unshift(item);
+				});
+				
+	  			self.setState({retroItems: itemSet});
 	  		});
 		  }
 		  else{
@@ -388,7 +395,16 @@ var Retro = React.createClass({
 
   		postPromise.then(function(data){
   			//console.log(data);
-  			self.setState({retroItems: data})
+
+			//parse items into their own columns, and count votes by current user
+			var itemSet = [[],[],[]];
+			var userEmail = sessionStorage.getItem("user_email");
+			
+			data.forEach(function(item, index){
+				itemSet[item.column].unshift(item);
+			});
+			
+  			self.setState({retroItems: itemSet});
   		});
 	},
 });
