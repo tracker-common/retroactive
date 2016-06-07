@@ -9,7 +9,11 @@ var TrackerTokenForm = React.createClass({
   	render() {
 	  	if(this.props.token){
 	  		return (
-	    	<div className="dashboard-form" > 
+	    	<div className="dashboard-form" >
+	    	{
+	    		this.props.showErrorText && 
+	    		<span className="errorText">Your token is invalid.  Please verify it and try again.</span>
+	    	} 
 				<div>Woo! We have an API token for you! Everything is cool unless you need to <span className="link" onClick={this.props.handleChangeToken}>change it</span>
 				</div>
 				<span className = "row token_label">TOKEN: &nbsp; {this.props.token}</span>
@@ -23,7 +27,7 @@ var TrackerTokenForm = React.createClass({
 				<br/>
 				<form>
 					<label>Tracker API Token: </label><input type="text" ref="tokenText"/>
-					<button type="button" onClick={this.changeToken}>Save</button>
+					<button type="submit" onClick={this.changeToken}>Save</button>
 				</form>
 
 			</div>

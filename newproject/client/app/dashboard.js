@@ -23,7 +23,8 @@ var RetroActive = React.createClass({
 	      user_email: sessionStorage.getItem("user_email"),
         projectRetros: [],
         loading: true,
-        current_proj: null
+        current_proj: null,
+        tokenError: false,
 	   	}
 	},
 	componentDidMount: function(){
@@ -41,7 +42,8 @@ var RetroActive = React.createClass({
               <TrackerTokenForm 
                   token={this.state.token} 
                   handleSaveToken={this.handleSaveToken_} 
-                  handleChangeToken={this.handleChangeToken_}/>
+                  handleChangeToken={this.handleChangeToken_}
+                  showErrorText={this.state.tokenError}/>
                <CreateRetroForm 
                   projectRetros={this.state.projectRetros} 
                   handleCreateRetro={this.handleCreateRetro_}
@@ -56,7 +58,8 @@ var RetroActive = React.createClass({
                 <TrackerTokenForm 
                   token={this.state.token} 
                   handleSaveToken={this.handleSaveToken_} 
-                  handleChangeToken={this.handleChangeToken_}/>
+                  handleChangeToken={this.handleChangeToken_}
+                  showErrorText={this.state.tokenError}/>
 
                 <MobileCreateRetro
                   projectRetros={this.state.projectRetros} 
@@ -73,14 +76,14 @@ var RetroActive = React.createClass({
     );
   },
   handleChangeToken_: function(event) {
-	this.setState({token: undefined});
+	 this.setState({token: undefined});
   },
 
   handleSaveToken_: function(newToken) {
-	$.get("/users/token/"+sessionStorage.getItem("user_email")+"/"+newToken, function( data ) {
-		sessionStorage.setItem("tracker_token", newToken);
-	});
-	this.setState({token: newToken});
+  	$.get("/users/token/"+sessionStorage.getItem("user_email")+"/"+newToken, function( data ) {
+  		sessionStorage.setItem("tracker_token", newToken);
+  	});
+  	this.setState({token: newToken});
   },
 
   checkEmail: function(){
@@ -95,10 +98,19 @@ var RetroActive = React.createClass({
   getProjectsFromTracker:function(){
     var vm = this;
     var token = this.state.token;
+    this.setState({tokenError: false});
     var ajaxPromise = $.ajax({
        url: "https://www.pivotaltracker.com/services/v5/projects/",
           beforeSend: function(xhr) {
             xhr.setRequestHeader('X-TrackerToken', token);
+          },
+          error: function(xhr){
+            vm.setState({loading: false});
+            switch (xhr.status) {
+              case 403:
+                vm.setState({tokenError: true});
+                break;
+            }
           }
     });
 
@@ -110,7 +122,7 @@ var RetroActive = React.createClass({
         var projectid = item.id;
         projectIds += projectid + ",";
         projectNameMap[item.id] = item.name;
-      })
+      });
 
       //ajax call to our rails server to get project retros
       $.get("/users/projects/" + projectIds, function( data ){

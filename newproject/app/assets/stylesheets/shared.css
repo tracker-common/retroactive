@@ -314,3 +314,8 @@ button{
 .token_label{
 	font-size: 12px;
 }
+
+.errorText{
+	font-size: 20px;
+	color: red;
+}
