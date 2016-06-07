@@ -5,6 +5,13 @@ import RetroColumn from './retro_column';
 import ActionColumn from './action_column';
 import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 
+import { Component } from 'react';
+import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
+//import TabletBreakpoint from './responsive_utilities/tablet_breakpoint';
+import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
+import Loader from 'react-loader-advanced';
+
+
 var Retro = React.createClass({
 	
 	getInitialState() {
@@ -19,6 +26,7 @@ var Retro = React.createClass({
 	      current_item_text: "",
 	      project_id: "",
 	      AddActionItem: false,
+	      loading: true,
 	      MaxUserVotes: 100,
 	      UserCurrentVotes: 0
 	   	}
@@ -61,6 +69,7 @@ var Retro = React.createClass({
 		name = sessionStorage.getItem("user_name");
 		
 		return (
+			<Loader show={this.state.loading}  message={'loading...'}>
 			<div id="retro-body">
 				<Header 
 				user_name={sessionStorage.getItem("user_name")} 
@@ -137,6 +146,7 @@ var Retro = React.createClass({
 						handleActionModal={this.handleActionModal}/>
 				</div>
 			</div>
+			</Loader>
 		);
 	},
 	handleChangeText: function(){
@@ -277,6 +287,7 @@ var Retro = React.createClass({
 				retroItems: itemSet, 
 				project_id: data.project_id, 
 				actionItems: actionSet,
+				loading: false,
 				UserCurrentVotes: userVoteCount,
 			});
 

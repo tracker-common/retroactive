@@ -12,7 +12,7 @@ var TrackerTokenForm = React.createClass({
 	    	<div className="dashboard-form" > 
 				<div>Woo! We have an API token for you! Everything is cool unless you need to <span className="link" onClick={this.props.handleChangeToken}>change it</span>
 				</div>
-				<span className = "row">TOKEN: &nbsp; {this.props.token}</span>
+				<span className = "row token_label">TOKEN: &nbsp; {this.props.token}</span>
 			</div>
 			);
 	  	}

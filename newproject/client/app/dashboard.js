@@ -1,8 +1,17 @@
 import React from 'react';
 import TrackerTokenForm from './tracker_token_form';
 import CreateRetroForm from './createRetro';
+import MobileCreateRetro from './mobile_create_retro';
 import { Link, browserHistory } from 'react-router'
 import Header from './header';
+import MobileHeader from './mobile_header';
+import Loader from 'react-loader-advanced';
+
+//Imports for responsive media queries 
+import { Component } from 'react';
+import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
+//import TabletBreakpoint from './responsive_utilities/tablet_breakpoint';
+import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
 
 var RetroActive = React.createClass({
   getInitialState() {
@@ -12,11 +21,11 @@ var RetroActive = React.createClass({
 	      retroId: "",
 	      user_name: sessionStorage.getItem("user_name"),
 	      user_email: sessionStorage.getItem("user_email"),
-        projectRetros: []
+        projectRetros: [],
+        loading: true,
+        current_proj: null
 	   	}
 	},
-
-
 	componentDidMount: function(){
 		this.checkEmail();
     document.title = "RetroActive";
@@ -24,21 +33,45 @@ var RetroActive = React.createClass({
 
   render() {
     return (
-    	<div className="dashboard">
-      	<Header user_name={this.state.user_name} />
-  			<TrackerTokenForm 
-        token={this.state.token} 
-        handleSaveToken={this.handleSaveToken_} 
-        handleChangeToken={this.handleChangeToken_}/>
-        <CreateRetroForm 
-          projectRetros={this.state.projectRetros} 
-          handleCreateRetro={this.handleCreateRetro_}
-          toggleShowHide={this.toggleShowLinks}
-          deleteRetro={this.deleteRetro}/>
-		  </div>
+      <Loader show={this.state.loading}  message={'loading...'}>
+      	<div className="dashboard">
+        	<DesktopBreakpoint>
+            <Header user_name={this.state.user_name} />
+            <div className="main_wrapper">
+              <TrackerTokenForm 
+                  token={this.state.token} 
+                  handleSaveToken={this.handleSaveToken_} 
+                  handleChangeToken={this.handleChangeToken_}/>
+               <CreateRetroForm 
+                  projectRetros={this.state.projectRetros} 
+                  handleCreateRetro={this.handleCreateRetro_}
+                  toggleShowHide={this.toggleShowLinks}
+                  deleteRetro={this.deleteRetro}/>
+              </div>
+          </DesktopBreakpoint>
+
+          <PhoneBreakpoint>
+              <MobileHeader user_name={this.state.user_name} />
+              <div className="mobile_wrapper">
+                <TrackerTokenForm 
+                  token={this.state.token} 
+                  handleSaveToken={this.handleSaveToken_} 
+                  handleChangeToken={this.handleChangeToken_}/>
+
+                <MobileCreateRetro
+                  projectRetros={this.state.projectRetros} 
+                  handleCreateRetro={this.handleCreateRetro_}
+                  toggleShowHide={this.toggleShowLinks}
+                  deleteRetro={this.deleteRetro} 
+                  loading={this.state.loading}
+                  current_proj={this.state.current_proj}
+                  handleChangeProject={this.handleChangeProject} />
+                </div>
+          </PhoneBreakpoint>
+  		  </div>
+      </Loader>
     );
   },
-
   handleChangeToken_: function(event) {
 	this.setState({token: undefined});
   },
@@ -52,11 +85,11 @@ var RetroActive = React.createClass({
 
   checkEmail: function(){
   		var vm = this;
-		$.get("/users/check/"+sessionStorage.getItem("user_email"), function( data ) {
-			sessionStorage.setItem("tracker_token", data.tracker_token);
-			vm.setState({token: data.tracker_token});
-      vm.getProjectsFromTracker();
-		});
+  		$.get("/users/check/"+sessionStorage.getItem("user_email"), function( data ) {
+  			sessionStorage.setItem("tracker_token", data.tracker_token);
+  			vm.setState({token: data.tracker_token});
+        vm.getProjectsFromTracker();
+  		});
 	},
 
   getProjectsFromTracker:function(){
@@ -104,9 +137,14 @@ var RetroActive = React.createClass({
 
         }
 
-        //setState with projectRetros
-        vm.setState({projectRetros: data});
-
+        if(data.length > 0){
+          //setState with projectRetros and that loaded is true so the spinner can 
+          //disappear
+          vm.setState({projectRetros: data, loading: false, current_proj: data[0]});
+        }
+        else{
+           vm.setState({projectRetros: data, loading: false});
+        }
       });
     });
   },
@@ -173,6 +211,9 @@ var RetroActive = React.createClass({
 
   handleCreateRetro_: function(newRetroId) {
   	this.startNewRetro(newRetroId);
+  },
+  handleChangeProject : function(project){
+    this.setState({current_proj: project});
   }
 });
 
