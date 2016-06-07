@@ -144,6 +144,7 @@ var Retro = React.createClass({
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal = {this.handleActionModal}/>
 				</div>
+			</div>
 			</Loader>
 		);
 	},
