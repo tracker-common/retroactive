@@ -19,6 +19,7 @@ var RetroActive = React.createClass({
 
 	componentDidMount: function(){
 		this.checkEmail();
+    document.title = "RetroActive";
 	},
 
   render() {
