@@ -4,7 +4,11 @@ import { Link } from 'react-router';
 
 var ProjectRetros = React.createClass({
 
-
+	getDefaultProps: function(){
+		return {
+			"showLinks" : true,
+		};
+	},
 	//Props: ProjectName, ProjectId, Retros
 	render() {
 		var vm = this;

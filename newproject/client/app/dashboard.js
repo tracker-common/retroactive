@@ -90,7 +90,6 @@ var RetroActive = React.createClass({
 
         if(vm.state.projectRetros && vm.state.projectRetros.length > 0){
             //Create map from project ID to boolean for showLinks
-            alert("should be called after delete")
             var showLinksMap = {};
 
             vm.state.projectRetros.forEach(function(proj, index){
@@ -114,18 +113,18 @@ var RetroActive = React.createClass({
 
   deleteRetro: function(retro_id){
     var vm = this;
-
-    var ajaxPromise = $.ajax({
-      method: 'DELETE',
-      url: "/retros/delete/" + retro_id,
-      success: function(data){
-        vm.getProjectsFromTracker();
-      },
-      error: function(data){
-        vm.getProjectsFromTracker();
-      },
-    });
-
+    if(confirm("Delete this Retro?")){
+      var ajaxPromise = $.ajax({
+        method: 'DELETE',
+        url: "/retros/delete/" + retro_id,
+        success: function(data){
+          vm.getProjectsFromTracker();
+        },
+        error: function(data){
+          vm.getProjectsFromTracker();
+        },
+      });
+    }
   },
 
   toggleShowLinks: function(ShowingNow, projectId){
