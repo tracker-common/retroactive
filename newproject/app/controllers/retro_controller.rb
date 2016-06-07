@@ -98,4 +98,50 @@ class RetroController < ActionController::Base
 		ret.delete
 		render status: 200, json: {}
 	end
+
+	def addVote
+		@retro_id = params[:retroId]
+		@ret = Retro.find(@retro_id)
+		
+		@email = params[:email]
+		@user = User.where(email: @email).first
+		
+		@itemId = params[:item]
+		@item = @ret.retro_items.find(@itemId)
+
+		#Look for a vote with the current username
+		
+		@votes = @item.votes.where(user_email: @email)
+		if(@votes.size > 0)
+			render status: 500, json: {}
+		else
+			@item.votes.build(user_email: @user.email)
+			@item.save
+			@ret.save
+			render json: @ret.retro_items
+		end
+
+		
+	end
+
+	def removeVote
+		@retro_id = params[:retroId]
+		@ret = Retro.find(@retro_id)
+		
+		@email = params[:email]
+		@user = User.where(email: @email).first
+		
+		@itemId = params[:item]
+		@item = @ret.retro_items.find(@itemId)
+
+		#Look for a vote with the current username
+
+		@item.votes.where(user_email: @email).delete
+		@item.reload
+		puts "Count: " + @item.votes.where(user_email: @email).length.to_s
+
+		@ret.reload
+
+		render json: @ret.retro_items
+	end
 end

@@ -10,12 +10,15 @@ Rails.application.routes.draw do
   get 'users/projects/:projectIds' => 'user#getProjects', :constraints => { :email => /[^\/]+/ }
 
 
-  post 'retros/new' => 'retro#create'
   get 'retros/:retroId' => 'retro#get'
+  post 'retros/new' => 'retro#create'
   post 'retros/additem/:retroId/:column' => 'retro#addItem'
   post 'retros/editItemText/:retroId/:item' => 'retro#editItem'
   post 'retros/editActionText/:retroId/:item' => 'retro#editAction'
   post 'retros/addActionItem/:retroId/:item' => 'retro#newAction'
+  post 'retros/vote/' => 'retro#addVote'
+  post 'retros/unvote/' => 'retro#removeVote'
+  
   delete '/retros/delete/:retroId' => 'retro#delete'
 
 

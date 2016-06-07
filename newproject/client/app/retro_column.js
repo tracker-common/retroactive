@@ -18,7 +18,7 @@ var RetroColumn = React.createClass({
 					<input type="text" placeholder="Type and hit enter to add..." onKeyPress={this.handleSubmit} ref="itemText"/>
 					<div className="retro-column-items">
 						{
-							this.props.items.map(function(item, index) {
+							self.props.items.map(function(item, index) {
 						      return (
 						        <RetroItem itemText={item.text} 
 						        object_id={item._id ? item._id.$oid : null} 
@@ -27,7 +27,10 @@ var RetroColumn = React.createClass({
 						        key={index}
 						        postToTracker = {trackerTest}
 						        handleShowActionModal = {self.handleShowActionModal}
-						        action_item_id = {item.action_item_id}/>
+						        action_item_id = {item.action_item_id}
+						        handleVote = {self.props.handleVote}
+						        handleUnVote = {self.props.handleUnVote}
+						        votes = {item.votes}/>
 						      );
 						    })
 						}
@@ -50,7 +53,8 @@ var RetroColumn = React.createClass({
 	},
 	handleShowActionModal: function(id, text){
 		this.props.handleActionModal(id, text);
-	}
+	},
+
 });
 
 export default RetroColumn;

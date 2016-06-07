@@ -24,6 +24,7 @@ var Header = React.createClass({
 						{this.props.user_name} 
 						{this.props.showSignOut ? <SignOutButton/> : null}
 					</h1>
+					{(this.props.maxVotes && this.props.userVotes) ? ( <span>{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} </span>) : null}
 				</div>
 			</div>
 		);

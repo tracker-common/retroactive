@@ -5,12 +5,16 @@ var RetroTableRow = React.createClass({
 	render() {
 
 		//happy, puzzler, sad
-		console.log(this.props.retro);
 		var emotesCountArray = [0,0,0];
 		if(this.props.retro.retro_items){
 			this.props.retro.retro_items.forEach(function(item, index){
 				emotesCountArray[item.column] += 1;
 			});
+		}
+
+		var action_items_count = 0;
+		if(this.props.retro.action_items){
+			action_items_count = this.props.retro.action_items.length;
 		}
 
 		return(
@@ -19,7 +23,7 @@ var RetroTableRow = React.createClass({
 	        	<td>{emotesCountArray[0]}</td>
 	        	<td>{emotesCountArray[1]}</td>
 	        	<td>{emotesCountArray[2]}</td>
-	        	<td>0</td>
+	        	<td>{action_items_count}</td>
 	        	<td>0</td>
 	        	<td>0</td>
 	        	<td>0</td>
