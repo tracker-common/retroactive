@@ -18,7 +18,9 @@ var Retro = React.createClass({
 	      current_tracker_action_id: null,
 	      current_item_text: "",
 	      project_id: "",
-	      AddActionItem: false
+	      AddActionItem: false,
+	      MaxUserVotes: 4,
+	      UserCurrentVotes: 0
 	   	}
 	},
 
@@ -60,8 +62,12 @@ var Retro = React.createClass({
 		
 		return (
 			<div id="retro-body">
-				<Header user_name={sessionStorage.getItem("user_name")} title={this.state.project_name + " - " + this.state.retro_date} />
-				{}
+				<Header 
+				user_name={sessionStorage.getItem("user_name")} 
+				title={this.state.project_name + " - " + this.state.retro_date} 
+				maxVotes={this.state.MaxUserVotes}
+				userVotes={this.state.UserCurrentVotes}/>
+
 				<br/>	
 				<div className="modal" onClick={this.handleClick}>
 			      {
@@ -237,11 +243,20 @@ var Retro = React.createClass({
 			var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 			//end date magic
 
-			//parse items into their own columns
+			//parse items into their own columns, and count votes by current user
 			var itemSet = [[],[],[]]
+			var userEmail = sessionStorage.getItem("user_email")
+			var userVoteCount = 0;
 			if(data.retro_items){
 				data.retro_items.forEach(function(item, index){
 					itemSet[item.column].unshift(item);
+					if(item.votes){
+						item.votes.forEach(function(vote, index){
+							if(vote.user_email == userEmail){
+								userVoteCount ++;
+							}
+						});
+					}
 				});
 			}
 
@@ -260,7 +275,9 @@ var Retro = React.createClass({
 				retro_date: dateString, 
 				retroItems: itemSet, 
 				project_id: data.project_id, 
-				actionItems: actionSet});
+				actionItems: actionSet,
+				UserCurrentVotes: userVoteCount,
+			});
 
 		});
 
