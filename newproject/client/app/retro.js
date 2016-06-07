@@ -19,7 +19,7 @@ var Retro = React.createClass({
 	      current_item_text: "",
 	      project_id: "",
 	      AddActionItem: false,
-	      MaxUserVotes: 4,
+	      MaxUserVotes: 100,
 	      UserCurrentVotes: 0
 	   	}
 	},
