@@ -21,15 +21,16 @@ var RetroItem = React.createClass({
 					{this.props.itemText}
 				</div>
 
+				<div className="row" style={{padding: "5px"}}>
 				{
 					voted ? (
 						<div className="vote" onClick={this.unvote}><img src="/heart_red.svg"/>  <span style={{color: 'red'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
 					) : (
-						<div className="vote" onClick={this.vote}><img src="/heart_gray.svg"/><span style={{color: 'gray'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
+						<div className="vote" onClick={this.vote}><img src="/heart_gray.svg"/> <span style={{color: 'gray'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
 					)
 				}
 				<a className="action-link link" onClick={this.show}>Edit</a>
-					
+				</div>
 				
 				
 				<div className="status-and-action-bar">
