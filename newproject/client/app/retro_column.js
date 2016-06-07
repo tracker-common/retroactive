@@ -29,6 +29,7 @@ var RetroColumn = React.createClass({
 						        handleShowActionModal = {self.handleShowActionModal}
 						        action_item_id = {item.action_item_id}
 						        handleVote = {self.props.handleVote}
+						        handleUnVote = {self.props.handleUnVote}
 						        votes = {item.votes}/>
 						      );
 						    })

@@ -2,13 +2,30 @@ import React from 'react';
 
 
 var RetroItem = React.createClass({
+
+
 	render() {
+		var voted = false;
+		var vm = this;
+		var userEmail = sessionStorage.getItem("user_email")
+		if(this.props.votes){
+			this.props.votes.forEach(function(vote, index){
+				if(vote.user_email == userEmail){
+					voted = true;
+				}
+			});
+		}
 		return (
 			<div className="retro-item">
 				<div className="retro-item-description">
 					{this.props.itemText}
 				</div>
-				<div className="vote" onClick={this.vote}>Vote! {this.props.votes ? this.props.votes.length : 0}</div>
+				{voted ? (
+					<div className="vote" onClick={this.unvote}><img src="/heart_red.svg"/>  <span style={{color: 'red'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
+				) : (
+					<div className="vote" onClick={this.vote}><img src="/heart_gray.svg"/><span style={{color: 'gray'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
+				)}
+				
 				<div className="status-and-action-bar">
 					<a className="edit-link link" onClick={this.show}>Edit</a>
 
@@ -33,6 +50,9 @@ var RetroItem = React.createClass({
 	},
 	vote: function(){
 		this.props.handleVote(this);
+	},
+	unvote: function(){
+		this.props.handleUnVote(this);
 	}
 });
 

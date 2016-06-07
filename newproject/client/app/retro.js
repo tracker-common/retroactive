@@ -97,6 +97,7 @@ var Retro = React.createClass({
 						handleShowModal={this.handleShowModal}
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal = {this.handleActionModal}
+						handleUnVote = {this.handleUnVote}
 						handleVote = {this.handleVote}/>
 					<RetroColumn 
 						HeaderText="Puzzler :|"  
@@ -107,6 +108,7 @@ var Retro = React.createClass({
 						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal = {this.handleActionModal}
+						handleUnVote = {this.handleUnVote}					
 						handleVote = {this.handleVote}/>
 					<RetroColumn 
 						HeaderText="Sad :(" 
@@ -116,7 +118,8 @@ var Retro = React.createClass({
 						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal = {this.handleActionModal}
-						handleVote = {this.handleVote}/>
+						handleVote = {this.handleVote}
+						handleUnVote = {this.handleUnVote}/>
 					<ActionColumn 
 						HeaderText="Action Items" 
 						columnId={3} 
@@ -329,7 +332,7 @@ var Retro = React.createClass({
 	},
 
 	handleVote: function(item){
-		console.log(item);
+		//console.log(item);
 		var self = this;
 		var postPromise = $.ajax({
 			method: 'POST',
@@ -342,10 +345,29 @@ var Retro = React.createClass({
   		});
 
   		postPromise.then(function(data){
-  			console.log(data);
+  			//console.log(data);
   			self.setState({retroItems: data})
   		});
-	}
+	},
+
+	handleUnVote: function(item){
+		
+		var self = this;
+		var postPromise = $.ajax({
+			method: 'POST',
+	  		url: "/retros/unvote/",
+	  		data: {
+	  			item : item.props.object_id,
+	  			retroId : this.props.params.retroId,
+	  			email : sessionStorage.getItem("user_email")
+	  		}
+  		});
+
+  		postPromise.then(function(data){
+  			//console.log(data);
+  			self.setState({retroItems: data})
+  		});
+	},
 });
 
 export default Retro;

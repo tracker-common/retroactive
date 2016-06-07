@@ -134,10 +134,14 @@ class RetroController < ActionController::Base
 		@itemId = params[:item]
 		@item = @ret.retro_items.find(@itemId)
 
+		#Look for a vote with the current username
 
-		@item.save
-		@ret.save
-		
+		@item.votes.where(user_email: @email).delete
+		@item.reload
+		puts "Count: " + @item.votes.where(user_email: @email).length.to_s
+
+		@ret.reload
+
 		render json: @ret.retro_items
 	end
 end
