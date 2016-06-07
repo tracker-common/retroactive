@@ -52,7 +52,7 @@ var RetroActive = React.createClass({
 
           <PhoneBreakpoint>
               <MobileHeader user_name={this.state.user_name} />
-              <div className="main_wrapper">
+              <div className="mobile_wrapper">
                 <TrackerTokenForm 
                   token={this.state.token} 
                   handleSaveToken={this.handleSaveToken_} 

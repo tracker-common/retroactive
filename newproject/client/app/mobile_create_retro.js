@@ -25,7 +25,7 @@ var MobileCreateRetro = React.createClass({
 				{
 					vm.props.projectRetros.map(function(item, index) {
 				      return (
-				      	<option value={index}>{item.project_name}</option>
+				      	<option key={index} value={index}>{item.project_name}</option>
 				      );
 				    })
 				}

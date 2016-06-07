@@ -8,7 +8,12 @@ body{
 html { height: 100%; }
 
 .main_wrapper{
-	width:80%;
+	width: 950px;
+	margin:0 auto;
+}
+
+.mobile_wrapper{
+	width: 90%;
 	margin:0 auto;
 }
 
