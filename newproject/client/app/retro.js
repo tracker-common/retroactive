@@ -96,7 +96,8 @@ var Retro = React.createClass({
 						showModal={this.state.modal_show}
 						handleShowModal={this.handleShowModal}
 						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
+						handleActionModal = {this.handleActionModal}
+						handleVote = {this.handleVote}/>
 					<RetroColumn 
 						HeaderText="Puzzler :|"  
 						handleAdd={this.addRetroItem} 
@@ -105,7 +106,8 @@ var Retro = React.createClass({
 						showModal={this.state.modal_show}
 						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
+						handleActionModal = {this.handleActionModal}
+						handleVote = {this.handleVote}/>
 					<RetroColumn 
 						HeaderText="Sad :(" 
 						handleAdd={this.addRetroItem} 
@@ -113,7 +115,8 @@ var Retro = React.createClass({
 						showModal={this.state.modal_show} 
 						handleShowModal={this.handleShowModal} 
 						trackerTest={this.addActionItemToTracker}
-						handleActionModal = {this.handleActionModal}/>
+						handleActionModal = {this.handleActionModal}
+						handleVote = {this.handleVote}/>
 					<ActionColumn 
 						HeaderText="Action Items" 
 						columnId={3} 
@@ -323,8 +326,26 @@ var Retro = React.createClass({
 	handleActionModal: function(id, item_text){
 		//get the item id of the item being added to get the text for that item
 		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: true});
-
 	},
+
+	handleVote: function(item){
+		console.log(item);
+		var self = this;
+		var postPromise = $.ajax({
+			method: 'POST',
+	  		url: "/retros/vote/",
+	  		data: {
+	  			item : item.props.object_id,
+	  			retroId : this.props.params.retroId,
+	  			email : sessionStorage.getItem("user_email")
+	  		}
+  		});
+
+  		postPromise.then(function(data){
+  			console.log(data);
+  			self.setState({retroItems: data})
+  		});
+	}
 });
 
 export default Retro;

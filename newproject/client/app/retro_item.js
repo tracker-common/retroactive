@@ -8,6 +8,7 @@ var RetroItem = React.createClass({
 				<div className="retro-item-description">
 					{this.props.itemText}
 				</div>
+				<div className="vote" onClick={this.vote}>Vote! {this.props.votes ? this.props.votes.length : 0}</div>
 				<div className="status-and-action-bar">
 					<a className="edit-link link" onClick={this.show}>Edit</a>
 
@@ -29,6 +30,9 @@ var RetroItem = React.createClass({
 	},
 	newTrackerChore: function(){
 		this.props.postToTracker(this);
+	},
+	vote: function(){
+		this.props.handleVote(this);
 	}
 });
 

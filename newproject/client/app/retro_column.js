@@ -27,7 +27,9 @@ var RetroColumn = React.createClass({
 						        key={index}
 						        postToTracker = {trackerTest}
 						        handleShowActionModal = {self.handleShowActionModal}
-						        action_item_id = {item.action_item_id}/>
+						        action_item_id = {item.action_item_id}
+						        handleVote = {self.props.handleVote}
+						        votes = {item.votes}/>
 						      );
 						    })
 						}
@@ -50,7 +52,8 @@ var RetroColumn = React.createClass({
 	},
 	handleShowActionModal: function(id, text){
 		this.props.handleActionModal(id, text);
-	}
+	},
+
 });
 
 export default RetroColumn;
