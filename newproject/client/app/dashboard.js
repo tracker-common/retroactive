@@ -17,14 +17,12 @@ var RetroActive = React.createClass({
   getInitialState() {
 	    return {
 	      token: localStorage.getItem("tracker_token"),
-	      data: db_entry,
 	      retroId: "",
 	      user_name: localStorage.getItem("user_name"),
 	      user_email: localStorage.getItem("user_email"),
         projectRetros: [],
         loading: true,
-        current_proj: null,
-        tokenError: false,
+        current_proj: null
 	   	}
 	},
   componentWillMount: function(){
@@ -87,7 +85,7 @@ var RetroActive = React.createClass({
     }
   },
   handleChangeToken_: function(event) {
-	 this.setState({token: undefined});
+	this.setState({token: undefined});
   },
 
   handleSaveToken_: function(newToken) {
@@ -112,19 +110,10 @@ var RetroActive = React.createClass({
   getProjectsFromTracker:function(){
     var vm = this;
     var token = this.state.token;
-    this.setState({tokenError: false});
     var ajaxPromise = $.ajax({
        url: "https://www.pivotaltracker.com/services/v5/projects/",
           beforeSend: function(xhr) {
             xhr.setRequestHeader('X-TrackerToken', token);
-          },
-          error: function(xhr){
-            vm.setState({loading: false});
-            switch (xhr.status) {
-              case 403:
-                vm.setState({tokenError: true});
-                break;
-            }
           }
     });
 
@@ -136,7 +125,7 @@ var RetroActive = React.createClass({
         var projectid = item.id;
         projectIds += projectid + ",";
         projectNameMap[item.id] = item.name;
-      });
+      })
 
       //ajax call to our rails server to get project retros
       $.get("/users/projects/" + projectIds, function( data ){

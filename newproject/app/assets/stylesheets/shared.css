@@ -43,7 +43,7 @@ html {
 	background-color: #66B9DD;
 	height: 100%;
 }
-.full-height{
+.desktop-retro-columns .full-height{
 	height: 100%;
 	max-width:450px;
 	min-width:250px;
@@ -51,7 +51,12 @@ html {
 	width: 25vw;
 }
 
-.retro-columns{
+.mobile-retro-columns .full-height{
+	height: 100%;
+	width: 100%;
+}
+
+.desktop-retro-columns{
 	display: flex;
 	flex-direction: row;
 	justify-content:space-around;
@@ -59,7 +64,7 @@ html {
 	height: 90vh;
 }
 
-.retro-column {
+.desktop-retro-columns .retro-column {
 	display: flex;
 	flex-direction: column;
 	min-width:250px;
@@ -71,7 +76,7 @@ html {
 
 }
 
-.retro-column input{
+.desktop-retro-columns .retro-column input{
 	height: 20px;
 	margin-top: 15px;
 	margin-left: 8px;
@@ -80,6 +85,33 @@ html {
 	/*width: 90%;*/
 
 }
+
+.mobile-retro-columns{
+	width:100%;
+	font-size:12px;
+	height: 90vh;
+}
+
+
+.mobile-retro-columns .retro-column {
+	width:90%;
+	margin:0 auto;
+	background-color: #F3F3F3;
+	border-radius: 12px;
+	height: 75vh;
+
+}
+
+.mobile-retro-columns .retro-column input{
+	height: 20px;
+	margin-top: 15px;
+	margin-left: 8px;
+	margin-right: 8px;
+	min-height: 20px;
+	/*width: 90%;*/
+
+}
+
 
 /* header.js */
 .header {
@@ -210,7 +242,7 @@ html {
 	font-size: 18px;
 }
 
-.retro-column-items{
+.desktop-retro-columns .retro-column-items{
 	display:block;
 	background-color: #F3F3F3;
 	overflow-y: scroll;
@@ -219,6 +251,13 @@ html {
 	height: 93%;
 }
 
+.mobile-retro-columns .retro-column-items{
+	display:block;
+	background-color: #F3F3F3;
+	overflow-y: scroll;
+	margin:2px 8px 0 8px;
+	height: 67vh;
+}
 
 .action-column-items{
 	display:block;
@@ -229,6 +268,8 @@ html {
 	margin-right: 8px;
 	height: 96.8%;
 }
+
+/* mobile retro-columns */
 
 /* dasboard.js */
 
