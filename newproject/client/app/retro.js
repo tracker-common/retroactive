@@ -95,7 +95,7 @@ var Retro = React.createClass({
 				        </ModalContainer>
 				      }
 				    </div>
-					<div className="retro-columns">
+					<div className="desktop-retro-columns">
 						<RetroColumn HeaderText="Happy :)" 
 							handleAdd={this.addRetroItem} 
 							columnId={0} 
@@ -153,7 +153,6 @@ var Retro = React.createClass({
 					maxVotes={this.state.MaxUserVotes}
 					userVotes={this.state.UserCurrentVotes}/>
 
-					<br/>	
 					<div className="modal" onClick={this.handleClick}>
 				      {
 				        this.state.modal_show &&
@@ -179,6 +178,7 @@ var Retro = React.createClass({
 				        </ModalContainer>
 				      }
 				    </div>
+				    <div className="mobile-retro-columns">
 					<Tabs
 					 onSelect={this.handleSelect}
         			 >
@@ -242,6 +242,7 @@ var Retro = React.createClass({
 						</TabPanel>	
 							
 					</Tabs>
+					</div>
 				</div>
 
 			</MobileBreakpoint> 
