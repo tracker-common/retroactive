@@ -19,20 +19,28 @@ var RetroColumn = React.createClass({
 					<div className="retro-column-items">
 						{
 							this.props.items.map(function(item, index) {
-						      return (
-						        <RetroItem itemText={item.text} 
-						        object_id={item._id ? item._id.$oid : null} 
-						        showModal={self.props.showModal}
-						        handleShowEditModal={self.handleShowEditModal}
-						        key={index}
-						        postToTracker={trackerTest}
-						        handleShowActionModal={self.handleShowActionModal}
-						        action_item_id={item.action_item_id}
-						        handleVote={self.props.handleVote}
-						        handleUnVote={self.props.handleUnVote}
-						        votes={item.votes}/>
-						      );
-						    })
+								var actionItem_input= null;
+								//console.log(self.props.actionItems);
+								self.props.actionItems.forEach(function(actionItem, index){
+									if(actionItem._id.$oid == item.action_item_id){
+										actionItem_input = actionItem;
+									}
+								});
+							    return (
+							        <RetroItem itemText={item.text} 
+							        object_id={item._id ? item._id.$oid : null} 
+							        showModal={self.props.showModal}
+							        handleShowEditModal={self.handleShowEditModal}
+							        key={index}
+							        postToTracker={trackerTest}
+							        handleShowActionModal={self.handleShowActionModal}
+							        action_item_id={item.action_item_id}
+							        actionItem = {actionItem_input}
+							        handleVote={self.props.handleVote}
+							        handleUnVote={self.props.handleUnVote}
+							        votes={item.votes}/>
+							    );
+							})
 						}
 					</div>
 				</div>

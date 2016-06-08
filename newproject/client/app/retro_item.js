@@ -34,12 +34,12 @@ var RetroItem = React.createClass({
 				
 				
 				<div className="status-and-action-bar">
-				{ this.props.object_id ? 
-					((this.props.action_item_id == null) ? 
-						<a className="action-link link" onClick={this.showActionModal}>Action</a> : 
-						<span className="item-info">Action Item Created</span>
-					) : null
-				}
+					{ this.props.object_id ? 
+						((this.props.action_item_id == null) ? 
+							<a className="action-link link" onClick={this.showActionModal}>+Action</a> : 
+							<span className="item-info">{this.props.actionItem.status}</span>
+						) : null
+					}
 				</div>
 			</div>
 		)

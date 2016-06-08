@@ -95,7 +95,8 @@ var Retro = React.createClass({
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal={this.handleActionModal}
 						handleUnVote={this.handleUnVote}
-						handleVote={this.handleVote}/>
+						handleVote={this.handleVote}
+						actionItems={this.state.actionItems} />
 					<RetroColumn 
 						HeaderText="Puzzler :|"  
 						handleAdd={this.addRetroItem} 
@@ -106,7 +107,8 @@ var Retro = React.createClass({
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal={this.handleActionModal}
 						handleUnVote={this.handleUnVote}					
-						handleVote={this.handleVote}/>
+						handleVote={this.handleVote}
+						actionItems={this.state.actionItems}/>
 					<RetroColumn 
 						HeaderText="Sad :(" 
 						handleAdd={this.addRetroItem} 
@@ -117,7 +119,8 @@ var Retro = React.createClass({
 						trackerTest={this.addActionItemToTracker}
 						handleActionModal={this.handleActionModal}
 						handleVote={this.handleVote}
-						handleUnVote={this.handleUnVote}/>
+						handleUnVote={this.handleUnVote}
+						actionItems={this.state.actionItems}/>
 					<ActionColumn 
 						HeaderText="Action Items" 
 						columnId={3} 
