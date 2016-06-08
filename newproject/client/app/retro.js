@@ -388,11 +388,12 @@ var Retro = React.createClass({
 
 			var project_id = data.project_id;
         	var token = sessionStorage.getItem("tracker_token");
-        	var countActionItems = data.action_items.length;
+        	
         	//console.log("Initial count: " + countActionItems);
 
  			//Re-Sync the action item statuses with the tracker API
 			if(data.action_items && data.action_items.length > 0 && vm.state.refreshActionStatuses == true){
+				var countActionItems = data.action_items.length;
 				data.action_items.forEach(function(actionItem, index){
 					//Sync the status of the action items from tracker
 
