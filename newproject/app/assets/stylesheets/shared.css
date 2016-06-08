@@ -41,7 +41,7 @@ html {
 
 #retro-body {
 	background-color: #66B9DD;
-	height: 100%;
+	height: 100vh;
 }
 .desktop-retro-columns .full-height{
 	height: 100%;
@@ -141,6 +141,11 @@ html {
 	top: -8px;
 }
 
+.header__row{
+	display: flex;
+	flex-direction:row;
+}
+
 .center{
 	margin-right:auto;
 	margin-left:auto;
@@ -150,6 +155,20 @@ html {
 .header__text_box{
 	height: 40px;
 	font-size: 12px;
+}
+
+#vote_status{
+	color: red;
+	display: flex;
+	margin-top: 20px;
+	margin-bottom: auto;
+	margin-left: 7px;
+	border-radius: 3px;
+	border-color: black;
+	background-color: white;
+	border-style: solid;
+	border-width: 1px;
+	padding: 2px;
 }
 
 /* mobile_header.js*/
@@ -182,6 +201,16 @@ html {
 	position: absolute;
 	left: 5px;
 	top: 6px;
+}
+
+.mobile_vote_status{
+	color: red;
+	border-radius: 3px;
+	border-color: black;
+	background-color: white;
+	border-style: solid;
+	border-width: 1px;
+	padding: 2px;
 }
 
 /* mobile_project_retros.js */

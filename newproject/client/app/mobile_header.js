@@ -21,7 +21,15 @@ var MobileHeader = React.createClass({
 					<h1>
 						{this.props.user_name} 
 					</h1>
-					{(this.props.maxVotes && this.props.userVotes) ? ( <span>{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} </span>) : null}
+						{(this.props.maxVotes && !this.props.isDashboard) ?
+						( 
+							<div id="mobile_vote_status">
+								<img src="/heart_red.svg"/>
+								<span>
+									{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} 
+								</span>
+							</div>
+						) : null}
 				</div>
 			</div>
 		);

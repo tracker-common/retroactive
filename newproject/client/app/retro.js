@@ -75,7 +75,10 @@ var Retro = React.createClass({
 					maxVotes={this.state.MaxUserVotes}
 					userVotes={this.state.UserCurrentVotes}/>
 
-					<br/>	
+					
+					<div>
+
+					</div>	
 					<div className="modal" onClick={this.handleClick}>
 				      {
 				        this.state.modal_show &&

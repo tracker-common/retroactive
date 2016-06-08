@@ -45,7 +45,8 @@ var RetroActive = React.createClass({
         <Loader show={this.state.loading}  message={'loading...'}>
         	<div className="dashboard">
           	<DesktopBreakpoint>
-              <Header user_name={this.state.user_name} />
+              <Header user_name={this.state.user_name}
+              isDashboard={true} />
               <div className="main_wrapper">
                 <TrackerTokenForm 
                     token={this.state.token} 
@@ -61,7 +62,8 @@ var RetroActive = React.createClass({
             </DesktopBreakpoint>
 
             <PhoneBreakpoint>
-                <MobileHeader user_name={this.state.user_name} />
+                <MobileHeader user_name={this.state.user_name}
+                isDashboard={true}  />
                 <div className="mobile_wrapper">
                   <TrackerTokenForm 
                     token={this.state.token} 

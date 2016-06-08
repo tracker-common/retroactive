@@ -9,6 +9,7 @@ var Header = React.createClass({
 	},
 
  	render() {
+ 		console.log(this.props.title);
 	    return (
 			<div className="header">
 				<div className="left"> 
@@ -16,15 +17,24 @@ var Header = React.createClass({
 						<img src="/RETROACTIVE.svg"/>
 					</Link>
 				</div>
-				<div className="center header__text_box" >
+				<div className="center header__text_box  header__row" >
 					<h1>{this.props.title}</h1>
+							{(this.props.maxVotes && !this.props.isDashboard) ?
+							( 
+								<div id="vote_status">
+									<img src="/heart_red.svg"/>
+									<span>
+										{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} 
+									</span>
+								</div>
+							) : null}
 				</div>
 				<div className="right header__text_box">
 					<h1>
 						{this.props.user_name} 
 						{this.props.showSignOut ? <SignOutButton/> : null}
 					</h1>
-					{(this.props.maxVotes && this.props.userVotes) ? ( <span>{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} </span>) : null}
+					
 				</div>
 			</div>
 		);
