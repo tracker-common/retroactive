@@ -9,7 +9,6 @@ var Header = React.createClass({
 	},
 
  	render() {
- 		console.log(this.props.title);
 	    return (
 			<div className="header">
 				<div className="left"> 

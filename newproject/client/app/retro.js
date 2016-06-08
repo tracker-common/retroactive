@@ -55,7 +55,7 @@ var Retro = React.createClass({
 		this.buildRetro();
 		this.refreshIntervalId = setInterval(function(){
 			vm.buildRetro();
-			console.log("refreshed");
+			//console.log("refreshed");
 		}, 1000);
 	},
 	componentWillUnmount: function(){
@@ -464,16 +464,31 @@ var Retro = React.createClass({
 				//getting back new action items, may not be complete in tracker yet. Don't check status until page reload
 				document.title = "RetroActive - " + data.project_name  + dateString;
 				var actionItemsInput = data.action_items || [];
-				actionItemsInput.forEach(function (actionItem, index){
-					actionItem.status="unscheduled";
+				
+				//actionItemsInput.forEach(function (actionItem, index){
+				//	actionItem.status="unscheduled";
+				//});
+				var oldActionItemsIdList = [];
+
+				vm.state.actionItems.forEach(function(item, index){
+					oldActionItemsIdList.push(item._id.$oid);
 				});
 
+				var newActionItems = vm.state.actionItems;
+
+				data.action_items.forEach(function(item, index){
+					if(oldActionItemsIdList.indexOf(item._id.$oid) <= -1){
+						item.status = "unscheduled";
+						newActionItems.push(item);
+					}
+				});
+				
 				vm.setState({project_name: data.project_name, 
 					retro_date: dateString, 
 					retroItems: itemSet, 
 					project_id: data.project_id, 
 					loading: false,
-					actionItems: actionItemsInput,
+					//actionItems: actionItemsInput,
 					UserCurrentVotes: userVoteCount,
 					refreshActionStatuses: false,
 				});				

@@ -2,7 +2,7 @@ import React from 'react';
 
 var ActionStatus = React.createClass({
 	render(){
-		var statusHtml = "";
+		var statusHtml = (null);
 		switch(this.props.status){
 			case "unscheduled":
 				statusHtml = (<span style={{color: '#88C1DE', fontWeight: 'bold'}}> Unscheduled </span>)
