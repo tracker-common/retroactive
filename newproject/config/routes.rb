@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   post 'retros/vote/' => 'retro#addVote'
   post 'retros/unvote/' => 'retro#removeVote'
   
+
+  delete '/retros/deleteActionItem/:retroId/:item' => 'retro#deleteAction'
   delete '/retros/delete/:retroId' => 'retro#delete'
 
 

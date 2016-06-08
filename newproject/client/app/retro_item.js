@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ActionStatus from './action_item_status';
 
 var RetroItem = React.createClass({
 
@@ -15,6 +15,7 @@ var RetroItem = React.createClass({
 				}
 			});
 		}
+
 		return (
 			<div className="retro-item">
 				<div className="retro-item-description">
@@ -30,16 +31,21 @@ var RetroItem = React.createClass({
 					)
 				}
 				<a className="action-link link" onClick={this.show}>Edit</a>
+
+					{ 
+						this.props.object_id ? 
+						(
+							(this.props.action_item_id == null) ? 
+							<a className="action-link link" onClick={this.showActionModal}>+Action</a> : 
+							null
+						) : null
+					}
+
 				</div>
 				
 				
 				<div className="status-and-action-bar">
-					{ this.props.object_id ? 
-						((this.props.action_item_id == null) ? 
-							<a className="action-link link" onClick={this.showActionModal}>+Action</a> : 
-							<span className="item-info">{this.props.actionItem.status}</span>
-						) : null
-					}
+					{(this.props.action_item_id == null || !this.props.actionItem ) ? null  : (<span className="item-info"> Action Item Status: <ActionStatus status={this.props.actionItem.status}/> </span>) }
 				</div>
 			</div>
 		)

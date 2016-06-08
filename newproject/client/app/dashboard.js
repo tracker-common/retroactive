@@ -16,6 +16,7 @@ import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
 var RetroActive = React.createClass({
   getInitialState() {
 	    return {
+
 	      token: localStorage.getItem("tracker_token"),
 	      retroId: "",
 	      user_name: localStorage.getItem("user_name"),
@@ -116,6 +117,14 @@ var RetroActive = React.createClass({
        url: "https://www.pivotaltracker.com/services/v5/projects/",
           beforeSend: function(xhr) {
             xhr.setRequestHeader('X-TrackerToken', token);
+          },
+          error: function(xhr){
+            vm.setState({loading: false});
+            switch (xhr.status) {
+              case 403:
+                vm.setState({tokenError: true});
+                break;
+            }
           }
     });
 
