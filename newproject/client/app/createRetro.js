@@ -17,13 +17,6 @@ var CreateRetroForm = React.createClass({
 		return (
 		
 			<div className="createRetroForm">
-			{/*<div className="createRetroForm">
-				<form>
-					<h1>Create a new Retro</h1>
-					<input type="text" placeholder="Project Id" ref="retroId" />
-					<button type="button" onClick={this.handleClickRetro}>Create!</button>
-				</form>
-			</div>*/}
 				{
 					this.props.projectRetros.map(function(item, index) {
 				      return (
