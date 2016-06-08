@@ -101,7 +101,6 @@ var RetroActive = React.createClass({
 
   checkEmail: function(){
   		var vm = this;
-      console.log("checkEmail user email: " + localStorage.getItem("user_email"));
   		$.get("/users/check/"+localStorage.getItem("user_email"), function( data ) {
   			localStorage.setItem("tracker_token", data.tracker_token);
         console.log("checkEmail user email: " + localStorage.getItem("user_email"));
