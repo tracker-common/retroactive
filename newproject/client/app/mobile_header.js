@@ -21,7 +21,6 @@ var MobileHeader = React.createClass({
 					<h1>
 						{this.props.user_name} 
 					</h1>
-					{this.props.showSignOut ? <SignOutButton/> : null}
 					{(this.props.maxVotes && this.props.userVotes) ? ( <span>{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} </span>) : null}
 				</div>
 			</div>
