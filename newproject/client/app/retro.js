@@ -308,7 +308,7 @@ var Retro = React.createClass({
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	          },
 	          data: {
-	          	"name": "RetroActive Action Item",
+	          	"name": "RetroActive Action: " + actionItemText.substring(0,20),
 	          	"description": actionItemText,
 	          	"project_id": vm.state.project_id,
 	          	"story_type": "chore"
