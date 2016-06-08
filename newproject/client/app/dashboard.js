@@ -16,80 +16,94 @@ import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
 var RetroActive = React.createClass({
   getInitialState() {
 	    return {
-	      token: sessionStorage.getItem("tracker_token"),
+	      token: localStorage.getItem("tracker_token"),
 	      data: db_entry,
 	      retroId: "",
-	      user_name: sessionStorage.getItem("user_name"),
-	      user_email: sessionStorage.getItem("user_email"),
+	      user_name: localStorage.getItem("user_name"),
+	      user_email: localStorage.getItem("user_email"),
         projectRetros: [],
         loading: true,
         current_proj: null,
         tokenError: false,
 	   	}
 	},
+  componentWillMount: function(){
+    if(localStorage.getItem("user_email")==null){
+        localStorage.setItem("url_redirect", window.location);
+        //need to set and then get it otherwise it doesnt persist
+        localStorage.getItem("url_redirect");
+        window.location.replace("/");
+    }
+  },
 	componentDidMount: function(){
+    var vm = this;
 		this.checkEmail();
     document.title = "RetroActive";
 	},
 
   render() {
-    return (
-      <Loader show={this.state.loading}  message={'loading...'}>
-      	<div className="dashboard">
-        	<DesktopBreakpoint>
-            <Header user_name={this.state.user_name} />
-            <div className="main_wrapper">
-              <TrackerTokenForm 
-                  token={this.state.token} 
-                  handleSaveToken={this.handleSaveToken_} 
-                  handleChangeToken={this.handleChangeToken_}
-                  showErrorText={this.state.tokenError}/>
-               <CreateRetroForm 
-                  projectRetros={this.state.projectRetros} 
-                  handleCreateRetro={this.handleCreateRetro_}
-                  toggleShowHide={this.toggleShowLinks}
-                  deleteRetro={this.deleteRetro}/>
-              </div>
-          </DesktopBreakpoint>
-
-          <PhoneBreakpoint>
-              <MobileHeader user_name={this.state.user_name} />
-              <div className="mobile_wrapper">
+    if(localStorage.getItem("url_redirect") == null){
+      return (
+        <Loader show={this.state.loading}  message={'loading...'}>
+        	<div className="dashboard">
+          	<DesktopBreakpoint>
+              <Header user_name={this.state.user_name} />
+              <div className="main_wrapper">
                 <TrackerTokenForm 
-                  token={this.state.token} 
-                  handleSaveToken={this.handleSaveToken_} 
-                  handleChangeToken={this.handleChangeToken_}
-                  showErrorText={this.state.tokenError}/>
-
-                <MobileCreateRetro
-                  projectRetros={this.state.projectRetros} 
-                  handleCreateRetro={this.handleCreateRetro_}
-                  toggleShowHide={this.toggleShowLinks}
-                  deleteRetro={this.deleteRetro} 
-                  loading={this.state.loading}
-                  current_proj={this.state.current_proj}
-                  handleChangeProject={this.handleChangeProject} />
+                    token={this.state.token} 
+                    handleSaveToken={this.handleSaveToken_} 
+                    handleChangeToken={this.handleChangeToken_}
+                    showErrorText={this.state.tokenError}/>
+                 <CreateRetroForm 
+                    projectRetros={this.state.projectRetros} 
+                    handleCreateRetro={this.handleCreateRetro_}
+                    toggleShowHide={this.toggleShowLinks}
+                    deleteRetro={this.deleteRetro}/>
                 </div>
-          </PhoneBreakpoint>
-  		  </div>
-      </Loader>
-    );
+            </DesktopBreakpoint>
+
+            <PhoneBreakpoint>
+                <MobileHeader user_name={this.state.user_name} />
+                <div className="mobile_wrapper">
+                  <TrackerTokenForm 
+                    token={this.state.token} 
+                    handleSaveToken={this.handleSaveToken_} 
+                    handleChangeToken={this.handleChangeToken_}
+                    showErrorText={this.state.tokenError}/>
+
+                  <MobileCreateRetro
+                    projectRetros={this.state.projectRetros} 
+                    handleCreateRetro={this.handleCreateRetro_}
+                    loading={this.state.loading}
+                    current_proj={this.state.current_proj}
+                    handleChangeProject={this.handleChangeProject} />
+                  </div>
+            </PhoneBreakpoint>
+    		  </div>
+        </Loader>
+      );
+    }else{
+      return(<div></div>);
+    }
   },
   handleChangeToken_: function(event) {
 	 this.setState({token: undefined});
   },
 
   handleSaveToken_: function(newToken) {
-  	$.get("/users/token/"+sessionStorage.getItem("user_email")+"/"+newToken, function( data ) {
-  		sessionStorage.setItem("tracker_token", newToken);
+  	$.get("/users/token/"+localStorage.getItem("user_email")+"/"+newToken, function( data ) {
+  		localStorage.setItem("tracker_token", newToken);
+      console.log("handleSaveToken user email: " + localStorage.getItem("user_email"));
   	});
   	this.setState({token: newToken});
   },
 
   checkEmail: function(){
   		var vm = this;
-  		$.get("/users/check/"+sessionStorage.getItem("user_email"), function( data ) {
-  			sessionStorage.setItem("tracker_token", data.tracker_token);
+      console.log("checkEmail user email: " + localStorage.getItem("user_email"));
+  		$.get("/users/check/"+localStorage.getItem("user_email"), function( data ) {
+  			localStorage.setItem("tracker_token", data.tracker_token);
+        console.log("checkEmail user email: " + localStorage.getItem("user_email"));
   			vm.setState({token: data.tracker_token});
         vm.getProjectsFromTracker();
   		});

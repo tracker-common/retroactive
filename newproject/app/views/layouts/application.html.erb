@@ -15,20 +15,29 @@
 
 	 onSignIn = function(googleUser) {
 		profile = googleUser.getBasicProfile();
-		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-		console.log('Name: ' + profile.getName());
-		console.log('Image URL: ' + profile.getImageUrl());
-		console.log('Email: ' + profile.getEmail());
 		var user_data = {};
 		user_data.name = profile.getName();
 		user_data.email = profile.getEmail();
 		user_name = user_data.name;
 		user_email = user_data.email;
-		sessionStorage.setItem("user_name", user_name);
-		sessionStorage.setItem("user_email", user_email);
-		sessionStorage.getItem("user_name");
-		sessionStorage.getItem("user_email");
-		window.location.href = "/dashboard";
+		localStorage.setItem("user_name", user_name);
+		localStorage.setItem("user_email", user_email);
+		//need to set and then get it otherwise it doesn't persist
+		localStorage.getItem("user_name");
+		localStorage.getItem("user_email");
+		try{
+			var redirect = localStorage.getItem("url_redirect");
+			if(redirect==null){
+				throw 10;
+			}
+			else{
+				localStorage.removeItem("url_redirect");
+				window.location.href = redirect;
+			}
+		}catch(err){
+			window.location.href = "/dashboard";
+		}
+		
 	}
 
 	signOut = function() {
@@ -37,12 +46,11 @@
 	            client_id: '569976604919-g796ovfj23d40fpi1jjerpn2vvp88mso.apps.googleusercontent.com',
 	            cookie_policy: 'single_host_origin'
 	        });
-			sessionStorage.removeItem("user_email");
-			sessionStorage.removeItem("user_name");
-			sessionStorage.removeItem("tracker_token");
+			localStorage.removeItem("user_email");
+			localStorage.removeItem("user_name");
+			localStorage.removeItem("tracker_token");
 			auth2.then(function(){
 				auth2.signOut();
-				console.log('User signed out.');
 				window.location.href = "/";
 			});
 			/*auth2.signOut().then(function () {

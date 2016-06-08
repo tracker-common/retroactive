@@ -15,7 +15,7 @@ var MobileHeader = React.createClass({
 					<Link to="/dashboard">
 						<img src="/RETROACTIVE.svg"/>
 					</Link><br/>
-					<span>Some Text</span>
+					<span></span>
 				</div>
 				<div className="right">
 					<h1>

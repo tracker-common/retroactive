@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Retro" transform="translate(-1198.000000, -31.000000)" fill="#FFFFFF">
+            <g id="Header">
+                <path d="M1208.6665,32.8452734 C1208.20067,32.3312081 1207.26903,31.8171429 1206.8032,31.8171429 C1205.87155,31.8171429 1204.00826,33.3593387 1204.00826,33.3593387 C1204.00826,33.3593387 1202.14497,31.8171429 1201.21332,31.8171429 C1200.28167,31.8171429 1199.81585,32.3312081 1199.35002,32.8452734 C1197.95255,33.873404 1197.95255,35.9296651 1199.35002,37.4718609 L1204.00826,42.6125137 L1208.6665,37.4718609 C1210.06397,35.9296651 1210.06397,33.873404 1208.6665,32.8452734 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

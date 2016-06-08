@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectRetros from './project_retros';
+import MobileProjectRetros from './mobile_project_retros';
 
 var MobileCreateRetro = React.createClass({
 
@@ -19,8 +19,8 @@ var MobileCreateRetro = React.createClass({
 		var vm = this;
 		if(this.props.projectRetros.length > 0){
 			return (
-			<div className="createRetroForm">
-			<span>Select a Project:</span><br/>
+			<div className="mobile_create_retro_form">
+			<span>Select a Project:</span>
 				<select className="dropdown" onChange={this.handleSelectRetro} name="retros">
 				{
 					vm.props.projectRetros.map(function(item, index) {
@@ -30,17 +30,16 @@ var MobileCreateRetro = React.createClass({
 				    })
 				}
 				</select>
+
+				<span style={{fontSize: "18px", marginTop: "10px"}}>{this.props.current_proj.project_name}</span>
 				{
 					vm.props.current_proj != null ? 
-					<ProjectRetros 
+					<MobileProjectRetros 
 				        projectName={vm.props.current_proj.project_name}
 				        projectId={vm.props.current_proj.project_id}
 				        key={vm.props.current_proj.project_id}  
 				        retros={vm.props.current_proj.retros} 
-				        showLinks={vm.props.current_proj.showLinks || false}
-				        handleCreateRetro={vm.props.handleCreateRetro}
-				        toggleShowHide={vm.props.toggleShowHide}
-				        deleteRetro={vm.props.deleteRetro}/>
+				        handleCreateRetro={vm.props.handleCreateRetro}/>
 				        :
 				        null
 			    }
