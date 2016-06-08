@@ -11,6 +11,7 @@ import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
 import PhoneBreakpoint from './responsive_utilities/phone_breakpoint';
 import Loader from 'react-loader-advanced';
 
+var focus_modal = null;
 
 var Retro = React.createClass({
 	
@@ -38,28 +39,9 @@ var Retro = React.createClass({
 		this.refreshIntervalId = setInterval(function(){
 			vm.buildRetro();
 			console.log("refreshed");
-		}, 1000);
-
-
+		}, 5000);
+		focus_modal = false;
 	},
-
-	componentDidUpdate: function(){
-		if(ReactDOM.findDOMNode(this.refs.editRetroItem) != null){
-			var input = ReactDOM.findDOMNode(this.refs.editRetroItem);
-			input.focus();
-			var current = input.value;
-			input.value = '';
-			input.value = current;
-		}
-		if(ReactDOM.findDOMNode(this.refs.actionItem) != null){
-			var input = ReactDOM.findDOMNode(this.refs.actionItem);
-			input.focus();
-			var current = input.value;
-			input.value = '';
-			input.value = current;
-		}
-	},
-
 	componentWillUnmount: function(){
 		clearInterval(this.refreshIntervalId);
 	},
@@ -88,7 +70,7 @@ var Retro = React.createClass({
 			          	this.state.AddActionItem ?
 			            <form onSubmit={this.handleAddActionItem} >
 			            	<h1>Add Action Item</h1>
-			            	<input type="text"  ref="actionItem"/>
+			            	<input id="actionItem" type="text"  ref="actionItem"/>
 			            	<button type="submit">Submit</button>
 			            </form>
 			            :
@@ -323,7 +305,10 @@ var Retro = React.createClass({
 			this.setState({actionItems: items});
 		}
 	},
-	handleClick: function() {this.setState({modal_show: true})},
+	handleClick: function() 
+	{ 
+		this.setState({modal_show: true});
+	},
 	handleClose: function() { this.setState({modal_show: false})},
 
 	addActionItemToTracker: function(actionItem){
@@ -346,20 +331,40 @@ var Retro = React.createClass({
 	},
 	handleShowModal: function(id, item_text){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: false});
-		
-
+		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: false},
+			this.createFocus
+			);
 	},
 	handleShowActionEditModal: function(dbId, trackerId, item_text){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({current_item_id: dbId, current_tracker_action_id: trackerId, current_item_text: item_text, modal_show: true, AddActionItem: false});
- 
+		this.setState({current_item_id: dbId, current_tracker_action_id: trackerId, 
+			current_item_text: item_text, modal_show: true, AddActionItem: false},
+			this.createFocus
+			);
 	},
 	handleActionModal: function(id, item_text){
 		//get the item id of the item being added to get the text for that item
-		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: true});
+		this.setState({current_item_id: id, current_item_text: item_text,
+		 modal_show: true, AddActionItem: true},
+			this.createFocus
+			);
 	},
-
+	createFocus: function(){
+		if(ReactDOM.findDOMNode(this.refs.actionItem) != null){
+				var input = ReactDOM.findDOMNode(this.refs.actionItem);
+				input.focus();
+				var current = input.value;
+				input.value = '';
+				input.value = current;
+		}
+		if(ReactDOM.findDOMNode(this.refs.editRetroItem) != null){
+				var input = ReactDOM.findDOMNode(this.refs.editRetroItem);
+				input.focus();
+				var current = input.value;
+				input.value = '';
+				input.value = current;
+		}
+	},
 	handleVote: function(item){
 		//console.log(item);
 		if(this.state.MaxUserVotes > this.state.UserCurrentVotes)
