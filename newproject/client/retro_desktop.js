@@ -1,7 +1,7 @@
 	return(
 	<div id="retro-body">
 		<Header 
-		user_name={sessionStorage.getItem("user_name")} 
+		user_name={localStorage.getItem("user_name")} 
 		title={this.state.project_name + " - " + this.state.retro_date} 
 		maxVotes={this.state.MaxUserVotes}
 		userVotes={this.state.UserCurrentVotes}/>

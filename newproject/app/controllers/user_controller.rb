@@ -4,12 +4,16 @@ class UserController < ActionController::Base
 	def check
 		@email = params[:email]
 
-
 		#begin .. rescue == try .. catch
 		begin
 			@user = User.find(@email)
 		rescue
-			@user = 0
+			if (@email == nil)
+				#maybe wrong??
+				render 403
+			else
+				@user = 0
+			end
 		end
 
 		if(@user == 0)

@@ -7,7 +7,7 @@ var RetroItem = React.createClass({
 	render() {
 		var voted = false;
 		var vm = this;
-		var userEmail = sessionStorage.getItem("user_email")
+		var userEmail = localStorage.getItem("user_email")
 		if(this.props.votes){
 			this.props.votes.forEach(function(vote, index){
 				if(vote.user_email == userEmail){

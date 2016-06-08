@@ -14,13 +14,13 @@ import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
 import MobileBreakpoint from './responsive_utilities/phone_breakpoint';
 import Loader from 'react-loader-advanced';
 
+
 //Imports for react tabs for mobile view
 var ReactTabs = require('react-tabs');
 var Tab = ReactTabs.Tab;
 var Tabs = ReactTabs.Tabs;
 var TabList = ReactTabs.TabList;
 var TabPanel = ReactTabs.TabPanel;
-var focus_modal = null;
 
 var Retro = React.createClass({
 	
@@ -42,30 +42,36 @@ var Retro = React.createClass({
 	      refreshActionStatuses: true
 	   	}
 	},
-
+	componentWillMount: function(){
+		if(localStorage.getItem("user_email")==null){
+        localStorage.setItem("url_redirect", window.location);
+        //need to set and then get it otherwise it doesnt persist
+        localStorage.getItem("url_redirect");
+        window.location.replace("/");
+      }
+    },
 	componentDidMount: function(){
 		var vm = this;
 		this.buildRetro();
 		this.refreshIntervalId = setInterval(function(){
 			vm.buildRetro();
 			console.log("refreshed");
-		}, 5000);
-		focus_modal = false;
+		}, 1000);
 	},
 	componentWillUnmount: function(){
 		clearInterval(this.refreshIntervalId);
 	},
-
 	render() {
 
-		name = sessionStorage.getItem("user_name");
-		
+		name = localStorage.getItem("user_name");
+
+		if(localStorage.getItem("url_redirect") == null){
 		return (
 			<Loader show={this.state.loading}  message={'loading...'}>
 			<DesktopBreakpoint>
 				<div id="retro-body">
 					<Header 
-					user_name={sessionStorage.getItem("user_name")} 
+					user_name={localStorage.getItem("user_name")} 
 					title={this.state.project_name + " - " + this.state.retro_date} 
 					maxVotes={this.state.MaxUserVotes}
 					userVotes={this.state.UserCurrentVotes}/>
@@ -141,7 +147,6 @@ var Retro = React.createClass({
 							trackerTest={this.addActionItemToTracker}
 							handleActionModal={this.handleActionModal}/>
 					</div>
-
 				</div>
 			</DesktopBreakpoint>
 
@@ -149,7 +154,7 @@ var Retro = React.createClass({
 			
 				<div id="mobile-retro-body">
 					<MobileHeader 
-					user_name={sessionStorage.getItem("user_name")} 
+					user_name={localStorage.getItem("user_name")} 
 					title={this.state.project_name + " - " + this.state.retro_date} 
 					maxVotes={this.state.MaxUserVotes}
 					userVotes={this.state.UserCurrentVotes}/>
@@ -247,8 +252,10 @@ var Retro = React.createClass({
 				</div>
 
 			</MobileBreakpoint> 
-			</Loader>
-		);
+			</Loader>);
+		}else{
+			return(<div></div>);
+		}
 	},
 	
 	handleSelect: function (index, last) {
@@ -287,7 +294,7 @@ var Retro = React.createClass({
 		//we have the item id
 		var retroId = this.props.params.retroId;
 
-		var token = sessionStorage.getItem("tracker_token");
+		var token = localStorage.getItem("tracker_token");
 		var actionItemText = vm.refs.actionItem.value;
 
 		var postPromise = $.ajax({
@@ -325,7 +332,7 @@ var Retro = React.createClass({
 		//we have the item id
 		var retroId = this.props.params.retroId;
 
-		var token = sessionStorage.getItem("tracker_token");
+		var token = localStorage.getItem("tracker_token");
 
 		var postPromise = $.ajax({
 			 method: 'PUT',
@@ -362,7 +369,7 @@ var Retro = React.createClass({
 
 			//parse items into their own columns, and count votes by current user
 			var itemSet = [[],[],[]]
-			var userEmail = sessionStorage.getItem("user_email")
+			var userEmail = localStorage.getItem("user_email")
 			var userVoteCount = 0;
 			if(data.retro_items){
 				data.retro_items.forEach(function(item, index){
@@ -507,7 +514,7 @@ var Retro = React.createClass({
 	handleClose: function() { this.setState({modal_show: false})},
 
 	addActionItemToTracker: function(actionItem){
-        var token = sessionStorage.getItem("tracker_token");
+        var token = localStorage.getItem("tracker_token");
 
 		var ajaxPromise = $.ajax({
 			 method: 'POST',
@@ -571,13 +578,13 @@ var Retro = React.createClass({
 		  		data: {
 		  			item : item.props.object_id,
 		  			retroId : this.props.params.retroId,
-		  			email : sessionStorage.getItem("user_email")
+		  			email : localStorage.getItem("user_email")
 		  		}
 	  		});
 	
 	  		postPromise.then(function(data){
 	  			var itemSet = [[],[],[]];
-				var userEmail = sessionStorage.getItem("user_email");
+				var userEmail = localStorage.getItem("user_email");
 				
 				data.forEach(function(item, index){
 					itemSet[item.column].unshift(item);
@@ -600,7 +607,7 @@ var Retro = React.createClass({
 	  		data: {
 	  			item : item.props.object_id,
 	  			retroId : this.props.params.retroId,
-	  			email : sessionStorage.getItem("user_email")
+	  			email : localStorage.getItem("user_email")
 	  		}
   		});
 
@@ -609,7 +616,7 @@ var Retro = React.createClass({
 
 			//parse items into their own columns, and count votes by current user
 			var itemSet = [[],[],[]];
-			var userEmail = sessionStorage.getItem("user_email");
+			var userEmail = localStorage.getItem("user_email");
 			
 			data.forEach(function(item, index){
 				itemSet[item.column].unshift(item);
