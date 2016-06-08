@@ -289,6 +289,7 @@ var Retro = React.createClass({
 
 	},
 	handleAddActionItem: function(e){
+
 		e.preventDefault();
 		var vm = this;
 		this.setState({AddActionItem: false});
@@ -314,14 +315,20 @@ var Retro = React.createClass({
 	          }
 	  	});
 
+	  	postPromise.error(function(data){
+	  		console.log("ERROR creating New Item In Tracker");
+	  		console.log(data);
+	  	});
+
 		postPromise.then(function(data){
+			console.log("New Item In Tracker");
+	  		console.log(data);
 			var postPromise = $.ajax({
 				method: 'POST',
 		  		url: "/retros/addActionItem/" + retroId + "/" + vm.state.current_item_id,
 		  		data: {
 		  			"tracker_action_id": data.id,
 		  			"text": actionItemText
-		  			
 		  		}
 	  		});
 		});
@@ -390,7 +397,7 @@ var Retro = React.createClass({
 			var actionSet = []
 
 			var project_id = data.project_id;
-        	var token = sessionStorage.getItem("tracker_token");
+        	var token = localStorage.getItem("tracker_token");
         	
         	//console.log("Initial count: " + countActionItems);
 
@@ -433,8 +440,8 @@ var Retro = React.createClass({
 				    ajaxPromise.error(function(error){
 				    	countActionItems --;
 						//wait for all of the action items to be in
-						// console.log("ERROR");
-						// console.log("Count: " + countActionItems);
+						console.log("ERROR");
+						console.log(error);
 						vm.deleteActionItem(actionItem._id.$oid);
 						if(countActionItems == 0){
 							//set the state after the syncing of the action item statuses
@@ -454,14 +461,21 @@ var Retro = React.createClass({
 
 				});
 			} else {
+				//getting back new action items, may not be complete in tracker yet. Don't check status until page reload
 				document.title = "RetroActive - " + data.project_name  + dateString;
+				var actionItemsInput = data.action_items || [];
+				actionItemsInput.forEach(function (actionItem, index){
+					actionItem.status="unscheduled";
+				});
+
 				vm.setState({project_name: data.project_name, 
 					retro_date: dateString, 
 					retroItems: itemSet, 
 					project_id: data.project_id, 
 					loading: false,
+					actionItems: actionItemsInput,
 					UserCurrentVotes: userVoteCount,
-					refreshActionStatuses: false
+					refreshActionStatuses: false,
 				});				
 			}		
 

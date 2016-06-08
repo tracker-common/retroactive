@@ -16,9 +16,6 @@ var ActionStatus = React.createClass({
 			case "started":			
 				statusHtml = (<span style={{color: '#DCD003', fontWeight: 'bold'}}>In Progress</span>)
 				break;
-			case "rejected":			
-				statusHtml = (<span style={{color: '#F26373', fontWeight: 'bold'}}>Rejected</span>)
-				break;
 			case "accepted":
 				statusHtml = (<span style={{color: '#72BF02', fontWeight: 'bold'}}>Accepted</span>)
 				break;
