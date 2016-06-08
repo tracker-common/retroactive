@@ -38,7 +38,8 @@ var Retro = React.createClass({
 	      AddActionItem: false,
 	      loading: true,
 	      MaxUserVotes: 100,
-	      UserCurrentVotes: 0
+	      UserCurrentVotes: 0,
+	      refreshActionStatuses: true
 	   	}
 	},
 
@@ -378,23 +379,80 @@ var Retro = React.createClass({
 
 			var actionSet = []
 
-			if(data.action_items){
-				data.action_items.forEach(function(item, index){
-					actionSet.unshift(item);
+			var project_id = data.project_id;
+        	var token = sessionStorage.getItem("tracker_token");
+        	var countActionItems = data.action_items.length;
+        	//console.log("Initial count: " + countActionItems);
+
+ 			//Re-Sync the action item statuses with the tracker API
+			if(data.action_items && data.action_items.length > 0 && vm.state.refreshActionStatuses == true){
+				data.action_items.forEach(function(actionItem, index){
+					//Sync the status of the action items from tracker
+
+					var ajaxPromise = $.ajax({
+						url: "https://www.pivotaltracker.com/services/v5/projects/"+ project_id + "/stories/" + actionItem.tracker_action_id,
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader('X-TrackerToken', token);
+						}
+				    });
+
+				    ajaxPromise.then(function(trackerData){
+				    	//console.log(trackerData);
+				    	actionItem.status = trackerData.current_state;
+						actionSet.unshift(actionItem);
+						countActionItems --;
+						//wait for all of the action items to be in
+						//console.log("Count: " + countActionItems);
+						if(countActionItems == 0){
+							//set the state after the syncing of the action item statuses
+
+							document.title = "RetroActive - " + data.project_name  + dateString;
+							vm.setState({project_name: data.project_name, 
+								retro_date: dateString, 
+								retroItems: itemSet, 
+								project_id: data.project_id, 
+								actionItems: actionSet,
+								loading: false,
+								UserCurrentVotes: userVoteCount,
+								refreshActionStatuses: false
+							});
+						}
+				    });
+				    
+				    ajaxPromise.error(function(error){
+				    	countActionItems --;
+						//wait for all of the action items to be in
+						// console.log("ERROR");
+						// console.log("Count: " + countActionItems);
+						vm.deleteActionItem(actionItem._id.$oid);
+						if(countActionItems == 0){
+							//set the state after the syncing of the action item statuses
+
+							document.title = "RetroActive - " + data.project_name  + dateString;
+							vm.setState({project_name: data.project_name, 
+								retro_date: dateString, 
+								retroItems: itemSet, 
+								project_id: data.project_id, 
+								actionItems: actionSet,
+								loading: false,
+								UserCurrentVotes: userVoteCount,
+								refreshActionStatuses: false
+							});
+						}
+				    });
+
 				});
-			}
-
-
-			document.title = "RetroActive - " + data.project_name  + dateString;
-
-			vm.setState({project_name: data.project_name, 
-				retro_date: dateString, 
-				retroItems: itemSet, 
-				project_id: data.project_id, 
-				actionItems: actionSet,
-				loading: false,
-				UserCurrentVotes: userVoteCount,
-			});
+			} else {
+				document.title = "RetroActive - " + data.project_name  + dateString;
+				vm.setState({project_name: data.project_name, 
+					retro_date: dateString, 
+					retroItems: itemSet, 
+					project_id: data.project_id, 
+					loading: false,
+					UserCurrentVotes: userVoteCount,
+					refreshActionStatuses: false
+				});				
+			}		
 
 		});
 
@@ -428,6 +486,20 @@ var Retro = React.createClass({
 			this.setState({actionItems: items});
 		}
 	},
+
+	deleteActionItem: function(actionItemId) {
+		//Ajax call to delete the item
+			var postPromise = $.ajax({
+				method: 'DELETE',
+		  		url: "/retros/deleteActionItem/" + this.props.params.retroId + "/" + actionItemId,
+		  	});
+
+		  	postPromise.then(function(data){
+		  		console.log("After Delete Call");
+		  		console.log(data);
+		  	});
+	},
+
 	handleClick: function() 
 	{ 
 		this.setState({modal_show: true});

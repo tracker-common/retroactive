@@ -11,6 +11,8 @@ var RetroColumn = React.createClass({
 		// console.log("Items");
 		// console.log(this.props.items);
 
+		
+		
 		return(
 			<div className="full-height">
 				<h1 className="retro-columns__title">{this.props.HeaderText}</h1>
@@ -26,6 +28,7 @@ var RetroColumn = React.createClass({
 										actionItem_input = actionItem;
 									}
 								});
+								
 							    return (
 							        <RetroItem itemText={item.text} 
 							        object_id={item._id ? item._id.$oid : null} 

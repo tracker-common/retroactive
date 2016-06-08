@@ -17,7 +17,6 @@ var RetroActive = React.createClass({
   getInitialState() {
 	    return {
 	      token: sessionStorage.getItem("tracker_token"),
-	      data: db_entry,
 	      retroId: "",
 	      user_name: sessionStorage.getItem("user_name"),
 	      user_email: sessionStorage.getItem("user_email"),
