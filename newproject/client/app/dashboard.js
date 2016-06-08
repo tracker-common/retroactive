@@ -94,7 +94,6 @@ var RetroActive = React.createClass({
   handleSaveToken_: function(newToken) {
   	$.get("/users/token/"+localStorage.getItem("user_email")+"/"+newToken, function( data ) {
   		localStorage.setItem("tracker_token", newToken);
-      console.log("handleSaveToken user email: " + localStorage.getItem("user_email"));
   	});
   	this.setState({token: newToken});
   },
@@ -103,7 +102,6 @@ var RetroActive = React.createClass({
   		var vm = this;
   		$.get("/users/check/"+localStorage.getItem("user_email"), function( data ) {
   			localStorage.setItem("tracker_token", data.tracker_token);
-        console.log("checkEmail user email: " + localStorage.getItem("user_email"));
   			vm.setState({token: data.tracker_token});
         vm.getProjectsFromTracker();
   		});
