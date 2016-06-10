@@ -92,14 +92,16 @@ var Retro = React.createClass({
 				          	this.state.addActionItem ?
 				            <form onSubmit={this.handleAddActionItem} >
 				            	<h1>Add Action Item</h1>
+				            	<button className="delete_button">Delete</button>
 				            	<input type="text"  ref="actionItem"/>
-				            	<button type="submit">Submit</button>
+				            	<button className="update_button">Update</button>
 				            </form>
 				            :
 				            <form onSubmit={this.handleEditItem} >
 				            	<h1>Description</h1>
+				            	<button className="delete_button">Delete</button>
 				            	<input type="text" onChange={this.handleChangeText} value={this.state.currentItemText}  ref="editRetroItem"/>
-				            	<button type="submit">Submit</button>
+				            	<button className="update_button">Update</button>
 				            </form>
 				          }
 				        </div>
@@ -598,7 +600,9 @@ var Retro = React.createClass({
 	{ 
 		this.setState({modalShow: true});
 	},
-	handleClose: function() { this.setState({modalShow: false})},
+	handleClose: function() { 
+		this.setState({modalShow: false})
+	},
 
 	addActionItemToTracker: function(actionItem){
         var token = localStorage.getItem("tracker_token");
@@ -712,6 +716,7 @@ var Retro = React.createClass({
   			self.setState({retroItems: itemSet});
   		});
 	},
+
 });
 
 export default Retro;
