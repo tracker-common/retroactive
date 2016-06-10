@@ -159,7 +159,7 @@ var ModalDialog = (function (_React$Component) {
         position: 'absolute',
         marginBottom: margin,
         width: width,
-        top: Math.max(topOffset, margin),
+        top: Math.floor(Math.max(topOffset, margin)),
         left: Math.floor(leftOffset)
       }, style);
 
