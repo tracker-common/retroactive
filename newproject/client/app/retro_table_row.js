@@ -12,9 +12,31 @@ var RetroTableRow = React.createClass({
 			});
 		}
 
-		var action_items_count = 0;
+		var unscheduled = 0;
+		var scheduled = 0;
+		var started = 0;
+		var accepted = 0;
+
 		if(this.props.retro.action_items){
-			action_items_count = this.props.retro.action_items.length;
+			this.props.retro.action_items.forEach(function(item, index){
+				switch(item.status){
+					case "unscheduled":
+						unscheduled ++;
+						break;
+					case "unstarted":
+						scheduled++;
+						break;
+					case "scheduled":
+						scheduled ++;
+						break;
+					case "started":
+						started ++;
+						break;
+					case "accepted":
+						accepted++;
+						break;
+				}
+			});
 		}
 
 		return(
@@ -23,11 +45,10 @@ var RetroTableRow = React.createClass({
 	        	<td>{emotesCountArray[0]}</td>
 	        	<td>{emotesCountArray[1]}</td>
 	        	<td>{emotesCountArray[2]}</td>
-	        	<td>{action_items_count}</td>
-	        	<td>0</td>
-	        	<td>0</td>
-	        	<td>0</td>
-	        	<td>0</td>
+	        	<td>{unscheduled}</td>
+	        	<td>{scheduled}</td>
+	        	<td>{started}</td>
+	        	<td>{accepted}</td>
 	        	<td className="link" onClick={this.deleteRetro}>X</td> 	
 	        </tr>
 		);

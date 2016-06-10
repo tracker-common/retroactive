@@ -32,7 +32,6 @@ var ProjectRetros = React.createClass({
 									<td style={{color: '#88C1DE', fontWeight: 'bold'}}>Unscheduled</td>
 									<td style={{color: '#A7A7A7', fontWeight: 'bold'}}>Scheduled</td>
 									<td style={{color: '#DCD003', fontWeight: 'bold'}}>In Progress</td>
-									<td style={{color: '#F26373', fontWeight: 'bold'}}>Rejected</td>
 									<td style={{color: '#72BF02', fontWeight: 'bold'}}>Accepted</td>
 									<td >Delete?</td>
 								</tr>
