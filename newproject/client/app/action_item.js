@@ -10,14 +10,14 @@ var ActionItem = React.createClass({
 	},
 
 	render() {
-		var statusHtml = ""
-		
+		var statusHtml = "";
 		return (
 			<div className="retro_item">
 				<div className="retro_item_description">
 					{this.props.itemText}
 				</div>
 				<div className="status_and_action_bar">
+					{this.props.owner? (<b>{this.props.owner.name}</b>) : null}
 					<span className="item_info">Action Item Status: <ActionStatus status={this.props.status}/> </span>
 					<a className="edit_link link" onClick={this.show}>Edit</a>
 				</div>
