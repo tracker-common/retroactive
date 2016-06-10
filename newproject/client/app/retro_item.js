@@ -51,14 +51,10 @@ var RetroItem = React.createClass({
 		)
 	},
 	show: function(){
-		this.props.handleShowEditModal(this.props.object_id, this.props.itemText);
+		this.props.handleShowEditModal(this.props.object_id, this.props.action_item_id, this.props.itemText);
 	},
 	showActionModal: function(){
-
 		this.props.handleShowActionModal(this.props.object_id, this.props.itemText);
-	},
-	newTrackerChore: function(){
-		this.props.postToTracker(this);
 	},
 	vote: function(){
 		this.props.handleVote(this);

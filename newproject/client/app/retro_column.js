@@ -35,7 +35,6 @@ var RetroColumn = React.createClass({
 							        showModal={self.props.showModal}
 							        handleShowEditModal={self.handleShowEditModal}
 							        key={index}
-							        postToTracker={trackerTest}
 							        handleShowActionModal={self.handleShowActionModal}
 							        action_item_id={item.action_item_id}
 							        actionItem = {actionItem_input}
@@ -59,8 +58,8 @@ var RetroColumn = React.createClass({
   			}
 		}
 	},
-	handleShowEditModal: function(id, text){
-		this.props.handleShowModal(id, text);
+	handleShowEditModal: function(dbId, trackerId, text){
+		this.props.handleShowModal(id, trackerId, text);
 	},
 	handleShowActionModal: function(id, text){
 		this.props.handleActionModal(id, text);

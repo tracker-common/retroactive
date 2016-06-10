@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {MenuTrigger, MenuOptions, MenuOption} from 'react-menu';
-
 
 var Header = React.createClass({
 	getDefaultProps : function() {
@@ -29,6 +27,7 @@ var Header = React.createClass({
 									</span>
 								</div>
 							) : null}
+							
 				</div>
 				<div className="right header__text_box">
 					<h1>

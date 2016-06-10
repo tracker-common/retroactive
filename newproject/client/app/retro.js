@@ -55,7 +55,7 @@ var Retro = React.createClass({
 		this.buildRetro();
 		this.refreshIntervalId = setInterval(function(){
 			vm.buildRetro();
-			//console.log("refreshed");
+			console.log("refreshed");
 		}, 1000);
 	},
 	componentWillUnmount: function(){
@@ -75,8 +75,6 @@ var Retro = React.createClass({
 					title={this.state.projectName + " - " + this.state.retroDate} 
 					maxVotes={this.state.maxUserVotes}
 					userVotes={this.state.userCurrentVotes}/>
-
-					
 					<div>
 
 					</div>	
@@ -90,7 +88,6 @@ var Retro = React.createClass({
 				          	this.state.addActionItem ?
 				            <form onSubmit={this.handleAddActionItem} >
 				            	<h1>Add Action Item</h1>
-				            	<button className="delete_button">Delete</button>
 				            	<input type="text"  ref="actionItem"/>
 				            	<button className="update_button">Update</button>
 				            </form>
@@ -98,7 +95,11 @@ var Retro = React.createClass({
 				            <form onSubmit={this.handleEditItem} >
 				            	<h1>Description</h1>
 				            	<button className="delete_button">Delete</button>
-				            	<input type="text" onChange={this.handleChangeText} value={this.state.currentItemText}  ref="editRetroItem"/>
+				            	<input 
+				            		type="text" 
+				            		onChange={this.handleChangeText} 
+				            		value={this.state.currentItemText} 
+				            		ref="editRetroItem"/>
 				            	<button className="update_button">Update</button>
 				            </form>
 				          }
@@ -207,7 +208,6 @@ var Retro = React.createClass({
 								items={this.state.retroItems[0]} 
 								showModal={this.state.modalShow}
 								handleShowModal={this.handleShowModal}
-								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}
 								handleUnVote={this.handleUnVote}
 								handleVote={this.handleVote}
@@ -221,7 +221,6 @@ var Retro = React.createClass({
 								items={this.state.retroItems[1]} 
 								showModal={this.state.modalShow}
 								handleShowModal={this.handleShowModal} 
-								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}
 								handleUnVote={this.handleUnVote}					
 								handleVote={this.handleVote}
@@ -235,7 +234,6 @@ var Retro = React.createClass({
 								items={this.state.retroItems[2]} 
 								showModal={this.state.modalShow} 
 								handleShowModal={this.handleShowModal} 
-								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}
 								handleVote={this.handleVote}
 								handleUnVote={this.handleUnVote}
@@ -248,7 +246,6 @@ var Retro = React.createClass({
 								items={this.state.actionItems} 
 								showModal={this.state.modalShow} 
 								handleShowActionEditModal={this.handleShowActionEditModal} 
-								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}/>
 						</TabPanel>	
 							
@@ -288,10 +285,30 @@ var Retro = React.createClass({
 		  		data: {text : this.refs.editRetroItem.value}
 		  	});
 		}	
+	},
+	handleDeleteItem: function() {
+		e.preventDefault();
+		if(this.state.currentTrackerActionId != null){
+			//delete item from our Mongo DB
+			this.deleteActionItem(this.state.currentItemId);
+			//delete item from Tracker
+			this.deleteTrackerStory(this.state.currentTrackerActionId);
+		}
+		else{
+			//this.setState({currentItemText: this.refs.editRetroItem.value});
+			this.handleClose();
+			//make ajax call to update database entry 
+			//we have the item id
+			var retroId = this.props.params.retroId;
 
+			var postPromise = $.ajax({
+				method: 'POST',
+		  		url: "/retros/editItemText/" + retroId + "/" + this.state.currentItemId,
+		  		data: {text : this.refs.editRetroItem.value}
+		  	});
+		}
 	},
 	handleAddActionItem: function(e){
-
 		e.preventDefault();
 		var vm = this;
 		this.setState({addActionItem: false});
@@ -299,6 +316,8 @@ var Retro = React.createClass({
 		//make ajax call to update database entry 
 		//we have the item id
 		var retroId = this.props.params.retroId;
+
+		console.log("handleAddActionItem called");
 
 		var token = localStorage.getItem("tracker_token");
 		var actionItemText = vm.refs.actionItem.value;
@@ -359,12 +378,21 @@ var Retro = React.createClass({
 	  	});
 
 		postPromise.then(function(data){
+			console.log('Edit Post Promise');
 			var postPromise = $.ajax({
 				method: 'POST',
 		  		url: "/retros/editActionText/" + retroId + "/" + vm.state.currentItemId,
 		  		data: {text : actionItemText}
 	  		});
-	  		vm.setState({currentTrackerActionId: null});
+	  		//Update text in retro actions column
+	  		var oldActionItems = vm.state.actionItems;
+	  		oldActionItems.forEach(function(actionItem, index){
+	  			if(actionItem._id.$oid == vm.state.currentItemId){
+	  				actionItem.text = vm.state.currentItemText;
+	  			}
+	  		});
+	  		
+	  		vm.setState({currentTrackerActionId: null, actionItems: oldActionItems});
 		});
 	},
 	buildRetro: function(){
@@ -435,9 +463,10 @@ var Retro = React.createClass({
 								loading: false,
 								userCurrentVotes: userVoteCount,
 								refreshActionStatuses: false
-							});
+							},
+							console.log("setting to false"));
 						}
-				    });
+				    });	
 				    
 				    ajaxPromise.error(function(error){
 				    	countActionItems --;
@@ -530,10 +559,9 @@ var Retro = React.createClass({
 			this.setState({actionItems: items});
 		}
 	},
-
 	deleteActionItem: function(actionItemId) {
 		//Ajax call to delete the item
-
+		//This deletes the action item from MongoDB ONLY
 		console.log("deleting Action Item");
 		var postPromise = $.ajax({
 			method: 'DELETE',
@@ -550,20 +578,12 @@ var Retro = React.createClass({
 	  		console.log(data);
 	  	});
 	},
-
-	handleClick: function() 
-	{ 
-		this.setState({modalShow: true});
-	},
-	handleClose: function() { 
-		this.setState({modalShow: false})
-	},
-
-	addActionItemToTracker: function(actionItem){
-        var token = localStorage.getItem("tracker_token");
+	deleteTrackerStory: function(actionItemId){
+		//this deletes the Tracker Story in Tracker ONLY, not from our Mongo DB
+		var token = localStorage.getItem("tracker_token");
 
 		var ajaxPromise = $.ajax({
-			 method: 'POST',
+			 method: 'DELETE',
 	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ this.state.projectId +"/stories",
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
@@ -575,11 +595,17 @@ var Retro = React.createClass({
 	          	"story_type": "chore"
 	          }
 	  	});
-
 	},
-	handleShowModal: function(id, item_text){
+	handleClick: function() 
+	{ 
+		this.setState({modalShow: true});
+	},
+	handleClose: function() { 
+		this.setState({modalShow: false})
+	},
+	handleShowModal: function(id, trackerId, item_text){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({currentItemId: id, currentItemText: item_text, modalShow: true, addActionItem: false},
+		this.setState({currentItemId: id, currentTrackerActionId: trackerId, currentItemText: item_text, modalShow: true, addActionItem: false},
 			this.createFocus
 			);
 	},
@@ -643,7 +669,6 @@ var Retro = React.createClass({
 		  	alert("Max Votes Reached!");
 		  }
 	},
-
 	handleUnVote: function(item){
 		
 		var self = this;

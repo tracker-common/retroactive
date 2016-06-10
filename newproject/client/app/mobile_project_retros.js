@@ -44,12 +44,4 @@ var MobileProjectRetros = React.createClass({
 
 
 export default MobileProjectRetros;
-
-									 // <MobileRetroTableRow 
-								     //  	key={item._id.$oid}
-								     //  	color={}
-								     //  	retro = {item}
-								     //  	linkPath ={"/show/" + item._id.$oid}
-								     //  	dateString = {dateString}
-								     //  	deleteRetro = {vm.deleteRetro}/>);
 	
