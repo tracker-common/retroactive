@@ -94,7 +94,7 @@ var Retro = React.createClass({
 				            :
 				            <form onSubmit={this.handleEditItem} >
 				            	<h1>Description</h1>
-				            	<button className="delete_button">Delete</button>
+				            	<button onClick={this.handleDeleteItem} className="delete_button">Delete</button>
 				            	<input 
 				            		type="text" 
 				            		onChange={this.handleChangeText} 
@@ -286,7 +286,7 @@ var Retro = React.createClass({
 		  	});
 		}	
 	},
-	handleDeleteItem: function() {
+	handleDeleteItem: function(e) {
 		e.preventDefault();
 		if(this.state.currentTrackerActionId != null){
 			//delete item from our Mongo DB
@@ -562,6 +562,10 @@ var Retro = React.createClass({
 	deleteActionItem: function(actionItemId) {
 		//Ajax call to delete the item
 		//This deletes the action item from MongoDB ONLY
+
+		var vm = this;
+		this.handleClose();
+
 		console.log("deleting Action Item");
 		var postPromise = $.ajax({
 			method: 'DELETE',
@@ -577,23 +581,33 @@ var Retro = React.createClass({
 	  		console.log("error with Delete Call");
 	  		console.log(data);
 	  	});
+
+	  	var oldActionItems = vm.state.actionItems;
+	  	var indexOfItemToDelete = -1;
+	  	oldActionItems.forEach(function(actionItem, index){
+  			if(actionItem._id.$oid == vm.state.currentItemId){
+  				indexOfItemToDelete = index;
+  			}
+	  	});
+	  	oldActionItems.splice(indexOfItemToDelete,1);
+
+	  	vm.setState({currentTrackerActionId: null, actionItems: oldActionItems});
 	},
-	deleteTrackerStory: function(actionItemId){
+	deleteTrackerStory: function(trackerItemId){
 		//this deletes the Tracker Story in Tracker ONLY, not from our Mongo DB
 		var token = localStorage.getItem("tracker_token");
 
 		var ajaxPromise = $.ajax({
 			 method: 'DELETE',
-	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ this.state.projectId +"/stories",
+	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ this.state.projectId +"/stories/" + trackerItemId,
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
-	          },
-	          data: {
-	          	"name": "RetroActive Action Item",
-	          	"description": actionItem.text,
-	          	"project_id": this.state.projectId,
-	          	"story_type": "chore"
 	          }
+	  	});
+
+	  	ajaxPromise.then(function(data){
+	  		console.log("After Delete From Tracker Call");
+	  		console.log(data);
 	  	});
 	},
 	handleClick: function() 
