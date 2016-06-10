@@ -419,6 +419,7 @@ var Retro = React.createClass({
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	          },
 	          data: {
+	          	"name": "RetroActive Action: " + actionItemText.substring(0,20),
 	          	"description": actionItemText
 	          }
 	  	});
