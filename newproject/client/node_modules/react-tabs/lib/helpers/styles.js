@@ -2,29 +2,36 @@
 
 module.exports = {
   '.react-tabs [role=tablist]': {
+    'display': 'flex',
+    'width': '100vw',
+    'flex-display': 'row',
     'border-bottom': '1px solid #aaa',
     'margin': '0 0 10px',
     'padding': '0'
   },
 
   '.react-tabs [role=tab]': {
-    'display': 'inline-block',
+ 
     'border': '1px solid transparent',
     'border-bottom': 'none',
     'bottom': '-1px',
     'position': 'relative',
     'list-style': 'none',
     'padding': '6px 12px',
-    'cursor': 'pointer'
+    'cursor': 'pointer',
+    'height': '25px',
+    'width': '25%',
+    'background': '#B8A0D0',
+    'text-align': 'center',
+    'font-size': '14px'
   },
 
   '.react-tabs [role=tab][aria-selected=true]': {
     'background': '#fff',
     'border-color': '#aaa',
     'color': 'black',
-    'border-radius': '5px 5px 0 0',
-    '-moz-border-radius': '5px 5px 0 0',
-    '-webkit-border-radius': '5px 5px 0 0'
+    'background': '#fff'
+
   },
 
   '.react-tabs [role=tab][aria-disabled=true]': {
@@ -41,7 +48,8 @@ module.exports = {
   '.react-tabs [role=tab]:focus:after': {
     'content': '""',
     'position': 'absolute',
-    'height': '5px',
+    'height': '20px',
+    'width': '100px',
     'left': '-4px',
     'right': '-4px',
     'bottom': '-5px',
