@@ -39,7 +39,8 @@ var Retro = React.createClass({
 	      loading: true,
 	      maxUserVotes: 100,
 	      userCurrentVotes: 0,
-	      refreshActionStatuses: true
+	      refreshActionStatuses: true,
+	      projectUsers: {}
 	   	}
 	},
 	componentWillMount: function(){
@@ -57,6 +58,7 @@ var Retro = React.createClass({
 			vm.buildRetro();
 			//console.log("refreshed");
 		}, 1000);
+
 	},
 	componentWillUnmount: function(){
 		clearInterval(this.refreshIntervalId);
@@ -268,6 +270,43 @@ var Retro = React.createClass({
 	handleChangeText: function(){
 		this.setState({currentItemText: this.refs.editRetroItem.value});
 	},
+
+	getProjectUsers: function(projectId){
+		var projectUsers = [];
+		alert("In Get Users");
+		var token = localStorage.getItem("tracker_token");
+		var usersPromise = $.ajax({
+			method: 'GET',
+			url: "https://www.pivotaltracker.com/services/v5/projects/" + projectId + "/memberships",
+			beforeSend: function(xhr) {
+	            xhr.setRequestHeader('X-TrackerToken', token);
+	          }
+		});
+
+		usersPromise.then(function(data){
+			console.log("Users Data");
+			console.log(data);
+
+			data.forEach(function(member, index){
+				if(member.role != 'viewer'){
+					projectUsers.push(member.person);
+				}
+			});
+
+			console.log("Our Array");
+			console.log(projectUsers);
+		});
+
+		usersPromise.error(function(data){
+			console.log("Error with Users data");
+			console.log(data);
+		});
+
+
+
+		this.setState({projectUsers: projectUsers, refreshActionStatuses: false});
+	},
+
 	handleEditItem: function(e){
 		e.preventDefault();
 		if(this.state.currentTrackerActionId != null){
@@ -399,10 +438,16 @@ var Retro = React.createClass({
 			var projectId = data.project_id;
         	var token = localStorage.getItem("tracker_token");
         	
-        	//console.log("Initial count: " + countActionItems);
+        	if(vm.state.refreshActionStatuses == true){
+        		vm.getProjectUsers(projectId);
+
+        	}
 
  			//Re-Sync the action item statuses with the tracker API
 			if(data.action_items && data.action_items.length > 0 && vm.state.refreshActionStatuses == true){
+				
+
+				
 				var countActionItems = data.action_items.length;
 				data.action_items.forEach(function(actionItem, index){
 					//Sync the status of the action items from tracker
