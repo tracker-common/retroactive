@@ -1,5 +1,5 @@
 	return(
-	<div id="retro-body">
+	<div id="retro_body">
 		<Header 
 		user_name={localStorage.getItem("user_name")} 
 		title={this.state.project_name + " - " + this.state.retro_date} 
@@ -32,7 +32,7 @@
 	        </ModalContainer>
 	      }
 	    </div>
-		<div className="retro-columns">
+		<div className="desktop_retro_columns">
 			
 			<RetroColumn HeaderText="Happy :)" 
 				handleAdd={this.addRetroItem} 

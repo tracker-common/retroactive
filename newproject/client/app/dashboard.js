@@ -1,6 +1,6 @@
 import React from 'react';
 import TrackerTokenForm from './tracker_token_form';
-import CreateRetroForm from './createRetro';
+import CreateRetroForm from './create_retro';
 import MobileCreateRetro from './mobile_create_retro';
 import { Link, browserHistory } from 'react-router'
 import Header from './header';

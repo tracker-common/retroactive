@@ -48,7 +48,7 @@ var MobileCreateRetro = React.createClass({
 		}
 		else if(!this.props.loading){
 			return (
-			<div className="createRetroForm">
+			<div className="create_retro_form">
 				<span>You are not a member of any Projects!</span><br/>
 			</div>
 			);	

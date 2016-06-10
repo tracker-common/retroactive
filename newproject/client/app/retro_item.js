@@ -17,8 +17,8 @@ var RetroItem = React.createClass({
 		}
 
 		return (
-			<div className="retro-item">
-				<div className="retro-item-description">
+			<div className="retro_item">
+				<div className="retro_item_description">
 					{this.props.itemText}
 				</div>
 
@@ -30,13 +30,13 @@ var RetroItem = React.createClass({
 						<div className="vote" onClick={this.vote}><img src="/heart_gray.svg"/> <span style={{color: 'gray'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
 					)
 				}
-				<a className="action-link link" onClick={this.show}>Edit</a>
+				<a className="action_link link" onClick={this.show}>Edit</a>
 
 					{ 
 						this.props.object_id ? 
 						(
 							(this.props.action_item_id == null) ? 
-							<a className="action-link link" onClick={this.showActionModal}>+Action</a> : 
+							<a className="action_link link" onClick={this.showActionModal}>+Action</a> : 
 							null
 						) : null
 					}
@@ -44,8 +44,8 @@ var RetroItem = React.createClass({
 				</div>
 				
 				
-				<div className="status-and-action-bar">
-					{(this.props.action_item_id == null || !this.props.actionItem ) ? null  : (<span className="item-info"> Action Item Status: <ActionStatus status={this.props.actionItem.status}/> </span>) }
+				<div className="status_and_action_bar">
+					{(this.props.action_item_id == null || !this.props.actionItem ) ? null  : (<span className="item_info"> Action Item Status: <ActionStatus status={this.props.actionItem.status}/> </span>) }
 				</div>
 			</div>
 		)

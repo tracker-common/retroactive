@@ -69,7 +69,7 @@ var Retro = React.createClass({
 		return (
 			<Loader show={this.state.loading}  message={'loading...'}>
 			<DesktopBreakpoint>
-				<div id="retro-body">
+				<div id="retro_body">
 					<Header 
 					user_name={localStorage.getItem("user_name")} 
 					title={this.state.project_name + " - " + this.state.retro_date} 
@@ -105,7 +105,7 @@ var Retro = React.createClass({
 				        </ModalContainer>
 				      }
 				    </div>
-					<div className="desktop-retro-columns">
+					<div className="desktop_retro_columns">
 						<RetroColumn HeaderText="Happy :)" 
 							handleAdd={this.addRetroItem} 
 							columnId={0} 
@@ -187,7 +187,7 @@ var Retro = React.createClass({
 				        </ModalContainer>
 				      }
 				    </div>
-				    <div className="mobile-retro-columns">
+				    <div className="mobile_retro_columns">
 					<Tabs
 					 onSelect={this.handleSelect}
         			 >

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link, browserHistory } from 'react-router';
-import CreateRetroForm from './createRetro';
+import CreateRetroForm from './create_retro';
 import RetroActive from './dashboard';
 import Retro from './retro';
 import SignIn from './sign_in';
