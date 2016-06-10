@@ -28,17 +28,17 @@ var Retro = React.createClass({
 	    return {
 	      retroItems: [[],[],[]],
 	      actionItems: [],
-	      project_name: "",
-	      retro_date: "",
-	      modal_show: false,
-	      current_item_id: "",
-	      current_tracker_action_id: null,
-	      current_item_text: "",
-	      project_id: "",
-	      AddActionItem: false,
+	      projectName: "",
+	      retroDate: "",
+	      modalShow: false,
+	      currentItemId: "",
+	      currentTrackerActionId: null,
+	      currentItemText: "",
+	      projectId: "",
+	      addActionItem: false,
 	      loading: true,
-	      MaxUserVotes: 100,
-	      UserCurrentVotes: 0,
+	      maxUserVotes: 100,
+	      userCurrentVotes: 0,
 	      refreshActionStatuses: true
 	   	}
 	},
@@ -72,9 +72,9 @@ var Retro = React.createClass({
 				<div id="retro_body">
 					<Header 
 					user_name={localStorage.getItem("user_name")} 
-					title={this.state.project_name + " - " + this.state.retro_date} 
-					maxVotes={this.state.MaxUserVotes}
-					userVotes={this.state.UserCurrentVotes}/>
+					title={this.state.projectName + " - " + this.state.retroDate} 
+					maxVotes={this.state.maxUserVotes}
+					userVotes={this.state.userCurrentVotes}/>
 
 					
 					<div>
@@ -82,12 +82,12 @@ var Retro = React.createClass({
 					</div>	
 					<div className="modal" onClick={this.handleClick}>
 				      {
-				        this.state.modal_show &&
+				        this.state.modalShow &&
 				        <ModalContainer onClose={this.handleClose}>
 				          <ModalDialog onClose={this.handleClose}>
 				          <div> 
 				          {
-				          	this.state.AddActionItem ?
+				          	this.state.addActionItem ?
 				            <form onSubmit={this.handleAddActionItem} >
 				            	<h1>Add Action Item</h1>
 				            	<input type="text"  ref="actionItem"/>
@@ -96,7 +96,7 @@ var Retro = React.createClass({
 				            :
 				            <form onSubmit={this.handleEditItem} >
 				            	<h1>Description</h1>
-				            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text}  ref="editRetroItem"/>
+				            	<input type="text" onChange={this.handleChangeText} value={this.state.currentItemText}  ref="editRetroItem"/>
 				            	<button type="submit">Submit</button>
 				            </form>
 				          }
@@ -110,7 +110,7 @@ var Retro = React.createClass({
 							handleAdd={this.addRetroItem} 
 							columnId={0} 
 							items={this.state.retroItems[0]} 
-							showModal={this.state.modal_show}
+							showModal={this.state.modalShow}
 							handleShowModal={this.handleShowModal}
 							trackerTest={this.addActionItemToTracker}
 							handleActionModal={this.handleActionModal}
@@ -122,7 +122,7 @@ var Retro = React.createClass({
 							handleAdd={this.addRetroItem} 
 							columnId={1} 
 							items={this.state.retroItems[1]} 
-							showModal={this.state.modal_show}
+							showModal={this.state.modalShow}
 							handleShowModal={this.handleShowModal} 
 							trackerTest={this.addActionItemToTracker}
 							handleActionModal={this.handleActionModal}
@@ -134,7 +134,7 @@ var Retro = React.createClass({
 							handleAdd={this.addRetroItem} 
 							columnId={2} 
 							items={this.state.retroItems[2]} 
-							showModal={this.state.modal_show} 
+							showModal={this.state.modalShow} 
 							handleShowModal={this.handleShowModal} 
 							trackerTest={this.addActionItemToTracker}
 							handleActionModal={this.handleActionModal}
@@ -145,7 +145,7 @@ var Retro = React.createClass({
 							HeaderText="Action Items" 
 							columnId={3} 
 							items={this.state.actionItems} 
-							showModal={this.state.modal_show} 
+							showModal={this.state.modalShow} 
 							handleShowActionEditModal={this.handleShowActionEditModal} 
 							trackerTest={this.addActionItemToTracker}
 							handleActionModal={this.handleActionModal}/>
@@ -158,18 +158,18 @@ var Retro = React.createClass({
 				<div id="mobile-retro-body">
 					<MobileHeader 
 					user_name={localStorage.getItem("user_name")} 
-					title={this.state.project_name + " - " + this.state.retro_date} 
-					maxVotes={this.state.MaxUserVotes}
-					userVotes={this.state.UserCurrentVotes}/>
+					title={this.state.projectName + " - " + this.state.retroDate} 
+					maxVotes={this.state.maxUserVotes}
+					userVotes={this.state.userCurrentVotes}/>
 
 					<div className="modal" onClick={this.handleClick}>
 				      {
-				        this.state.modal_show &&
+				        this.state.modalShow &&
 				        <ModalContainer onClose={this.handleClose}>
 				          <ModalDialog onClose={this.handleClose}>
 				          <div> 
 				          {
-				          	this.state.AddActionItem ?
+				          	this.state.addActionItem ?
 				            <form onSubmit={this.handleAddActionItem} >
 				            	<h1>Add Action Item</h1>
 				            	<input type="text"  ref="actionItem"/>
@@ -178,7 +178,7 @@ var Retro = React.createClass({
 				            :
 				            <form onSubmit={this.handleEditItem} >
 				            	<h1>Description</h1>
-				            	<input type="text" onChange={this.handleChangeText} value={this.state.current_item_text}  ref="editRetroItem"/>
+				            	<input type="text" onChange={this.handleChangeText} value={this.state.currentItemText}  ref="editRetroItem"/>
 				            	<button type="submit">Submit</button>
 				            </form>
 				          }
@@ -203,7 +203,7 @@ var Retro = React.createClass({
 								handleAdd={this.addRetroItem} 
 								columnId={0} 
 								items={this.state.retroItems[0]} 
-								showModal={this.state.modal_show}
+								showModal={this.state.modalShow}
 								handleShowModal={this.handleShowModal}
 								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}
@@ -217,7 +217,7 @@ var Retro = React.createClass({
 								handleAdd={this.addRetroItem} 
 								columnId={1} 
 								items={this.state.retroItems[1]} 
-								showModal={this.state.modal_show}
+								showModal={this.state.modalShow}
 								handleShowModal={this.handleShowModal} 
 								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}
@@ -231,7 +231,7 @@ var Retro = React.createClass({
 								handleAdd={this.addRetroItem} 
 								columnId={2} 
 								items={this.state.retroItems[2]} 
-								showModal={this.state.modal_show} 
+								showModal={this.state.modalShow} 
 								handleShowModal={this.handleShowModal} 
 								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}
@@ -244,7 +244,7 @@ var Retro = React.createClass({
 								HeaderText="Action Items" 
 								columnId={3} 
 								items={this.state.actionItems} 
-								showModal={this.state.modal_show} 
+								showModal={this.state.modalShow} 
 								handleShowActionEditModal={this.handleShowActionEditModal} 
 								trackerTest={this.addActionItemToTracker}
 								handleActionModal={this.handleActionModal}/>
@@ -266,15 +266,15 @@ var Retro = React.createClass({
   	},
 
 	handleChangeText: function(){
-		this.setState({current_item_text: this.refs.editRetroItem.value});
+		this.setState({currentItemText: this.refs.editRetroItem.value});
 	},
 	handleEditItem: function(e){
 		e.preventDefault();
-		if(this.state.current_tracker_action_id != null){
+		if(this.state.currentTrackerActionId != null){
 			this.handleEditActionItem(e, this.refs.editRetroItem.value);
 		}
 		else{
-			this.setState({current_item_text: this.refs.editRetroItem.value});
+			this.setState({currentItemText: this.refs.editRetroItem.value});
 			this.handleClose();
 			//make ajax call to update database entry 
 			//we have the item id
@@ -282,7 +282,7 @@ var Retro = React.createClass({
 
 			var postPromise = $.ajax({
 				method: 'POST',
-		  		url: "/retros/editItemText/" + retroId + "/" + this.state.current_item_id,
+		  		url: "/retros/editItemText/" + retroId + "/" + this.state.currentItemId,
 		  		data: {text : this.refs.editRetroItem.value}
 		  	});
 		}	
@@ -292,7 +292,7 @@ var Retro = React.createClass({
 
 		e.preventDefault();
 		var vm = this;
-		this.setState({AddActionItem: false});
+		this.setState({addActionItem: false});
 		this.handleClose();
 		//make ajax call to update database entry 
 		//we have the item id
@@ -303,14 +303,14 @@ var Retro = React.createClass({
 
 		var postPromise = $.ajax({
 			 method: 'POST',
-	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.project_id +"/stories",
+	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.projectId +"/stories",
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	          },
 	          data: {
 	          	"name": "RetroActive Action: " + actionItemText.substring(0,20),
 	          	"description": actionItemText,
-	          	"project_id": vm.state.project_id,
+	          	"addActionItem": vm.state.projectId,
 	          	"story_type": "chore"
 	          }
 	  	});
@@ -325,7 +325,7 @@ var Retro = React.createClass({
 	  		console.log(data);
 			var postPromise = $.ajax({
 				method: 'POST',
-		  		url: "/retros/addActionItem/" + retroId + "/" + vm.state.current_item_id,
+		  		url: "/retros/addActionItem/" + retroId + "/" + vm.state.currentItemId,
 		  		data: {
 		  			"tracker_action_id": data.id,
 		  			"text": actionItemText
@@ -336,7 +336,7 @@ var Retro = React.createClass({
 	handleEditActionItem: function(e, actionItemText){
 		e.preventDefault();
 		var vm = this;
-		this.setState({AddActionItem: false});
+		this.setState({addActionItem: false});
 		this.handleClose();
 		//make ajax call to update database entry 
 		//we have the item id
@@ -346,8 +346,8 @@ var Retro = React.createClass({
 
 		var postPromise = $.ajax({
 			 method: 'PUT',
-	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.project_id 
-	  		 	+ "/stories/" + vm.state.current_tracker_action_id,
+	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.projectId 
+	  		 	+ "/stories/" + vm.state.currentTrackerActionId,
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	          },
@@ -359,10 +359,10 @@ var Retro = React.createClass({
 		postPromise.then(function(data){
 			var postPromise = $.ajax({
 				method: 'POST',
-		  		url: "/retros/editActionText/" + retroId + "/" + vm.state.current_item_id,
+		  		url: "/retros/editActionText/" + retroId + "/" + vm.state.currentItemId,
 		  		data: {text : actionItemText}
 	  		});
-	  		vm.setState({current_tracker_action_id: null});
+	  		vm.setState({currentTrackerActionId: null});
 		});
 	},
 	buildRetro: function(){
@@ -396,7 +396,7 @@ var Retro = React.createClass({
 
 			var actionSet = []
 
-			var project_id = data.project_id;
+			var projectId = data.addActionItem;
         	var token = localStorage.getItem("tracker_token");
         	
         	//console.log("Initial count: " + countActionItems);
@@ -408,7 +408,7 @@ var Retro = React.createClass({
 					//Sync the status of the action items from tracker
 
 					var ajaxPromise = $.ajax({
-						url: "https://www.pivotaltracker.com/services/v5/projects/"+ project_id + "/stories/" + actionItem.tracker_action_id,
+						url: "https://www.pivotaltracker.com/services/v5/projects/"+ projectId + "/stories/" + actionItem.tracker_action_id,
 						beforeSend: function(xhr) {
 							xhr.setRequestHeader('X-TrackerToken', token);
 						}
@@ -425,13 +425,13 @@ var Retro = React.createClass({
 							//set the state after the syncing of the action item statuses
 
 							document.title = "RetroActive - " + data.project_name  + dateString;
-							vm.setState({project_name: data.project_name, 
-								retro_date: dateString, 
+							vm.setState({projectName: data.project_name, 
+								retroDate: dateString, 
 								retroItems: itemSet, 
-								project_id: data.project_id, 
+								projectId: data.projectId, 
 								actionItems: actionSet,
 								loading: false,
-								UserCurrentVotes: userVoteCount,
+								userCurrentVotes: userVoteCount,
 								refreshActionStatuses: false
 							});
 						}
@@ -447,13 +447,13 @@ var Retro = React.createClass({
 							//set the state after the syncing of the action item statuses
 
 							document.title = "RetroActive - " + data.project_name  + dateString;
-							vm.setState({project_name: data.project_name, 
-								retro_date: dateString, 
+							vm.setState({projectName: data.project_name, 
+								retroDate: dateString, 
 								retroItems: itemSet, 
-								project_id: data.project_id, 
+								projectId: data.project_id, 
 								actionItems: actionSet,
 								loading: false,
-								UserCurrentVotes: userVoteCount,
+								userCurrentVotes: userVoteCount,
 								refreshActionStatuses: false
 							});
 						}
@@ -476,20 +476,22 @@ var Retro = React.createClass({
 
 				var newActionItems = vm.state.actionItems;
 
-				data.action_items.forEach(function(item, index){
-					if(oldActionItemsIdList.indexOf(item._id.$oid) <= -1){
-						item.status = "unscheduled";
-						newActionItems.push(item);
-					}
-				});
+				if(data.action_items){
+					data.action_items.forEach(function(item, index){
+						if(oldActionItemsIdList.indexOf(item._id.$oid) <= -1){
+							item.status = "unscheduled";
+							newActionItems.push(item);
+						}
+					});
+				}
 				
-				vm.setState({project_name: data.project_name, 
-					retro_date: dateString, 
+				vm.setState({projectName: data.project_name, 
+					retroDate: dateString, 
 					retroItems: itemSet, 
-					project_id: data.project_id, 
+					projectId: data.project_id, 
 					loading: false,
-					//actionItems: actionItemsInput,
-					UserCurrentVotes: userVoteCount,
+					actionItems: newActionItems,
+					userCurrentVotes: userVoteCount,
 					refreshActionStatuses: false,
 				});				
 			}		
@@ -542,23 +544,23 @@ var Retro = React.createClass({
 
 	handleClick: function() 
 	{ 
-		this.setState({modal_show: true});
+		this.setState({modalShow: true});
 	},
-	handleClose: function() { this.setState({modal_show: false})},
+	handleClose: function() { this.setState({modalShow: false})},
 
 	addActionItemToTracker: function(actionItem){
         var token = localStorage.getItem("tracker_token");
 
 		var ajaxPromise = $.ajax({
 			 method: 'POST',
-	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ this.state.project_id +"/stories",
+	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ this.state.projectId +"/stories",
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	          },
 	          data: {
 	          	"name": "RetroActive Action Item",
 	          	"description": actionItem.text,
-	          	"project_id": this.state.project_id,
+	          	"project_id": this.state.projectId,
 	          	"story_type": "chore"
 	          }
 	  	});
@@ -566,21 +568,21 @@ var Retro = React.createClass({
 	},
 	handleShowModal: function(id, item_text){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({current_item_id: id, current_item_text: item_text, modal_show: true, AddActionItem: false},
+		this.setState({currentItemId: id, currentItemText: item_text, modalShow: true, addActionItem: false},
 			this.createFocus
 			);
 	},
 	handleShowActionEditModal: function(dbId, trackerId, item_text){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({current_item_id: dbId, current_tracker_action_id: trackerId, 
-			current_item_text: item_text, modal_show: true, AddActionItem: false},
+		this.setState({currentItemId: dbId, currentTrackerActionId: trackerId, 
+			currentItemText: item_text, modalShow: true, addActionItem: false},
 			this.createFocus
 			);
 	},
 	handleActionModal: function(id, item_text){
 		//get the item id of the item being added to get the text for that item
-		this.setState({current_item_id: id, current_item_text: item_text,
-		 modal_show: true, AddActionItem: true},
+		this.setState({currentItemId: id, currentItemText: item_text,
+		 modalShow: true, addActionItem: true},
 			this.createFocus
 			);
 	},
@@ -602,7 +604,7 @@ var Retro = React.createClass({
 	},
 	handleVote: function(item){
 		//console.log(item);
-		if(this.state.MaxUserVotes > this.state.UserCurrentVotes)
+		if(this.state.maxUserVotes > this.state.userCurrentVotes)
 		{
 			var self = this;
 			var postPromise = $.ajax({
