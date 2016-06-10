@@ -250,7 +250,8 @@ var Retro = React.createClass({
 								showModal={this.state.modalShow} 
 								handleShowActionEditModal={this.handleShowActionEditModal} 
 								trackerTest={this.addActionItemToTracker}
-								handleActionModal={this.handleActionModal}/>
+								handleActionModal={this.handleActionModal}
+								projectUsers = {this.state.projectUsers}/>
 						</TabPanel>	
 							
 					</Tabs>
@@ -408,6 +409,7 @@ var Retro = React.createClass({
 		  		url: "/retros/editActionText/" + retroId + "/" + vm.state.currentItemId,
 		  		data: {text : actionItemText}
 	  		});
+
 	  		vm.setState({currentTrackerActionId: null});
 		});
 	},
@@ -472,7 +474,7 @@ var Retro = React.createClass({
 					    });
 
 					    ajaxPromise.then(function(trackerData){
-					    	console.log(trackerData);
+					    	// console.log(trackerData);
 
 					    	actionItem.status = trackerData.current_state;
 					    	if(trackerData.owner_ids.length > 0){
@@ -541,6 +543,7 @@ var Retro = React.createClass({
 				if(data.action_items){
 					data.action_items.forEach(function(item, index){
 						if(oldActionItemsIdList.indexOf(item._id.$oid) <= -1){
+							item.owner = vm.state.currentSelectedPerson;
 							item.status = "unscheduled";
 							newActionItems.push(item);
 						}
@@ -601,13 +604,13 @@ var Retro = React.createClass({
 	  	});
 
 	  	postPromise.then(function(data){
-	  		console.log("After Delete Call");
-	  		console.log(data);
+	  		//console.log("After Delete Call");
+	  		//console.log(data);
 	  	});
 
 	  	postPromise.error(function(data){
-	  		console.log("error with Delete Call");
-	  		console.log(data);
+	  		// console.log("error with Delete Call");
+	  		// console.log(data);
 	  	});
 	},
 
