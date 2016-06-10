@@ -396,7 +396,7 @@ var Retro = React.createClass({
 
 			var actionSet = []
 
-			var projectId = data.addActionItem;
+			var projectId = data.project_id;
         	var token = localStorage.getItem("tracker_token");
         	
         	//console.log("Initial count: " + countActionItems);
@@ -428,7 +428,7 @@ var Retro = React.createClass({
 							vm.setState({projectName: data.project_name, 
 								retroDate: dateString, 
 								retroItems: itemSet, 
-								projectId: data.projectId, 
+								projectId: data.project_id, 
 								actionItems: actionSet,
 								loading: false,
 								userCurrentVotes: userVoteCount,

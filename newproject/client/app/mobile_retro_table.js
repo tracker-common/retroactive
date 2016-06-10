@@ -10,10 +10,34 @@ var MobileRetroTable = React.createClass({
 			});
 		}
 
-		var action_items_count = 0;
+
+		var unscheduled = 0;
+		var scheduled = 0;
+		var started = 0;
+		var accepted = 0;
+
 		if(this.props.retro.action_items){
-			action_items_count = this.props.retro.action_items.length;
+			this.props.retro.action_items.forEach(function(item, index){
+				switch(item.status){
+					case "unscheduled":
+						unscheduled ++;
+						break;
+					case "unstarted":
+						scheduled++;
+						break;
+					case "scheduled":
+						scheduled ++;
+						break;
+					case "started":
+						started ++;
+						break;
+					case "accepted":
+						accepted++;
+						break;
+				}
+			});
 		}
+		
 	    return(
 		    	<div className="mobile_retro_table">
 					<span style={{fontSize: '16px', fontWeight: 'bold'}}>
@@ -31,11 +55,10 @@ var MobileRetroTable = React.createClass({
 					<span style={{fontWeight: 'bold'}}>Actions</span>
 
 					<div className="mobile_retro_table__tabbed">
-						<span style={{color: '#88C1DE', fontWeight: 'bold'}}>Unscheduled: 0</span>
-						<span style={{color: '#A7A7A7', fontWeight: 'bold'}}>Scheduled: 0</span>
-						<span style={{color: '#DCD003', fontWeight: 'bold'}}>In Progress: 0</span>
-						<span style={{color: '#F26373', fontWeight: 'bold'}}>Rejected: 0</span>
-						<span style={{color: '#72BF02', fontWeight: 'bold'}}>Accepted: 0</span>
+						<span style={{color: '#88C1DE', fontWeight: 'bold'}}>Unscheduled: {unscheduled}</span>
+						<span style={{color: '#A7A7A7', fontWeight: 'bold'}}>Scheduled: {scheduled}</span>
+						<span style={{color: '#DCD003', fontWeight: 'bold'}}>In Progress: {started}</span>
+						<span style={{color: '#72BF02', fontWeight: 'bold'}}>Accepted: {accepted}</span>
 					</div>
 				</div>
 	    )

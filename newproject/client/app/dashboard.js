@@ -168,8 +168,74 @@ var RetroActive = React.createClass({
         else{
            vm.setState({projectRetros: data, loading: false});
         }
+
+        vm.syncStatuses();
       });
     });
+  },
+
+  syncStatuses: function(){
+    var vm = this;
+    var actionItemsCount = 0;
+    var newProjectRetros = this.state.projectRetros; 
+    var token = localStorage.getItem("tracker_token");
+    newProjectRetros.forEach(function(projRetro, index){
+      var projectId = projRetro.project_id
+      projRetro.retros.forEach(function(retro, index){
+        if(retro.action_items){
+          actionItemsCount += retro.action_items.length;
+
+          retro.action_items.forEach(function(actionItem, index){
+
+            var ajaxPromise = $.ajax({
+              url: "https://www.pivotaltracker.com/services/v5/projects/"+ projectId + "/stories/" + actionItem.tracker_action_id,
+              beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-TrackerToken', token);
+              }
+            });
+
+            ajaxPromise.then(function(trackerData){
+              //console.log(trackerData);
+              actionItem.status = trackerData.current_state;
+              actionItemsCount --;
+              if(actionItemsCount == 0){
+                vm.setState({projectRetros: newProjectRetros});
+              }
+            });
+
+            ajaxPromise.error(function(data){
+              actionItemsCount --;
+
+              vm.deleteActionItem(actionItem._id.$oid, retro._id.$oid);
+
+              if(actionItemsCount == 0){
+                vm.setState({projectRetros: newProjectRetros});
+              }
+            });
+          });
+        }
+      });
+    });
+  },
+
+  deleteActionItem: function(actionItemId, retroId) {
+    //Ajax call to delete the item
+
+    console.log("deleting Action Item");
+    var postPromise = $.ajax({
+      method: 'DELETE',
+        url: "/retros/deleteActionItem/" + retroId + "/" + actionItemId,
+      });
+
+      postPromise.then(function(data){
+        console.log("After Delete Call");
+        console.log(data);
+      });
+
+      postPromise.error(function(data){
+        console.log("error with Delete Call");
+        console.log(data);
+      });
   },
 
   deleteRetro: function(retro_id){
