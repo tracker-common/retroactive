@@ -18,10 +18,10 @@ var ActionColumn = React.createClass({
 	    });
 
 		return(
-			<div className="full-height">
-				<h1 className="retro-columns__title">{this.props.HeaderText}</h1>
-				<div className="retro-column">			
-					<div className="action-column-items">
+			<div className="full_height">
+				<h1 className="retro_columns__title">{this.props.HeaderText}</h1>
+				<div className="retro_column">			
+					<div className="action_column_items">
 						{actionItems}
 					</div>
 				</div>

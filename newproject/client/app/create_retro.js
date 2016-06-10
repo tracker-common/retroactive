@@ -9,14 +9,12 @@ var CreateRetroForm = React.createClass({
 
 		};
 	},
-	handleClickRetro: function(){
-		this.props.handleCreateRetro(this.refs.retroId.value);
-	},
+	
 	render() {
 		var vm = this;
 		return (
 		
-			<div className="createRetroForm">
+			<div className="create_retro_form">
 				{
 					this.props.projectRetros.map(function(item, index) {
 				      return (
@@ -34,6 +32,10 @@ var CreateRetroForm = React.createClass({
 				}
 			</div>
 		);
+	},
+
+	handleClickRetro: function(){
+		this.props.handleCreateRetro(this.refs.retroId.value);
 	}
 });
 

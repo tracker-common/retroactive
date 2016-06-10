@@ -9,10 +9,10 @@ var TrackerTokenForm = React.createClass({
   	render() {
 	  	if(this.props.token){
 	  		return (
-	    	<div className="dashboard-form" >
+	    	<div className="dashboard_form" >
 	    	{
 	    		this.props.showErrorText && 
-	    		<span className="errorText">Your token is invalid.  Please verify it and try again.</span>
+	    		<span className="error_text">Your token is invalid.  Please verify it and try again.</span>
 	    	} 
 				<div>Woo! We have an API token for you! Everything is cool unless you need to <span className="link" onClick={this.props.handleChangeToken}>change it</span>
 				</div>
@@ -22,7 +22,7 @@ var TrackerTokenForm = React.createClass({
 	  	}
 	  	else{
 	  		return (
-	    	<div className="dashboard-form" > 
+	    	<div className="dashboard_form"> 
 				<div>:) Hey there! It looks like you haven't provided your tracker token yet. RetroActive won't really work until you do. Please go get it from <a href="https://www.pivotaltracker.com/profile">https://www.pivotaltracker.com/profile</a></div>
 				<br/>
 				<form>

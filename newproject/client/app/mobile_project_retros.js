@@ -8,7 +8,7 @@ var MobileProjectRetros = React.createClass({
 	render() {
 		var vm = this;
  		return(
-			<div className="mobile-project-retros">
+			<div>
 				<button className="mobile_project_retros_new_button" type="button" onClick={this.newRetro}>+</button>
 				<span style={{color: "gray"}}>Create New Retro</span><br/>
 				

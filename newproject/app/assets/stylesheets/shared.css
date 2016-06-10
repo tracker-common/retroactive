@@ -1,4 +1,4 @@
-body{
+body {
 	margin:0;
 	height: 100vh;
 	font-family: 'Arial';
@@ -10,27 +10,28 @@ html {
 	height: 100%;
 }
 
-.main_wrapper{
+.main_wrapper {
 	width: 950px;
 	margin:0 auto;
 }
 
-.mobile_wrapper{
+.mobile_wrapper {
 	width: 90%;
 	margin:0 auto;
 }
 
-.dashboard{
+.dashboard {
+	min-height: 100vh;
 	height: 100%;
 	background-color:#F3F3F3;
 }
 
-.createRetroForm{
+.create_retro_form {
 	background-color:#F3F3F3;
 }
 
 /*breakpoint.js */
-.phone{
+.phone {
 	background-color:#F3F3F3;
 	height: 100%;
 	margin: 0;
@@ -39,11 +40,11 @@ html {
 
 /* retro.js */
 
-#retro-body {
+#retro_body {
 	background-color: #66B9DD;
 	height: 100vh;
 }
-.desktop-retro-columns .full-height{
+.desktop_retro_columns .full_height {
 	height: 100%;
 	max-width:450px;
 	min-width:250px;
@@ -51,12 +52,12 @@ html {
 	width: 25vw;
 }
 
-.mobile-retro-columns .full-height{
+.mobile_retro_columns .full_height {
 	height: 100%;
 	width: 100%;
 }
 
-.desktop-retro-columns{
+.desktop_retro_columns {
 	display: flex;
 	flex-direction: row;
 	justify-content:space-around;
@@ -64,7 +65,7 @@ html {
 	height: 90vh;
 }
 
-.desktop-retro-columns .retro-column {
+.desktop_retro_columns .retro_column {
 	display: flex;
 	flex-direction: column;
 	min-width:250px;
@@ -76,7 +77,7 @@ html {
 
 }
 
-.desktop-retro-columns .retro-column input{
+.desktop_retro_columns .retro_column input {
 	height: 20px;
 	margin-top: 15px;
 	margin-left: 8px;
@@ -86,14 +87,14 @@ html {
 
 }
 
-.mobile-retro-columns{
+.mobile_retro_columns {
 	width:100%;
 	font-size:12px;
 	height: 90vh;
 }
 
 
-.mobile-retro-columns .retro-column {
+.mobile_retro_columns .retro_column {
 	width:90%;
 	margin:0 auto;
 	background-color: #F3F3F3;
@@ -102,7 +103,7 @@ html {
 
 }
 
-.mobile-retro-columns .retro-column input{
+.mobile_retro_columns .retro_column input {
 	height: 20px;
     margin: 15px 2% 0 2%;
 	min-height: 20px;
@@ -122,40 +123,40 @@ html {
 	color: #F3F3F3;
 }
 
-.row{
+.row {
 	display: flex;
 	flex-direction: row;
 }
 
-.header .left{
+.header .left {
 	position: absolute;
 	left: 5px;
 	top: 6px;
 }
 
-.header .right{
+.header .right {
 	position: absolute;
 	right: 5px;
 	top: -8px;
 }
 
-.header__row{
+.header__row {
 	display: flex;
 	flex-direction:row;
 }
 
-.center{
+.center {
 	margin-right:auto;
 	margin-left:auto;
 	margin-top: -8px;
 }
 
-.header__text_box{
+.header__text_box {
 	height: 40px;
 	font-size: 12px;
 }
 
-#vote_status{
+#vote_status {
 	color: red;
 	display: flex;
 	margin-top: 20px;
@@ -189,19 +190,19 @@ html {
 	margin: 0 0 0 50px;
 }
 
-.mobile_header .right{
+.mobile_header .right {
 	position: absolute;
 	right: 5px;
 	top: -8px;	
 }
 
-.mobile_header .left{
+.mobile_header .left {
 	position: absolute;
 	left: 5px;
 	top: 6px;
 }
 
-.mobile_vote_status{
+.mobile_vote_status {
 	color: red;
 	border-radius: 3px;
 	border-color: black;
@@ -249,7 +250,7 @@ html {
 
 
 /* sign_in.js */
-.sign-in {
+.sign_in {
 	display: flex;
 	justify-content: center;
 	flex-direction:column;
@@ -259,9 +260,9 @@ html {
 }
 
 
-/* retro-columns */
+/* retro_columns */
 
-.retro-columns__title{
+.retro_columns__title {
 	display: flex;
 	min-width: 200px;
 	margin: 5px 5px;
@@ -269,7 +270,7 @@ html {
 	font-size: 18px;
 }
 
-.desktop-retro-columns .retro-column-items{
+.desktop_retro_columns .retro_column_items {
 	display:block;
 	background-color: #F3F3F3;
 	overflow-y: scroll;
@@ -278,7 +279,7 @@ html {
 	height: 93%;
 }
 
-.mobile-retro-columns .retro-column-items{
+.mobile_retro_columns .retro_column_items {
 	display:block;
 	background-color: #F3F3F3;
 	overflow-y: scroll;
@@ -286,7 +287,7 @@ html {
 	height: 67vh;
 }
 
-.action-column-items{
+.action_column_items {
 	display:block;
 	background-color: #F3F3F3;
 	overflow-y: scroll;
@@ -296,11 +297,11 @@ html {
 	height: 96.8%;
 }
 
-/* mobile retro-columns */
+/* mobile retro_columns */
 
 /* dasboard.js */
 
-.dashboard-form{
+.dashboard_form {
 	display: flex;
 	background-color: #FFFFFF;
 	border-radius: 5px;
@@ -312,22 +313,22 @@ html {
 	flex-direction: column;
 }
 
-.dashboard-form form{
+.dashboard_form form {
 	display: flex;
 	padding: 20px;
 	flex-direction: row;
 }
 
-.link{
+.link {
 	color:blue;
 	cursor:pointer;
 }
 
-input{
+input {
 	margin-left: 5px;
 }
 
-button{
+button {
 	margin-left: 5px;
 	border-radius: 5px;
 	background-color: #FFFFFF;
@@ -337,21 +338,21 @@ button{
 
 /* retro_item.js */
 
-.action-link{
+.action_link {
 	font-size: 12px;
 	color: blue;
 	margin-left: auto;
 	margin-right: 5px;
 }
 
-.edit-link{
+.edit_link {
 	font-size: 12px;
 	color: blue;
 	margin-left: 5px;
 	margin-right: auto;
 }
 
-.retro-item{
+.retro_item {
 	display: flex;
 	flex-direction: column;
 	background-color: white;
@@ -365,7 +366,7 @@ button{
 
 /* retro_item.js and action_item.js */ 
 
-.status-and-action-bar{
+.status_and_action_bar {
 	align-content: flex-end;
 	background-color: lightgrey;
 	/*height: 100%;*/
@@ -377,25 +378,25 @@ button{
 	padding-top: 3px;
 }
 
-.retro-item-description{
+.retro_item_description {
 	padding: 5px;
 }
 
-.item-info{
+.item_info {
 	font-size: 12px;
 	margin-left: auto;
 	margin-right: 5px;
 }
 
-/* createRetro.js */
+/* create_retro.js */
 
 /*Retro tables in dashboard*/
-.project-retros {
+.project_retros {
 	width: 100%;
 	margin: 20px 0;
 }
 
-.project-retros-header {
+.project_retros_header {
 	display: flex;
 	background-color: white;
 	border-style: solid;
@@ -406,11 +407,11 @@ button{
 	justify-content: flex-start;
 }
 
-.project-retros-new-button {
+.project_retros_new_button {
 	align-self: flex-end;
 }
 
-.retro-table {
+.retro_table {
 	background-color: white;
 	border-style: solid;
 	border-color: #A9A9A9;
@@ -418,18 +419,18 @@ button{
 	border-radius: 0px 0px 5px 5px;
 }
 
-.retro-table td {
+.retro_table td {
 	text-align: center;
 	padding: 5px 10px;
 }
 
 /* tracker_token_form.js */
 
-.token_label{
+.token_label {
 	font-size: 12px;
 }
 
-.errorText{
+.error_text {
 	font-size: 20px;
 	color: red;
 }

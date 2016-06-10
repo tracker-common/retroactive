@@ -13,13 +13,13 @@ var ActionItem = React.createClass({
 		var statusHtml = ""
 		
 		return (
-			<div className="retro-item">
-				<div className="retro-item-description">
+			<div className="retro_item">
+				<div className="retro_item_description">
 					{this.props.itemText}
 				</div>
-				<div className="status-and-action-bar">
-					<span className="item-info">Action Item Status: <ActionStatus status={this.props.status}/> </span>
-					<a className="edit-link link" onClick={this.show}>Edit</a>
+				<div className="status_and_action_bar">
+					<span className="item_info">Action Item Status: <ActionStatus status={this.props.status}/> </span>
+					<a className="edit_link link" onClick={this.show}>Edit</a>
 				</div>
 
 			</div>
