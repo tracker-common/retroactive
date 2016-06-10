@@ -310,7 +310,7 @@ var Retro = React.createClass({
 	          data: {
 	          	"name": "RetroActive Action: " + actionItemText.substring(0,20),
 	          	"description": actionItemText,
-	          	"addActionItem": vm.state.projectId,
+	          	"project_id": vm.state.projectId,
 	          	"story_type": "chore"
 	          }
 	  	});
@@ -531,15 +531,22 @@ var Retro = React.createClass({
 
 	deleteActionItem: function(actionItemId) {
 		//Ajax call to delete the item
-			var postPromise = $.ajax({
-				method: 'DELETE',
-		  		url: "/retros/deleteActionItem/" + this.props.params.retroId + "/" + actionItemId,
-		  	});
 
-		  	postPromise.then(function(data){
-		  		console.log("After Delete Call");
-		  		console.log(data);
-		  	});
+		console.log("deleting Action Item");
+		var postPromise = $.ajax({
+			method: 'DELETE',
+	  		url: "/retros/deleteActionItem/" + this.props.params.retroId + "/" + actionItemId,
+	  	});
+
+	  	postPromise.then(function(data){
+	  		console.log("After Delete Call");
+	  		console.log(data);
+	  	});
+
+	  	postPromise.error(function(data){
+	  		console.log("error with Delete Call");
+	  		console.log(data);
+	  	});
 	},
 
 	handleClick: function() 

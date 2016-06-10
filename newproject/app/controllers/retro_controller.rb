@@ -99,6 +99,10 @@ class RetroController < ActionController::Base
 		ret = Retro.find(retro_id)
 		actionItem = ret.action_items.find(actionItemId)
 
+		retroItem = ret.retro_items.where(action_item_id: actionItemId).first
+		retroItem.action_item_id = nil
+		retroItem.save
+
 		actionItem.delete
 		render status: 200, json: {}
 	end
