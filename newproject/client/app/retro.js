@@ -13,6 +13,7 @@ import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
 //import TabletBreakpoint from './responsive_utilities/tablet_breakpoint';
 import MobileBreakpoint from './responsive_utilities/phone_breakpoint';
 import Loader from 'react-loader-advanced';
+import UsersDropdown from './project_users_dropdown';
 
 
 //Imports for react tabs for mobile view
@@ -78,10 +79,6 @@ var Retro = React.createClass({
 					maxVotes={this.state.maxUserVotes}
 					userVotes={this.state.userCurrentVotes}/>
 
-					
-					<div>
-
-					</div>	
 					<div className="modal" onClick={this.handleClick}>
 				      {
 				        this.state.modalShow &&
@@ -95,6 +92,7 @@ var Retro = React.createClass({
 				            	<button className="delete_button">Delete</button>
 				            	<input type="text"  ref="actionItem"/>
 				            	<button className="update_button">Update</button>
+				            	<UsersDropdown people={this.state.projectUsers} handleChangePerson={this.handleChangePerson}/>
 				            </form>
 				            :
 				            <form onSubmit={this.handleEditItem} >
@@ -152,7 +150,8 @@ var Retro = React.createClass({
 							showModal={this.state.modalShow} 
 							handleShowActionEditModal={this.handleShowActionEditModal} 
 							trackerTest={this.addActionItemToTracker}
-							handleActionModal={this.handleActionModal}/>
+							handleActionModal={this.handleActionModal}
+							projectUsers = {this.state.projectUsers}/>
 					</div>
 				</div>
 			</DesktopBreakpoint>
@@ -274,37 +273,34 @@ var Retro = React.createClass({
 	},
 
 	getProjectUsers: function(projectId){
-		var projectUsers = [];
-		alert("In Get Users");
+		var projectUsers = {};
 		var token = localStorage.getItem("tracker_token");
 		var usersPromise = $.ajax({
 			method: 'GET',
 			url: "https://www.pivotaltracker.com/services/v5/projects/" + projectId + "/memberships",
 			beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
-	          }
+	        }
 		});
 
 		usersPromise.then(function(data){
-			console.log("Users Data");
-			console.log(data);
+			// console.log("Users Data");
+			// console.log(data);
 
 			data.forEach(function(member, index){
 				if(member.role != 'viewer'){
-					projectUsers.push(member.person);
+					projectUsers[member.person.id] = member.person;
 				}
 			});
 
-			console.log("Our Array");
-			console.log(projectUsers);
+			// console.log("Our Array");
+			// console.log(projectUsers);
 		});
 
 		usersPromise.error(function(data){
 			console.log("Error with Users data");
 			console.log(data);
 		});
-
-
 
 		this.setState({projectUsers: projectUsers, refreshActionStatuses: false});
 	},
@@ -341,6 +337,20 @@ var Retro = React.createClass({
 
 		var token = localStorage.getItem("tracker_token");
 		var actionItemText = vm.refs.actionItem.value;
+		
+
+		var personId = vm.state.currentSelectedPerson;
+
+		var data =  {
+	          	"name": "RetroActive Action: " + actionItemText.substring(0,20),
+	          	"description": actionItemText,
+	          	"project_id": vm.state.projectId,
+	          	"story_type": "chore"
+	          }
+
+	    if(personId != null){
+	    	data.owner_ids = [personId];
+	    }
 
 		var postPromise = $.ajax({
 			 method: 'POST',
@@ -348,12 +358,7 @@ var Retro = React.createClass({
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	          },
-	          data: {
-	          	"name": "RetroActive Action: " + actionItemText.substring(0,20),
-	          	"description": actionItemText,
-	          	"project_id": vm.state.projectId,
-	          	"story_type": "chore"
-	          }
+	          data: data
 	  	});
 
 	  	postPromise.error(function(data){
@@ -362,8 +367,8 @@ var Retro = React.createClass({
 	  	});
 
 		postPromise.then(function(data){
-			console.log("New Item In Tracker");
-	  		console.log(data);
+			// console.log("New Item In Tracker");
+	  // 		console.log(data);
 			var postPromise = $.ajax({
 				method: 'POST',
 		  		url: "/retros/addActionItem/" + retroId + "/" + vm.state.currentItemId,
@@ -406,6 +411,11 @@ var Retro = React.createClass({
 	  		vm.setState({currentTrackerActionId: null});
 		});
 	},
+
+	handleChangePerson: function(personId){
+		this.setState({currentSelectedPerson: personId});
+	},
+
 	buildRetro: function(){
 		var retroId = this.props.params.retroId;
 		var vm = this;
@@ -441,72 +451,77 @@ var Retro = React.createClass({
         	var token = localStorage.getItem("tracker_token");
         	
         	if(vm.state.refreshActionStatuses == true){
+        		
+
         		vm.getProjectUsers(projectId);
 
-        	}
+	 			//Re-Sync the action item statuses with the tracker API
+				if(data.action_items && data.action_items.length > 0 ){
+					
 
- 			//Re-Sync the action item statuses with the tracker API
-			if(data.action_items && data.action_items.length > 0 && vm.state.refreshActionStatuses == true){
-				
+					
+					var countActionItems = data.action_items.length;
+					data.action_items.forEach(function(actionItem, index){
+						//Sync the status of the action items from tracker
 
-				
-				var countActionItems = data.action_items.length;
-				data.action_items.forEach(function(actionItem, index){
-					//Sync the status of the action items from tracker
+						var ajaxPromise = $.ajax({
+							url: "https://www.pivotaltracker.com/services/v5/projects/"+ projectId + "/stories/" + actionItem.tracker_action_id,
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader('X-TrackerToken', token);
+							}
+					    });
 
-					var ajaxPromise = $.ajax({
-						url: "https://www.pivotaltracker.com/services/v5/projects/"+ projectId + "/stories/" + actionItem.tracker_action_id,
-						beforeSend: function(xhr) {
-							xhr.setRequestHeader('X-TrackerToken', token);
-						}
-				    });
+					    ajaxPromise.then(function(trackerData){
+					    	console.log(trackerData);
 
-				    ajaxPromise.then(function(trackerData){
-				    	//console.log(trackerData);
-				    	actionItem.status = trackerData.current_state;
-						actionSet.unshift(actionItem);
-						countActionItems --;
-						//wait for all of the action items to be in
-						//console.log("Count: " + countActionItems);
-						if(countActionItems == 0){
-							//set the state after the syncing of the action item statuses
+					    	actionItem.status = trackerData.current_state;
+					    	if(trackerData.owner_ids.length > 0){
+					    		actionItem.owner = trackerData.owner_ids[0];
+					    	}
+							actionSet.unshift(actionItem);
+							countActionItems --;
+							//wait for all of the action items to be in
+							//console.log("Count: " + countActionItems);
+							if(countActionItems == 0){
+								//set the state after the syncing of the action item statuses
 
-							document.title = "RetroActive - " + data.project_name  + dateString;
-							vm.setState({projectName: data.project_name, 
-								retroDate: dateString, 
-								retroItems: itemSet, 
-								projectId: data.project_id, 
-								actionItems: actionSet,
-								loading: false,
-								userCurrentVotes: userVoteCount,
-								refreshActionStatuses: false
-							});
-						}
-				    });
-				    
-				    ajaxPromise.error(function(error){
-				    	countActionItems --;
-						//wait for all of the action items to be in
-						console.log("ERROR");
-						console.log(error);
-						vm.deleteActionItem(actionItem._id.$oid);
-						if(countActionItems == 0){
-							//set the state after the syncing of the action item statuses
+								document.title = "RetroActive - " + data.project_name  + dateString;
+								vm.setState({projectName: data.project_name, 
+									retroDate: dateString, 
+									retroItems: itemSet, 
+									projectId: data.project_id, 
+									actionItems: actionSet,
+									loading: false,
+									userCurrentVotes: userVoteCount,
+									refreshActionStatuses: false
+								});
+							}
+					    });
+					    
+					    ajaxPromise.error(function(error){
+					    	countActionItems --;
+							//wait for all of the action items to be in
+							console.log("ERROR");
+							console.log(error);
+							vm.deleteActionItem(actionItem._id.$oid);
+							if(countActionItems == 0){
+								//set the state after the syncing of the action item statuses
 
-							document.title = "RetroActive - " + data.project_name  + dateString;
-							vm.setState({projectName: data.project_name, 
-								retroDate: dateString, 
-								retroItems: itemSet, 
-								projectId: data.project_id, 
-								actionItems: actionSet,
-								loading: false,
-								userCurrentVotes: userVoteCount,
-								refreshActionStatuses: false
-							});
-						}
-				    });
+								document.title = "RetroActive - " + data.project_name  + dateString;
+								vm.setState({projectName: data.project_name, 
+									retroDate: dateString, 
+									retroItems: itemSet, 
+									projectId: data.project_id, 
+									actionItems: actionSet,
+									loading: false,
+									userCurrentVotes: userVoteCount,
+									refreshActionStatuses: false
+								});
+							}
+					    });
 
-				});
+					});
+				} 	
 			} else {
 				//getting back new action items, may not be complete in tracker yet. Don't check status until page reload
 				document.title = "RetroActive - " + data.project_name  + dateString;
@@ -541,7 +556,7 @@ var Retro = React.createClass({
 					userCurrentVotes: userVoteCount,
 					refreshActionStatuses: false,
 				});				
-			}		
+			}	
 
 		});
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {MenuTrigger, MenuOptions, MenuOption} from 'react-menu';
+//import {MenuTrigger, MenuOptions, MenuOption} from 'react-menu';
 
 
 var Header = React.createClass({

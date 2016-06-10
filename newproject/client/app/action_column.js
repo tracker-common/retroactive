@@ -5,13 +5,17 @@ var ActionColumn = React.createClass({
 	//Props: Header Text, Items
 	render() {
 		var vm = this;
+
 		var actionItems = this.props.items.map(function(item, index) {
+
+
 	      return (
 	        <ActionItem itemText={item.text} 
 	        modalShow={vm.props.modal_show} 
 	        key={index}
 	        status= {item.status ? item.status : undefined }
 	        tracker_id={item.tracker_action_id}
+	        owner = {item.owner ? vm.props.projectUsers[item.owner] : undefined}
 	        handleShowEditModal={vm.handleShowEditModal}
 	        object_id={item._id ? item._id.$oid : null} />
 	      );
