@@ -58,6 +58,7 @@ var RetroColumn = React.createClass({
   			}
 		}
 	},
+	
 	handleShowEditModal: function(dbId, trackerId, text){
 		this.props.handleShowModal(dbId, trackerId, text);
 	},

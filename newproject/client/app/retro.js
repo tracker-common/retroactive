@@ -14,6 +14,7 @@ import DesktopBreakpoint from './responsive_utilities/desktop_breakpoint';
 import MobileBreakpoint from './responsive_utilities/phone_breakpoint';
 import Loader from 'react-loader-advanced';
 import UsersDropdown from './project_users_dropdown';
+import CustomModal from './custom_modal';
 
 
 //Imports for react tabs for mobile view
@@ -78,37 +79,24 @@ var Retro = React.createClass({
 					title={this.state.projectName + " - " + this.state.retroDate} 
 					maxVotes={this.state.maxUserVotes}
 					userVotes={this.state.userCurrentVotes}/>
-					<div className="modal" onClick={this.handleClick}>
-				      {
-				        this.state.modalShow &&
-				        <ModalContainer onClose={this.handleClose}>
-				          <ModalDialog onClose={this.handleClose}>
-				          <div> 
-				          {
-				          	this.state.addActionItem ?
-				            <form onSubmit={this.handleAddActionItem} >
-				            	<h1>Add Action Item</h1>
-				            	<input type="text"  ref="actionItem"/>
-				            	<button className="update_button">Update</button>
-				            	<UsersDropdown people={this.state.projectUsers} handleChangePerson={this.handleChangePerson}/>
-				            </form>
-				            :
-				            <form onSubmit={this.handleEditItem} >
-				            	<h1>Description</h1>
-				            	<button onClick={this.handleDeleteItem} className="delete_button">Delete</button>
-				            	<input 
-				            		type="text" 
-				            		onChange={this.handleChangeText} 
-				            		value={this.state.currentItemText} 
-				            		ref="editRetroItem"/>
-				            	<button className="update_button">Update</button>
-				            </form>
-				          }
-				        </div>
-				          </ModalDialog>
-				        </ModalContainer>
-				      }
-				    </div>
+					
+					<CustomModal 
+					editing={this.state.editingItem} 
+					itemText={this.state.currentItemText}
+					itemId = {this.state.currentItemId}
+					isActionItem = {this.state.addActionItem}
+					projectUsers = {this.state.projectUsers}
+					modalShow = {this.state.modalShow}
+					handleEditItem = {this.handleEditItem}
+					handleAddActionItem = {this.handleAddActionItem}
+					currentPerson = {this.state.currentSelectedPerson}
+					handleChangePerson={this.handleChangePerson}
+					handleEditActionItem = {this.handleEditActionItem}
+					handleDeleteItem = {this.handleDeleteItem}
+					handleDeleteActionItem = {this.handleDeleteItem}
+					handleClick = {this.handleClick}
+					handleClose = {this.handleClose}/>
+
 					<div className="desktop_retro_columns">
 						<RetroColumn HeaderText="Happy :)" 
 							handleAdd={this.addRetroItem} 
@@ -159,7 +147,6 @@ var Retro = React.createClass({
 			</DesktopBreakpoint>
 
 			<MobileBreakpoint>
-			
 				<div id="mobile-retro-body">
 					<MobileHeader 
 					user_name={localStorage.getItem("user_name")} 
@@ -183,7 +170,7 @@ var Retro = React.createClass({
 				            :
 				            <form onSubmit={this.handleEditItem} >
 				            	<h1>Description</h1>
-				            	<input type="text" onChange={this.handleChangeText} value={this.state.currentItemText}  ref="editRetroItem"/>
+				            	<input type="text" value={this.state.currentItemText}  ref="editRetroItem"/>
 				            	<button type="submit">Submit</button>
 				            </form>
 				          }
@@ -304,30 +291,30 @@ var Retro = React.createClass({
 		this.setState({projectUsers: projectUsers, refreshActionStatuses: false});
 	},
 
-	handleEditItem: function(e){
-		e.preventDefault();
-		if(this.state.currentTrackerActionId != null){
-			this.handleEditActionItem(e, this.refs.editRetroItem.value);
-		}
-		else{
-			this.setState({currentItemText: this.refs.editRetroItem.value});
-			this.handleClose();
-			//make ajax call to update database entry 
-			//we have the item id
-			var retroId = this.props.params.retroId;
+	handleEditItem: function(itemId, text){
 
-			var postPromise = $.ajax({
-				method: 'POST',
-		  		url: "/retros/editItemText/" + retroId + "/" + this.state.currentItemId,
-		  		data: {text : this.refs.editRetroItem.value}
-		  	});
-		}	
+		
+		this.setState({currentItemText: text});
+		this.handleClose();
+		//make ajax call to update database entry 
+		//we have the item id
+		var retroId = this.props.params.retroId;
+
+		var postPromise = $.ajax({
+			method: 'POST',
+	  		url: "/retros/editItemText/" + retroId + "/" + itemId,
+	  		data: {text : text}
+	  	});
+		
 	},
-	handleDeleteItem: function(e) {
-		e.preventDefault();
+	handleDeleteItem: function( itemId, trackerId ) {
+		//e.preventDefault();
+		console.log("Retro Handle Delete");
+
 		if(this.state.currentTrackerActionId != null){
 			//delete item from our Mongo DB
 			this.deleteActionItem(this.state.currentItemId);
+			
 			//delete item from Tracker
 			this.deleteTrackerStory(this.state.currentTrackerActionId);
 		}
@@ -345,8 +332,8 @@ var Retro = React.createClass({
 		  	});
 		}
 	},
-	handleAddActionItem: function(e){
-		e.preventDefault();
+	handleAddActionItem: function(itemId, itemText){
+		//e.preventDefault();
 		var vm = this;
 		this.setState({addActionItem: false});
 		this.handleClose();
@@ -357,7 +344,7 @@ var Retro = React.createClass({
 		console.log("handleAddActionItem called");
 
 		var token = localStorage.getItem("tracker_token");
-		var actionItemText = vm.refs.actionItem.value;
+		var actionItemText = itemText;
 		
 
 		var personId = vm.state.currentSelectedPerson;
@@ -369,8 +356,11 @@ var Retro = React.createClass({
 	          	"story_type": "chore"
 	          }
 
-	    if(personId != null){
+	    if(personId != -1){
 	    	data.owner_ids = [personId];
+	    }
+	    else{
+	    	data.owner_ids = [];
 	    }
 
 		var postPromise = $.ajax({
@@ -392,7 +382,7 @@ var Retro = React.createClass({
 	  // 		console.log(data);
 			var postPromise = $.ajax({
 				method: 'POST',
-		  		url: "/retros/addActionItem/" + retroId + "/" + vm.state.currentItemId,
+		  		url: "/retros/addActionItem/" + retroId + "/" + itemId,
 		  		data: {
 		  			"tracker_action_id": data.id,
 		  			"text": actionItemText
@@ -400,8 +390,8 @@ var Retro = React.createClass({
 	  		});
 		});
 	},
-	handleEditActionItem: function(e, actionItemText){
-		e.preventDefault();
+	handleEditActionItem: function(actionItemText){
+
 		var vm = this;
 		this.setState({addActionItem: false});
 		this.handleClose();
@@ -411,6 +401,20 @@ var Retro = React.createClass({
 
 		var token = localStorage.getItem("tracker_token");
 
+		var dataToSend = {};
+		dataToSend.name = "RetroActive Action: " + actionItemText.substring(0,20);
+		dataToSend.description = actionItemText;
+		
+		var personId = vm.state.currentSelectedPerson;
+
+		if(personId != -1){
+			dataToSend.owner_ids = [personId];
+		}
+
+		else{
+			dataToSend.owner_ids = [];
+		}
+
 		var postPromise = $.ajax({
 			 method: 'PUT',
 	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.projectId 
@@ -418,10 +422,7 @@ var Retro = React.createClass({
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	          },
-	          data: {
-	          	"name": "RetroActive Action: " + actionItemText.substring(0,20),
-	          	"description": actionItemText
-	          }
+	          data: dataToSend,
 	  	});
 
 		postPromise.then(function(data){
@@ -435,7 +436,10 @@ var Retro = React.createClass({
 	  		var oldActionItems = vm.state.actionItems;
 	  		oldActionItems.forEach(function(actionItem, index){
 	  			if(actionItem._id.$oid == vm.state.currentItemId){
-	  				actionItem.text = vm.state.currentItemText;
+	  				actionItem.text = actionItemText;
+	  				if(data.owner_ids.length > 0){
+			    		actionItem.owner = data.owner_ids[0];
+			    	}
 	  			}
 	  		});
 	  		
@@ -443,11 +447,17 @@ var Retro = React.createClass({
 		});
 	},
 
-	handleChangePerson: function(personId){
-		this.setState({currentSelectedPerson: personId});
+	handleChangePerson: function(personId, newText){
+		this.setState({currentSelectedPerson: personId, currentItemText: newText});
 	},
 
 	buildRetro: function(){
+
+		//dont refresh if we're in the modal
+		if(this.state.modalShow){
+			return;
+		}
+
 		var retroId = this.props.params.retroId;
 		var vm = this;
 
@@ -483,13 +493,11 @@ var Retro = React.createClass({
 
         	if(vm.state.refreshActionStatuses == true){
         		
-
+        		//Get and store all of the project's users, not viewers from tracker
         		vm.getProjectUsers(projectId);
 
 	 			//Re-Sync the action item statuses with the tracker API
 				if(data.action_items && data.action_items.length > 0 ){
-					
-
 					
 					var countActionItems = data.action_items.length;
 					data.action_items.forEach(function(actionItem, index){
@@ -509,6 +517,7 @@ var Retro = React.createClass({
 					    	if(trackerData.owner_ids.length > 0){
 					    		actionItem.owner = trackerData.owner_ids[0];
 					    	}
+
 							actionSet.unshift(actionItem);
 							countActionItems --;
 							//wait for all of the action items to be in
@@ -532,7 +541,7 @@ var Retro = React.createClass({
 					    ajaxPromise.error(function(error){
 					    	countActionItems --;
 							//wait for all of the action items to be in
-							console.log("ERROR");
+							console.log("Deleting");
 							console.log(error);
 							vm.deleteActionItem(actionItem._id.$oid);
 							if(countActionItems == 0){
@@ -593,6 +602,7 @@ var Retro = React.createClass({
 		});
 
 	},
+
 	addRetroItem: function(column, text){
 		
 		if(column < 3){
@@ -622,6 +632,7 @@ var Retro = React.createClass({
 			this.setState({actionItems: items});
 		}
 	},
+
 	deleteActionItem: function(actionItemId) {
 		//Ajax call to delete the item
 		//This deletes the action item from MongoDB ONLY
@@ -675,47 +686,43 @@ var Retro = React.createClass({
 	},
 	handleClick: function() 
 	{ 
-		this.setState({modalShow: true});
+		this.setState({modalShow: true, editingItem: true});
 	},
 	handleClose: function() { 
-		this.setState({modalShow: false})
+		this.setState({modalShow: false, currentItemText: ""})
 	},
-	handleShowModal: function(id, trackerId, item_text){
+	handleShowModal: function(id, trackerId, item_text, owner_id){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({currentItemId: id, currentTrackerActionId: trackerId, currentItemText: item_text, modalShow: true, addActionItem: false},
+		console.log(item_text);
+		this.setState(
+			{
+				currentItemId: id, 
+				currentTrackerActionId: trackerId, 
+				currentItemText: item_text, 
+				modalShow: true, 
+				addActionItem: false, 
+				editingItem: true,
+				currentSelectedPerson: owner_id 
+			},
 			this.createFocus
 			);
 	},
-	handleShowActionEditModal: function(dbId, trackerId, item_text){
+
+	handleShowActionEditModal: function(dbId, trackerId, item_text, userId){
 		//get the item id of the item being edited to get the text for that item
 		this.setState({currentItemId: dbId, currentTrackerActionId: trackerId, 
-			currentItemText: item_text, modalShow: true, addActionItem: false},
-			this.createFocus
-			);
+			currentItemText: item_text, modalShow: true, addActionItem: true, editingItem: true, currentSelectedPerson: userId}
+		);
 	},
+
 	handleActionModal: function(id, item_text){
 		//get the item id of the item being added to get the text for that item
 		this.setState({currentItemId: id, currentItemText: item_text,
-		 modalShow: true, addActionItem: true},
+		 modalShow: true, addActionItem: true, editingItem: false},
 			this.createFocus
 			);
 	},
-	createFocus: function(){
-		if(ReactDOM.findDOMNode(this.refs.actionItem) != null){
-				var input = ReactDOM.findDOMNode(this.refs.actionItem);
-				input.focus();
-				var current = input.value;
-				input.value = '';
-				input.value = current;
-		}
-		if(ReactDOM.findDOMNode(this.refs.editRetroItem) != null){
-				var input = ReactDOM.findDOMNode(this.refs.editRetroItem);
-				input.focus();
-				var current = input.value;
-				input.value = '';
-				input.value = current;
-		}
-	},
+	
 	handleVote: function(item){
 		//console.log(item);
 		if(this.state.maxUserVotes > this.state.userCurrentVotes)

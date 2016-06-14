@@ -382,6 +382,7 @@ input {
 
 .edit_link {
 	font-size: 12px;
+	display: flex;
 	color: blue;
 	margin-left: 5px;
 	margin-right: auto;
@@ -399,11 +400,16 @@ input {
 	border: solid 1px lightgrey;
 }
 
+.project_retro_owner {
+	margin-left: 5px;
+}
+
 /* retro_item.js and action_item.js */ 
 
 .status_and_action_bar {
 	align-content: flex-end;
-	background-color: lightgrey;
+	background-color: #eee;
+	flex-direction: column;
 	/*height: 100%;*/
 	width:100%;
 	display: flex;
@@ -418,6 +424,8 @@ input {
 }
 
 .item_info {
+	display: flex;
+	justify-content: flex-start;
 	font-size: 12px;
 	margin-left: auto;
 	margin-right: 5px;

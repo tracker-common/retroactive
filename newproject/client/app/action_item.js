@@ -16,17 +16,24 @@ var ActionItem = React.createClass({
 				<div className="retro_item_description">
 					{this.props.itemText}
 				</div>
-				<div className="status_and_action_bar">
-					{this.props.owner? (<b>{this.props.owner.name}</b>) : null}
-					<span className="item_info">Action Item Status: <ActionStatus status={this.props.status}/> </span>
-					<a className="edit_link link" onClick={this.show}>Edit</a>
-				</div>
 
+				<div className="status_and_action_bar">
+					<div className="project_retro_owner">
+						{this.props.owner? (<b>{this.props.owner.name}</b>) : null}
+					</div>
+
+					<div className="row">
+						<span className="item_info">Action Item Status: <ActionStatus status={this.props.status}/> </span>
+						<a className="edit_link link" onClick={this.show}>Edit</a>
+					</div>
+				</div>
 			</div>
 		)
 	},
+
 	show: function(){
-		this.props.handleShowEditModal(this.props.object_id, this.props.tracker_id, this.props.itemText);
+		var owner =  this.props.owner ? this.props.owner.id  : null;
+		this.props.handleShowActionEditModal(this.props.object_id, this.props.tracker_id, this.props.itemText, owner);
 	},
 });
 
