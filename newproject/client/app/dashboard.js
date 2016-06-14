@@ -43,7 +43,8 @@ var RetroActive = React.createClass({
   render() {
     if(localStorage.getItem("url_redirect") == null){
       return (
-        <Loader show={this.state.loading}  message={'loading...'}>
+        <div>
+        <Loader show={this.state.loading}  message={'loading...'} className="loader">
         	<div className="dashboard">
           	<DesktopBreakpoint>
               <Header user_name={this.state.user_name}
@@ -61,7 +62,11 @@ var RetroActive = React.createClass({
                     deleteRetro={this.deleteRetro}/>
                 </div>
             </DesktopBreakpoint>
+          </div>
+        </Loader>
 
+            <Loader show={this.state.loading} message={'loading...'}>
+            <div className="dashboard">
             <PhoneBreakpoint>
                 <MobileHeader user_name={this.state.user_name}
                 isDashboard={true}  />
@@ -82,6 +87,7 @@ var RetroActive = React.createClass({
             </PhoneBreakpoint>
     		  </div>
         </Loader>
+        </div>
       );
     }else{
       return(<div></div>);

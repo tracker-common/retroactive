@@ -74,7 +74,8 @@ var Retro = React.createClass({
 
 		if(localStorage.getItem("url_redirect") == null){
 		return (
-			<Loader show={this.state.loading}  message={'loading...'}>
+			<div>
+			<Loader show={this.state.loading} message={'loading...'} className="loader">
 			<DesktopBreakpoint>
 				<div id="retro_body">
 					<Header 
@@ -149,7 +150,9 @@ var Retro = React.createClass({
 					</div>
 				</div>
 			</DesktopBreakpoint>
+			</Loader>
 
+			<Loader show={this.state.loading} message={'loading...'}>
 			<MobileBreakpoint>
 				<div id="mobile-retro-body">
 					<MobileHeader 
@@ -242,7 +245,9 @@ var Retro = React.createClass({
 				</div>
 
 			</MobileBreakpoint> 
-			</Loader>);
+			</Loader>
+			</div>
+			);
 		}else{
 			return(<div></div>);
 		}
