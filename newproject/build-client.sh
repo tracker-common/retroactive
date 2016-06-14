@@ -7,3 +7,5 @@ cp build/ModalDialog.js node_modules/react-modal-dialog/lib/ModalDialog.js
 cp build/CloseCircle.js node_modules/react-modal-dialog/lib/CloseCircle.js
 ./scripts/build-prod.sh
 cd ..
+
+

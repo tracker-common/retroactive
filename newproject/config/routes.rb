@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'users/projects/:projectIds' => 'user#getProjects', :constraints => { :email => /[^\/]+/ }
 
 
+  get 'retros/version/:retroId' => 'retro#getVersion'
   get 'retros/:retroId' => 'retro#get'
   post 'retros/new' => 'retro#create'
   post 'retros/additem/:retroId/:column' => 'retro#addItem'
@@ -22,7 +23,7 @@ Rails.application.routes.draw do
 
   delete '/retros/deleteActionItem/:retroId/:item' => 'retro#deleteAction'
   delete '/retros/delete/:retroId' => 'retro#delete'
-
+  delete '/retros/deleteItem/:retroId/:item' => 'retro#deleteRetroItem'
 
 
   #match '/client', :to => redirect('/client/app.js')

@@ -5,4 +5,5 @@ class Retro
   field :project_name, type: String
   field :project_id, type: Integer
   field :created_on, type: DateTime
+  field :version, type: Integer
 end

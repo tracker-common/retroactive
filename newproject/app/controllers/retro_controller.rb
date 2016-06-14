@@ -5,7 +5,8 @@ class RetroController < ActionController::Base
 		@newRet.project_id = params[:id]
 		@newRet.project_name = params[:name]
 		@newRet.created_on = DateTime.now
-		@newRet.retro_items = nil;
+		@newRet.retro_items = nil
+		@newRet.version = 0
 		@newRet.save
 
 		render json: @newRet
@@ -22,12 +23,8 @@ class RetroController < ActionController::Base
 		retro = Retro.find(id)
 		column = params[:column].to_i
 		text = params[:text]
-		# @additem = RetroItem.new
-		# @additem.text = text
-		# @additem.retro_id = retro._id
-		# @additem.save
-		#retro.items[column].unshift(@additem)
 		retro.retro_items.build(text: text, column: column)
+		retro.version += 1
 		retro.save
 
 		render json: retro
@@ -40,13 +37,9 @@ class RetroController < ActionController::Base
 		item = retro.retro_items.find(id)
 
 		text = params[:text]
-		# @additem = RetroItem.new
-		# @additem.text = text
-		# @additem.retro_id = retro._id
-		# @additem.save
-		#retro.items[column].unshift(@additem)
 		item.text = text
 		item.save
+		retro.version += 1
 		retro.save
 
 		render json: retro
@@ -59,13 +52,9 @@ class RetroController < ActionController::Base
 		item = retro.action_items.find(id)
 
 		text = params[:text]
-		# @additem = RetroItem.new
-		# @additem.text = text
-		# @additem.retro_id = retro._id
-		# @additem.save
-		#retro.items[column].unshift(@additem)
 		item.text = text
 		item.save
+		retro.version += 1
 		retro.save
 
 		render json: retro
@@ -87,6 +76,7 @@ class RetroController < ActionController::Base
 
 		retro_item.save
 		action_item.save
+		retro.version += 1
 		retro.save
 
 		render json: action_item
@@ -96,15 +86,38 @@ class RetroController < ActionController::Base
 		retro_id = params[:retroId]
 		actionItemId = params[:item]
 
+
 		ret = Retro.find(retro_id)
 		actionItem = ret.action_items.find(actionItemId)
 
-		retroItem = ret.retro_items.where(action_item_id: actionItemId).first
-		retroItem.action_item_id = nil
-		retroItem.save
+		begin
+		#set the reto_item's associated action item to null
+			retroItem = ret.retro_items.where(action_item_id: actionItemId).first
+			retroItem.action_item_id = nil
+			retroItem.save
+
+		rescue
+		end
 
 		actionItem.delete
+		ret.version += 1
+		ret.save
+
 		render status: 200, json: {}
+	end
+
+	def deleteRetroItem
+		retro_id = params[:retroId]
+		retro_item_id = params[:item]
+		ret = Retro.find(retro_id)
+		ret.version += 1
+		ret.save
+		retro_item = ret.retro_items.find(retro_item_id)
+
+		retro_item.delete
+
+		render status: 200, json: {}
+
 	end
 
 	def delete
@@ -125,13 +138,14 @@ class RetroController < ActionController::Base
 		@item = @ret.retro_items.find(@itemId)
 
 		#Look for a vote with the current username
-		
+
 		@votes = @item.votes.where(user_email: @email)
 		if(@votes.size > 0)
 			render status: 500, json: {}
 		else
 			@item.votes.build(user_email: @user.email)
 			@item.save
+			@ret.version += 1
 			@ret.save
 			render json: @ret.retro_items
 		end
@@ -156,7 +170,19 @@ class RetroController < ActionController::Base
 		puts "Count: " + @item.votes.where(user_email: @email).length.to_s
 
 		@ret.reload
+		@ret.version += 1
+		@ret.save
 
 		render json: @ret.retro_items
+	end
+
+	def getVersion
+		retro = Retro.find(params[:retroId])
+
+		returnObject = {
+			"version" => retro.version
+		}
+
+		render json: returnObject
 	end
 end

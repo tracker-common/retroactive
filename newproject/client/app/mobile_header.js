@@ -5,6 +5,7 @@ var MobileHeader = React.createClass({
 	getDefaultProps : function() {
 		return {
 		"showSignOut" : true,
+		"title" : '',
 		};
 	},
 
@@ -15,7 +16,7 @@ var MobileHeader = React.createClass({
 					<Link to="/dashboard">
 						<img src="/RETROACTIVE.svg"/>
 					</Link><br/>
-					<span>Mobile</span>
+					<span>{this.props.title}</span>
 				</div>
 				<div className="right">
 					<h1>
