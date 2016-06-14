@@ -85,6 +85,7 @@ var Retro = React.createClass({
 					itemText={this.state.currentItemText}
 					itemId = {this.state.currentItemId}
 					isActionItem = {this.state.addActionItem}
+					currentTrackerActionId = {this.state.currentTrackerActionId}
 					projectUsers = {this.state.projectUsers}
 					modalShow = {this.state.modalShow}
 					handleEditItem = {this.handleEditItem}
@@ -93,7 +94,7 @@ var Retro = React.createClass({
 					handleChangePerson={this.handleChangePerson}
 					handleEditActionItem = {this.handleEditActionItem}
 					handleDeleteItem = {this.handleDeleteItem}
-					handleDeleteActionItem = {this.handleDeleteItem}
+					handleDeleteActionItem = {this.handleDeleteActionItem}
 					handleClick = {this.handleClick}
 					handleClose = {this.handleClose}/>
 
@@ -307,30 +308,62 @@ var Retro = React.createClass({
 	  	});
 		
 	},
-	handleDeleteItem: function( itemId, trackerId ) {
-		//e.preventDefault();
-		console.log("Retro Handle Delete");
 
-		if(this.state.currentTrackerActionId != null){
+	getItemById: function(itemId){
+		var returnItem = null;
+		this.state.retroItems.forEach(function(itemSet, index){
+			itemSet.forEach(function(item, index){
+				if(item._id.$oid == itemId){ returnItem = item;}
+			});
+		});
+
+		return returnItem;
+	},
+
+	getActionItemById: function(actionItemId){
+		var returnItem = null;
+		this.state.actionItems.forEach(function(item, index){
+			if(item._id.$oid == actionItemId){ returnItem = item;}
+		});
+
+		return returnItem;
+	},
+
+	handleDeleteActionItem: function(trackerActionId, itemId){
 			//delete item from our Mongo DB
-			this.deleteActionItem(this.state.currentItemId);
+			this.deleteActionItem(itemId);
 			
 			//delete item from Tracker
-			this.deleteTrackerStory(this.state.currentTrackerActionId);
-		}
-		else{
-			//this.setState({currentItemText: this.refs.editRetroItem.value});
-			this.handleClose();
-			//make ajax call to update database entry 
-			//we have the item id
-			var retroId = this.props.params.retroId;
+			this.deleteTrackerStory(trackerActionId);
+	},
 
-			var postPromise = $.ajax({
-				method: 'POST',
-		  		url: "/retros/editItemText/" + retroId + "/" + this.state.currentItemId,
-		  		data: {text : this.refs.editRetroItem.value}
-		  	});
+	handleDeleteItem: function( itemId) {
+		//e.preventDefault();
+		console.log("Retro Handle Delete");
+		console.log(itemId);
+		this.handleClose();
+		//get the item.
+		var item = this.getItemById(itemId);
+
+		if(item.action_item_id){
+			//get the action item variables to be able to delete it
+			var actionItem = this.getActionItemById(item.action_item_id);
+			//delete the action item
+			this.handleDeleteActionItem(actionItem.tracker_action_id, item.action_item_id);
 		}
+
+		//Delete the item
+		var retroId = this.props.params.retroId;
+
+		//Make the call to delete our item
+		var postPromise = $.ajax({
+			method: 'DELETE',
+	  		url: "/retros/deleteItem/" + retroId + "/" + this.state.currentItemId,
+	  	});
+
+	  	postPromise.then(function(data){
+	  		console.log("deleted!");
+	  	});
 	},
 	handleAddActionItem: function(itemId, itemText){
 		//e.preventDefault();

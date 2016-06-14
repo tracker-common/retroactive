@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   delete '/retros/deleteActionItem/:retroId/:item' => 'retro#deleteAction'
   delete '/retros/delete/:retroId' => 'retro#delete'
-
+  delete '/retros/deleteItem/:retroId/:item' => 'retro#deleteRetroItem'
 
 
   #match '/client', :to => redirect('/client/app.js')

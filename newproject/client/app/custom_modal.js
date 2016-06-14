@@ -118,9 +118,11 @@ var CustomModal = React.createClass({
 
 	handleDeleteItem: function(e){
 		e.preventDefault();
-
+		if(this.props.isActionItem){
+			this.props.handleDeleteActionItem( this.props.currentTrackerActionId, this.props.itemId );	
+		}
 		else{
-			this.props.handleDeleteItem();	
+			this.props.handleDeleteItem(this.props.itemId);	
 		}
 	},
 

@@ -96,15 +96,32 @@ class RetroController < ActionController::Base
 		retro_id = params[:retroId]
 		actionItemId = params[:item]
 
+
 		ret = Retro.find(retro_id)
 		actionItem = ret.action_items.find(actionItemId)
 
-		retroItem = ret.retro_items.where(action_item_id: actionItemId).first
-		retroItem.action_item_id = nil
-		retroItem.save
+		begin
+		#set the reto_item's associated action item to null
+			retroItem = ret.retro_items.where(action_item_id: actionItemId).first
+			retroItem.action_item_id = nil
+			retroItem.save
+
+		rescue
+		end
 
 		actionItem.delete
 		render status: 200, json: {}
+	end
+
+	def deleteRetroItem
+		retro_id = params[:retroId]
+		retro_item_id = params[:item]
+		ret = Retro.find(retro_id)
+		retro_item = ret.retro_items.find(retro_item_id)
+
+		retro_item.delete
+		render status: 200, json: {}
+
 	end
 
 	def delete
