@@ -175,7 +175,7 @@ var ModalDialog = (function (_React$Component) {
         onClose ? _react2['default'].createElement(
           'a',
           { className: classes.closeButton, onClick: onClose },
-          _react2['default'].createElement(_CloseCircle2['default'], { diameter: 30 })
+          _react2['default'].createElement(_CloseCircle2['default'], { diameter: 36 })
         ) : null,
         children
       );
@@ -219,7 +219,7 @@ var ModalDialog = (function (_React$Component) {
     },
     'closeButton': {
       position: 'absolute',
-      top: 5,
+      top: 0,
       right: 15,
       display: 'block',
       width: 20,

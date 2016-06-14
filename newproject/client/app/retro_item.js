@@ -18,35 +18,60 @@ var RetroItem = React.createClass({
 
 		return (
 			<div className="retro_item">
+			{
+				(this.props.action_item_id==null) ?
 				<div className="retro_item_description">
 					{this.props.itemText}
 				</div>
-
-				<div className="row" style={{padding: "5px"}}>
+				:
+				<div className="retro_item_description retro_item__action_item_text">
+					{this.props.itemText}
+				</div>
+			}
+				<div className="voting_bar">
 				{
 					voted ? (
-						<div className="vote" onClick={this.unvote}><img src="/heart_red.svg"/>  <span style={{color: 'red'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
+						<div onClick={this.unvote}>
+							<img className="img__heart" src="/heart_red.svg"/>  
+							<span style={{color: 'red'}}>
+								{this.props.votes ? this.props.votes.length : 0}
+							</span>
+						</div>
 					) : (
-						<div className="vote" onClick={this.vote}><img src="/heart_gray.svg"/> <span style={{color: 'gray'}}>{this.props.votes ? this.props.votes.length : 0}</span></div>
+						<div onClick={this.vote}>
+							<img className="img__heart" src="/heart_gray.svg"/> 
+							<span style={{color: '#9B9B9B'}}>
+								{this.props.votes ? this.props.votes.length : 0}
+							</span>
+						</div>
 					)
 				}
-				<a className="action_link link" onClick={this.show}>Edit</a>
-
+				<div onClick={this.show} className="action_and_edit_link edit_link">
+					<img className="edit_img" src="/edit_blue.svg"/>
+					<a>Edit</a>
+				</div>
 					{ 
-						this.props.object_id ? 
-						(
-							(this.props.action_item_id == null) ? 
-							<a className="action_link link" onClick={this.showActionModal}>+Action</a> : 
-							null
-						) : null
+						(this.props.object_id && this.props.action_item_id == null) ? 
+						<div onClick={this.showActionModal} className="action_and_edit_link action_link">
+							<img className="action_img" src="/add_icon.svg" />
+							<a>Action</a> 
+						</div> : 
+						null
 					}
 
 				</div>
 				
-				
-				<div className="status_and_action_bar">
-					{(this.props.action_item_id == null || !this.props.actionItem ) ? null  : (<span className="item_info"> Action Item Status: <ActionStatus status={this.props.actionItem.status}/> </span>) }
-				</div>
+				{
+					(this.props.action_item_id != null) ?
+					<div className="status_bar">
+						{(this.props.action_item_id == null || !this.props.actionItem ) ? null  : 
+							(<span 
+								className="item_info"> <span style={{fontWeight: "bold"}}>Action Item Status: </span> 
+								<ActionStatus status={this.props.actionItem.status}/> </span>) }
+					</div>
+					:
+					null
+				}
 			</div>
 		)
 	},
