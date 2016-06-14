@@ -18,24 +18,26 @@ var Header = React.createClass({
 					</Link>
 				</div>
 				<div className="center header__text_box  header__row" >
-					<h1>{this.props.title}</h1>
-							{(this.props.maxVotes && !this.props.isDashboard) ?
-							( 
-								<div id="vote_status">
-									<img src="/heart_red.svg"/>
-									<span>
-										{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} 
-									</span>
-								</div>
-							) : null}
+					<span className="center__text">{this.props.title}</span>
+							
 							
 				</div>
 				<div className="right header__text_box">
-					<h1>
+					<span>
 						{this.props.user_name} 
 						{this.props.showSignOut ? <SignOutButton/> : null}
-					</h1>
-					
+					</span>
+					{
+					(this.props.maxVotes && !this.props.isDashboard) ?
+						( 
+							<div id="vote_status">
+								<img className="img__heart" src="/heart_red.svg"/>
+								<span>
+									{this.props.maxVotes - this.props.userVotes} / {this.props.maxVotes} 
+								</span>
+							</div>
+						) : null
+					}
 				</div>
 			</div>
 		);
@@ -47,7 +49,7 @@ var Header = React.createClass({
 var SignOutButton = React.createClass( {
 	render() {
 		return (
-			<button onClick={this.signOut}>Sign Out</button> 
+			<button className="sign_out_button" onClick={this.signOut}>Sign Out</button> 
 		);
 	},
 	

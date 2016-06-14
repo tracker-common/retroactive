@@ -16,16 +16,23 @@ var ActionItem = React.createClass({
 				<div className="retro_item_description">
 					{this.props.itemText}
 				</div>
-
-				<div className="status_and_action_bar">
-					<div className="project_retro_owner">
-						{this.props.owner? (<b>{this.props.owner.name}</b>) : null}
-					</div>
-
-					<div className="row">
-						<span className="item_info">Action Item Status: <ActionStatus status={this.props.status}/> </span>
-						<a className="edit_link link" onClick={this.show}>Edit</a>
-					</div>
+				<div onClick={this.show} className="voting_bar action_and_edit_link edit_link action_item_edit">
+					<img className="action_item__edit_img" src="/edit_blue.svg"/>
+					<a>Edit</a>
+				</div>
+				<div className="status_bar status_bar__rows">
+					<span>
+					{
+						this.props.owner ? 
+						(<div className="action_item__owner">
+							<img src="/person.svg" />
+							<span style={{fontWeight: "bold"}}>{this.props.owner.name}</span>
+						 </div>)
+						 : null
+					}</span>
+					<span className="item_info">
+						<span style={{fontWeight: "bold"}}>Status:</span> <ActionStatus status={this.props.status}/> 
+					</span>
 				</div>
 			</div>
 		)

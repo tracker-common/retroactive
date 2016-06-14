@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Retro" transform="translate(-568.000000, -210.000000)">
+            <g id="Puzzlers" transform="translate(338.000000, 54.000000)">
+                <g id="not-voted-unactioned" transform="translate(12.000000, 97.000000)">
+                    <g id="add-action-1" transform="translate(217.120000, 54.738749)">
+                        <g id="Group-3" transform="translate(0.000000, 4.000000)">
+                            <circle id="Oval-22" fill="#9B9B9B" cx="6.38" cy="5.76125137" r="5.5"></circle>
+                            <path d="M6.38,2.76125137 L6.38,8.76125137" id="Line" stroke="#FFFFFF" stroke-linecap="square"></path>
+                            <path d="M3.38,5.76125137 L9.38,5.76125137" id="Line" stroke="#FFFFFF" stroke-linecap="square"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
