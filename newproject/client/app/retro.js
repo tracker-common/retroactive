@@ -157,31 +157,25 @@ var Retro = React.createClass({
 					maxVotes={this.state.maxUserVotes}
 					userVotes={this.state.userCurrentVotes}/>
 
-					<div className="modal" onClick={this.handleClick}>
-				      {
-				        this.state.modalShow &&
-				        <ModalContainer onClose={this.handleClose}>
-				          <ModalDialog onClose={this.handleClose}>
-				          <div> 
-				          {
-				          	this.state.addActionItem ?
-				            <form onSubmit={this.handleAddActionItem} >
-				            	<h1>Add Action Item</h1>
-				            	<input type="text"  ref="actionItem"/>
-				            	<button type="submit">Submit</button>
-				            </form>
-				            :
-				            <form onSubmit={this.handleEditItem} >
-				            	<h1>Description</h1>
-				            	<input type="text" value={this.state.currentItemText}  ref="editRetroItem"/>
-				            	<button type="submit">Submit</button>
-				            </form>
-				          }
-				        </div>
-				          </ModalDialog>
-				        </ModalContainer>
-				      }
-				    </div>
+					
+					<CustomModal 
+						editing={this.state.editingItem} 
+						itemText={this.state.currentItemText}
+						itemId = {this.state.currentItemId}
+						isActionItem = {this.state.addActionItem}
+						currentTrackerActionId = {this.state.currentTrackerActionId}
+						projectUsers = {this.state.projectUsers}
+						modalShow = {this.state.modalShow}
+						handleEditItem = {this.handleEditItem}
+						handleAddActionItem = {this.handleAddActionItem}
+						currentPerson = {this.state.currentSelectedPerson}
+						handleChangePerson={this.handleChangePerson}
+						handleEditActionItem = {this.handleEditActionItem}
+						handleDeleteItem = {this.handleDeleteItem}
+						handleDeleteActionItem = {this.handleDeleteActionItem}
+						handleClick = {this.handleClick}
+						handleClose = {this.handleClose}/>
+					
 				    <div className="mobile_retro_columns">
 					<Tabs
 					 onSelect={this.handleSelect}
