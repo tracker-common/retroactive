@@ -42,7 +42,8 @@ var Retro = React.createClass({
 	      maxUserVotes: 100,
 	      userCurrentVotes: 0,
 	      refreshActionStatuses: true,
-	      projectUsers: {}
+	      projectUsers: {},
+	      currentRetroVersion: -1
 	   	}
 	},
 	componentWillMount: function(){
@@ -57,14 +58,15 @@ var Retro = React.createClass({
 		var vm = this;
 		this.buildRetro();
 		this.refreshIntervalId = setInterval(function(){
-			vm.buildRetro();
-			console.log("refreshed");
+			vm.checkRetroVersion();
+			//vm.buildRetro();
 		}, 1000);
 
 	},
 	componentWillUnmount: function(){
 		clearInterval(this.refreshIntervalId);
 	},
+
 	render() {
 
 		name = localStorage.getItem("user_name");
@@ -349,7 +351,9 @@ var Retro = React.createClass({
 			//get the action item variables to be able to delete it
 			var actionItem = this.getActionItemById(item.action_item_id);
 			//delete the action item
-			this.handleDeleteActionItem(actionItem.tracker_action_id, item.action_item_id);
+			if(actionItem != null){
+				this.handleDeleteActionItem(actionItem.tracker_action_id, item.action_item_id);
+			}
 		}
 
 		//Delete the item
@@ -367,6 +371,8 @@ var Retro = React.createClass({
 	},
 	handleAddActionItem: function(itemId, itemText){
 		//e.preventDefault();
+
+		console.log("AddingAnActionItem");
 		var vm = this;
 		this.setState({addActionItem: false});
 		this.handleClose();
@@ -484,6 +490,17 @@ var Retro = React.createClass({
 		this.setState({currentSelectedPerson: personId, currentItemText: newText});
 	},
 
+	checkRetroVersion: function(){
+		var vm = this;
+		var retroId = this.props.params.retroId;
+		console.log("Version: " + this.state.currentRetroVersion);
+		$.get("/retros/version/" + retroId, function(data){
+			if(vm.state.currentRetroVersion < data.version){
+				vm.buildRetro();
+			}
+		});
+	},
+	
 	buildRetro: function(){
 
 		//dont refresh if we're in the modal
@@ -502,6 +519,9 @@ var Retro = React.createClass({
 			var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 			//end date magic
 
+
+			var newRetroVersion = data.version;
+
 			//parse items into their own columns, and count votes by current user
 			var itemSet = [[],[],[]]
 			var userEmail = localStorage.getItem("user_email")
@@ -519,12 +539,13 @@ var Retro = React.createClass({
 				});
 			}
 
-			var actionSet = []
+			var actionSet = {};
+			var actionIdSet = [];
 
 			var projectId = data.project_id;
         	var token = localStorage.getItem("tracker_token");
 
-        	if(vm.state.refreshActionStatuses == true){
+        	//if(vm.state.refreshActionStatuses == true){
         		
         		//Get and store all of the project's users, not viewers from tracker
         		vm.getProjectUsers(projectId);
@@ -545,28 +566,38 @@ var Retro = React.createClass({
 
 					    ajaxPromise.then(function(trackerData){
 					    	// console.log(trackerData);
+					    	actionIdSet.push(actionItem.tracker_action_id);
 
 					    	actionItem.status = trackerData.current_state;
 					    	if(trackerData.owner_ids.length > 0){
 					    		actionItem.owner = trackerData.owner_ids[0];
 					    	}
 
-							actionSet.unshift(actionItem);
+							actionSet[actionItem.tracker_action_id] = actionItem;
 							countActionItems --;
 							//wait for all of the action items to be in
 							//console.log("Count: " + countActionItems);
 							if(countActionItems == 0){
 								//set the state after the syncing of the action item statuses
 
+								//populate actionSet with all of the actionItems
+								actionIdSet.sort();
+								actionIdSet.reverse();
+								var actionItemsSortedArray = [];
+								actionIdSet.forEach(function(id, index){
+									actionItemsSortedArray.push(actionSet[id]);
+								});
+
 								document.title = "RetroActive - " + data.project_name  + dateString;
 								vm.setState({projectName: data.project_name, 
 									retroDate: dateString, 
 									retroItems: itemSet, 
 									projectId: data.project_id, 
-									actionItems: actionSet,
+									actionItems: actionItemsSortedArray,
 									loading: false,
 									userCurrentVotes: userVoteCount,
-									refreshActionStatuses: false
+									refreshActionStatuses: false,
+									currentRetroVersion: newRetroVersion
 								});
 							}
 					    });
@@ -588,14 +619,30 @@ var Retro = React.createClass({
 									actionItems: actionSet,
 									loading: false,
 									userCurrentVotes: userVoteCount,
-									refreshActionStatuses: false
+									refreshActionStatuses: false,
+									currentRetroVersion: newRetroVersion
 								});
 							}
 					    });
 
 					});
 				} 	
-			} else {
+
+				//case no action items
+				else{
+					document.title = "RetroActive - " + data.project_name  + dateString;
+					vm.setState({projectName: data.project_name, 
+						retroDate: dateString, 
+						retroItems: itemSet, 
+						projectId: data.project_id,
+						loading: false,
+						userCurrentVotes: userVoteCount,
+						refreshActionStatuses: false,
+						currentRetroVersion: newRetroVersion,
+						actionItems: []
+					});
+				}
+			/* else {
 				//getting back new action items, may not be complete in tracker yet. Don't check status until page reload
 				document.title = "RetroActive - " + data.project_name  + dateString;
 				var actionItemsInput = data.action_items || [];
@@ -630,7 +677,7 @@ var Retro = React.createClass({
 					userCurrentVotes: userVoteCount,
 					refreshActionStatuses: false,
 				});				
-			}	
+			}	*/
 
 		});
 
