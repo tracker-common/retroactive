@@ -43,7 +43,8 @@ var Retro = React.createClass({
 	      userCurrentVotes: 0,
 	      refreshActionStatuses: true,
 	      projectUsers: {},
-	      currentRetroVersion: -1
+	      currentRetroVersion: -1,
+	      currentSelectedPerson: -1
 	   	}
 	},
 	componentWillMount: function(){
@@ -175,7 +176,7 @@ var Retro = React.createClass({
 						handleDeleteActionItem = {this.handleDeleteActionItem}
 						handleClick = {this.handleClick}
 						handleClose = {this.handleClose}/>
-					
+
 				    <div className="mobile_retro_columns">
 					<Tabs
 					 onSelect={this.handleSelect}
@@ -392,9 +393,6 @@ var Retro = React.createClass({
 	    if(personId != -1){
 	    	data.owner_ids = [personId];
 	    }
-	    else{
-	    	data.owner_ids = [];
-	    }
 
 		var postPromise = $.ajax({
 			 method: 'POST',
@@ -440,13 +438,11 @@ var Retro = React.createClass({
 		
 		var personId = vm.state.currentSelectedPerson;
 
+		console.log(personId);
 		if(personId != -1){
 			dataToSend.owner_ids = [personId];
 		}
 
-		else{
-			dataToSend.owner_ids = [];
-		}
 
 		var postPromise = $.ajax({
 			 method: 'PUT',
@@ -481,6 +477,7 @@ var Retro = React.createClass({
 	},
 
 	handleChangePerson: function(personId, newText){
+		console.log("Person: " + personId);
 		this.setState({currentSelectedPerson: personId, currentItemText: newText});
 	},
 
@@ -767,7 +764,7 @@ var Retro = React.createClass({
 	},
 	handleShowModal: function(id, trackerId, item_text, owner_id){
 		//get the item id of the item being edited to get the text for that item
-		console.log(item_text);
+		console.log(item_text + " " + owner_id);
 		this.setState(
 			{
 				currentItemId: id, 
@@ -776,7 +773,7 @@ var Retro = React.createClass({
 				modalShow: true, 
 				addActionItem: false, 
 				editingItem: true,
-				currentSelectedPerson: owner_id 
+				currentSelectedPerson: -1
 			},
 			this.createFocus
 			);
@@ -784,8 +781,15 @@ var Retro = React.createClass({
 
 	handleShowActionEditModal: function(dbId, trackerId, item_text, userId){
 		//get the item id of the item being edited to get the text for that item
-		this.setState({currentItemId: dbId, currentTrackerActionId: trackerId, 
-			currentItemText: item_text, modalShow: true, addActionItem: true, editingItem: true, currentSelectedPerson: userId}
+		console.log(item_text + " " + userId);
+
+		this.setState({currentItemId: dbId, 
+			currentTrackerActionId: trackerId, 
+			currentItemText: item_text, 
+			modalShow: true, 
+			addActionItem: true, 
+			editingItem: true, 
+			currentSelectedPerson: userId}
 		);
 	},
 
