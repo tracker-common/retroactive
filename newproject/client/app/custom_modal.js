@@ -49,12 +49,12 @@ var CustomModal = React.createClass({
 			          <ModalDialog onClose={this.props.handleClose}>
 			          <div> 
 			          {
-			            <form onSubmit={this.props.handleSubimt} >
+			            <form onSubmit={this.handleClick} >
 			            	<h1>{action + " " + name}</h1>
 			            	<input type="text" ref="newText"/>
 			            	<button type="button" className="update_button" onClick={this.handleClick}>{buttonText}</button>
 			            	{this.props.isActionItem ? (<UsersDropdown people={this.props.projectUsers} currentPerson={this.props.currentPerson || -1} handleChangePerson={this.handleChangePerson}/>) : null}
-			            	{this.props.editing ? (<button onClick={this.handleDeleteItem} className="delete_button">Delete</button>) : null }
+			            	{this.props.editing ? (<button type="button" onClick={this.handleDeleteItem} className="delete_button">Delete</button>) : null }
 			            </form>
 			          }
 			        </div>

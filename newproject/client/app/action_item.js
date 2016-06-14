@@ -32,7 +32,7 @@ var ActionItem = React.createClass({
 	},
 
 	show: function(){
-		var owner =  this.props.owner ? this.props.owner.id  : null;
+		var owner =  this.props.owner ? this.props.owner.id  : -1;
 		this.props.handleShowActionEditModal(this.props.object_id, this.props.tracker_id, this.props.itemText, owner);
 	},
 });
