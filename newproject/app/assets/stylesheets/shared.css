@@ -578,3 +578,8 @@ input {
 	font-size: 20px;
 	color: red;
 }
+
+/*  *_modal.js files */
+.modal_margin{
+	margin: 8px;
+}

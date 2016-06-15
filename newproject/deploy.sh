@@ -1,1 +1,3 @@
-cf push -b ruby_buildpack retroactive
+./build-client.sh
+
+cf push retroactive

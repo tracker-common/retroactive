@@ -16,6 +16,7 @@ import Loader from 'react-loader-advanced';
 import UsersDropdown from './project_users_dropdown';
 import CustomModal from './custom_modal';
 import ConfirmModal from './confirm_modal';
+import AlertModal from './alert_modal';
 
 //Imports for react tabs for mobile view
 var ReactTabs = require('react-tabs');
@@ -30,23 +31,25 @@ var Retro = React.createClass({
 	    return {
 	      retroItems: [[],[],[]],
 	      actionItems: [],
+	      projectUsers: {},
 	      projectName: "",
 	      retroDate: "",
-	      modalShow: false,
 	      currentItemId: "",
 	      currentTrackerActionId: null,
 	      currentItemText: "",
 	      projectId: "",
 	      addActionItem: false,
 	      loading: true,
-	      maxUserVotes: 100,
+	      maxUserVotes: 15,
 	      userCurrentVotes: 0,
 	      refreshActionStatuses: true,
-	      projectUsers: {},
 	      currentRetroVersion: -1,
 	      currentSelectedPerson: -1,
+	      modalShow: false,
 	      confirmModalShow: false,
-	      confirmHasAction: false
+	      alertModalShow: false,
+	      confirmHasAction: false,
+	      alertModalText: ""
 	   	}
 	},
 	componentWillMount: function(){
@@ -113,6 +116,11 @@ var Retro = React.createClass({
 					itemId = {this.state.currentItemId}
 					currentTrackerActionId = {this.state.currentTrackerActionId}
 					hasActionItem = {this.state.confirmHasAction}/>
+
+				<AlertModal 
+					modalShow = {this.state.alertModalShow}
+					handleClose = {this.handleCloseAlert}
+					text = {this.state.alertModalText}/>
 
 					<div className="desktop_retro_columns">
 						<RetroColumn HeaderText="Happy :)" 
@@ -192,7 +200,16 @@ var Retro = React.createClass({
 						handleClick = {this.handleClick}
 						handleClose = {this.handleClose}/>
 
-					<ConfirmModal />
+					<ConfirmModal 
+						modalShow = {this.state.confirmModalShow}
+						handleDeleteItem = {this.handleDeleteItem}
+						handleDeleteActionItem = {this.handleDeleteActionItem}
+						handleClick = {this.handleClick}
+						handleClose = {this.handleCloseConfirm}
+						isActionItem = {this.state.addActionItem}
+						itemId = {this.state.currentItemId}
+						currentTrackerActionId = {this.state.currentTrackerActionId}
+						hasActionItem = {this.state.confirmHasAction}/>
 
 				    <div className="mobile_retro_columns">
 					<Tabs
@@ -543,7 +560,12 @@ var Retro = React.createClass({
 					if(item.votes){
 						item.votes.forEach(function(vote, index){
 							if(vote.user_email == userEmail){
-								userVoteCount ++;
+								if( userVoteCount < vm.state.maxUserVotes){
+									userVoteCount ++;
+								}
+								else{
+									vm.handleAlertModal();
+								}
 							}
 						});
 					}
@@ -752,6 +774,10 @@ var Retro = React.createClass({
 		this.setState({confirmModalShow: false, currentItemText: "", confirmHasAction: false})
 	},
 
+	handleCloseAlert: function() {
+		this.setState({alertModalShow: false, alertModalText: ""})
+	},
+
 	handleShowModal: function(id, trackerId, item_text, owner_id){
 		//get the item id of the item being edited to get the text for that item
 		console.log(item_text + " " + owner_id);
@@ -790,9 +816,18 @@ var Retro = React.createClass({
 			this.createFocus
 			);
 	},
+
+	handleAlertModal: function(){
+		//get the item id of the item being added to get the text for that item
+		this.setState({
+		    alertModalShow: true,
+		    alertModalText: "You are out of votes!" 
+		});
+	},
 	
 	handleVote: function(item){
-		//console.log(item);
+		console.log(this.state.maxUserVotes);
+		console.log(this.state.userCurrentVotes);
 		if(this.state.maxUserVotes > this.state.userCurrentVotes)
 		{
 			var self = this;
@@ -816,9 +851,10 @@ var Retro = React.createClass({
 				
 	  			self.setState({retroItems: itemSet});
 	  		});
+
 		  }
 		  else{
-		  	alert("Max Votes Reached!");
+		  	this.handleAlertModal();
 		  }
 	},
 
