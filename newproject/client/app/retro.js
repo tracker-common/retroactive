@@ -883,8 +883,6 @@ var Retro = React.createClass({
 	},
 	
 	handleVote: function(item){
-		console.log(this.state.maxUserVotes);
-		console.log(this.state.userCurrentVotes);
 		if(this.state.maxUserVotes > this.state.userCurrentVotes)
 		{
 			var self = this;
