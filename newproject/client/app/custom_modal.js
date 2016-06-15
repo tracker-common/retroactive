@@ -4,7 +4,8 @@ import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 import UsersDropdown from './project_users_dropdown'
 
 var CustomModal = React.createClass({
-	getDefaultProps: function(){
+
+	getDefaultProps: function() {
 		return ({
 			"isActionItem" : false,
 			"editing" : true,
@@ -13,7 +14,7 @@ var CustomModal = React.createClass({
 		});
 	},
 
-	componentDidMount: function(){
+	componentDidMount: function() {
 		this.needsFocus = true;
 	},
 
@@ -23,14 +24,14 @@ var CustomModal = React.createClass({
 		var name = "";
 		var buttonText = "";
 
-		if(this.props.isActionItem){
+		if(this.props.isActionItem) {
 			name = "Action Item";
 		}
 		else{
 			name = "Retro Item";
 		}
 
-		if(this.props.editing){
+		if(this.props.editing) {
 			action = "Edit";
 			buttonText = "Update";
 		}
@@ -38,47 +39,49 @@ var CustomModal = React.createClass({
 			action = "New";
 			buttonText = "Save";
 		}
-		return(
-			<div className="modal" onClick={this.props.handleClick}>
-
-		        {
-		        	this.props.modalShow &&(
+		return (
+			<div onClick={this.props.handleClick}>
+		        { this.props.modalShow && (
 			        <ModalContainer onClose={this.props.handleClose}>
-			          <ModalDialog onClose={this.props.handleClose}>
-			          <div> 
-			          {
-			            <form onSubmit={this.handleClick} >
-			            	<h1>{action + " " + name}</h1>
-			            	<input type="text" ref="newText"/>
-			            	<button type="button" 
-				            	className="update_button" 
-				            	onClick={this.handleClick}>
-				            		{buttonText}
-			            		</button>
-			            	{
-			            		this.props.isActionItem ? 
-			            		(
-			            			<UsersDropdown people={this.props.projectUsers} 
-			            			currentPerson={this.props.currentPerson || -1} 
-			            			handleChangePerson={this.handleChangePerson}/>
-			            		) : 
-			            		null
-			            	}
-			            	{
-			            		this.props.editing ? 
-			            		(
-				            		<button type="button" 
-				            		onClick={this.handleDeleteItem} 
-				            		className="delete_button">Delete</button>
-			            		) : 
-			            		null 
-			            	}
-			            </form>
-			          }
-			        </div>
-			          </ModalDialog>
+						<ModalDialog onClose={this.props.handleClose}>
+							<div> 
+								<form className="modal" onSubmit={this.handleClick} >
+									<span className="custom_modal_title">{action + " " + name}</span>
+									<label className="custom_modal_description">Description:</label>
+									<textarea className="custom_modal_textbox" ref="newText"/>
+									
+									{
+										this.props.isActionItem ? 
+										(
+											<div>
+												<label className="custom_modal_owner">Owner:</label>
+												<br/>
+												<UsersDropdown people={this.props.projectUsers} 
+													currentPerson={this.props.currentPerson || -1} 
+													handleChangePerson={this.handleChangePerson}/>
+											</div>
+											
+										) : 
+										null
+									}
+
+									<div className="custom_modal_buttons">
+										<button type="button" className="update_button" onClick={this.handleClick}>{buttonText}</button>
+										
+
+										{
+											this.props.editing ? 
+											(
+									    		<button type="button" className="delete_button" onClick={this.handleDeleteItem}>Delete</button>
+											) : 
+											null 
+										}
+									</div>
+								</form>
+				        	</div>
+			        	</ModalDialog>
 			        </ModalContainer>
-		      )}
+				)}
 		    </div>
 		);
 	},

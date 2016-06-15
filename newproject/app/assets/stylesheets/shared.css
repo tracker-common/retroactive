@@ -198,16 +198,6 @@ button:active{
 	top:1px;
 }
 
-.update_button {
-	border:2px solid #5c5c5c;
-	color:#000000;
-}
-
-.delete_button {
-	border:2px solid #f04848;
-	color:#ff0000;
-}
-
 
 /* header.js */
 .header {
@@ -272,7 +262,6 @@ button:active{
 }
 
 /* mobile_header.js*/
-
 .mobile_header {
 	display: -webkit-flex;
 	display: flex;
@@ -282,6 +271,7 @@ button:active{
 	align-content:flex-start;
 	color: #F3F3F3;
 }
+
 .mobile_header h1 {
 	font-size: 18px;
 	margin-bottom: 0px;
@@ -294,7 +284,7 @@ button:active{
 .mobile_header .right {
 	position: absolute;
 	right: 5px;
-	top: -8px;	
+	top: 6px;	
 }
 
 .mobile_header .left {
@@ -539,18 +529,27 @@ input {
 }
 
 .project_retros_header {
-	display: flex;
 	background-color: white;
 	border-style: solid;
 	border-color: #A9A9A9;
 	border-width: 1px;
 	border-radius: 5px 5px 0px 0px;
 	padding: 10px;
-	justify-content: flex-start;
+	position: relative;
+	display: flex;
+	flex-direction: row;
 }
 
-.project_retros_new_button {
-	align-self: flex-end;
+.new_retro_img {
+	position: absolute;
+	right: 90px;
+	top: 13px;
+}
+
+.project_retros_new {
+	margin-right: 0px;
+	margin-left: auto;
+	color: #A9A9A9;
 }
 
 .retro_table {
@@ -577,7 +576,60 @@ input {
 	color: red;
 }
 
-/*  *_modal.js files */
-.modal_margin{
-	margin: 8px;
+.modal {
+	display: flex;
+	flex-direction: column;
+}
+
+.custom_modal_title {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 0 auto 0 auto;
+}
+
+.custom_modal_description {
+	font-size: 14px;
+	margin-top: 5px;
+}
+
+.custom_modal_textbox {
+	height: 69px;
+	width: 300px;
+	font-size: 14px;
+	margin-top: 2px;
+	padding: 3px;
+}
+
+.custom_modal_buttons {
+	margin-top: 5px;
+}
+
+.update_button {
+	border:2px solid #5c5c5c;
+	color: #000000;
+	float: right;
+}
+
+.delete_button {
+	border:2px solid #f04848;
+	color: #ff0000;
+	float: left;
+}
+
+.custom_modal_dropdown {
+	margin-top: 3px;
+}
+
+.confirm_modal_text {
+	margin-top: 20px;
+	font-size: 14px;
+	text-align: center;
+}
+
+.confirm_modal_text p{
+	 line-height: 115%;
+}
+
+.confirm_modal_buttons {
+	margin-top: 5px;
 }
