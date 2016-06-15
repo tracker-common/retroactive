@@ -20,8 +20,11 @@ var ProjectRetros = React.createClass({
 					<div className="project_retros_title">
 						{this.props.projectName} 
 					</div>
-					
-					<button className="project_retros_new_button" type="button" onClick={this.newRetro}>+</button>
+
+					<div onClick={this.newRetro} className="project_retros_new">
+						<img className="new_retro_img" src="/add_icon.svg" />
+						<span>New Retro</span>
+					</div>
 				</div>
 
 				<div className="retro_table">

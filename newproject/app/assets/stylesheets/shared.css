@@ -529,18 +529,27 @@ input {
 }
 
 .project_retros_header {
-	display: flex;
 	background-color: white;
 	border-style: solid;
 	border-color: #A9A9A9;
 	border-width: 1px;
 	border-radius: 5px 5px 0px 0px;
 	padding: 10px;
-	justify-content: flex-start;
+	position: relative;
+	display: flex;
+	flex-direction: row;
 }
 
-.project_retros_new_button {
-	align-self: flex-end;
+.new_retro_img {
+	position: absolute;
+	right: 90px;
+	top: 13px;
+}
+
+.project_retros_new {
+	margin-right: 0px;
+	margin-left: auto;
+	color: #A9A9A9;
 }
 
 .retro_table {

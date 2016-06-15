@@ -46,18 +46,20 @@ var RetroItem = React.createClass({
 						</div>
 					)
 				}
+
 				<div onClick={this.show} className="action_and_edit_link edit_link">
 					<img className="edit_img" src="/edit_blue.svg"/>
-					<a>Edit</a>
+					<span>Edit</span>
 				</div>
-					{ 
-						(this.props.object_id && this.props.action_item_id == null) ? 
-						<div onClick={this.showActionModal} className="action_and_edit_link action_link">
-							<img className="action_img" src="/add_icon.svg" />
-							<a>Action</a> 
-						</div> : 
-						null
-					}
+				
+				{ 
+					(this.props.object_id && this.props.action_item_id == null) ? 
+					<div onClick={this.showActionModal} className="action_and_edit_link action_link">
+						<img className="action_img" src="/add_icon.svg" />
+						<span>Action</span> 
+					</div> : 
+					null
+				}
 
 				</div>
 				
