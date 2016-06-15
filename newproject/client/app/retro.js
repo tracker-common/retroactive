@@ -461,7 +461,7 @@ var Retro = React.createClass({
 		});
 	},
 
-	handleEditActionItem: function(actionItemText){
+	handleEditActionItem: function(actionItemText, oldOwner){
 
 		var vm = this;
 		this.setState({addActionItem: false});
@@ -477,22 +477,62 @@ var Retro = React.createClass({
 		dataToSend.description = actionItemText;
 		
 		var personId = vm.state.currentSelectedPerson;
+		var currentActionTrackerId = vm.state.currentTrackerActionId;
 
 		console.log(personId);
 		if(personId != -1){
+			//Post the data to tracker with the new owner
 			dataToSend.owner_ids = [personId];
 		}
+		else{
+			//delete the owner from tracker, and send the modified text
 
+			var getPromise = $.ajax({
+				 method: 'GET',
+		  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.projectId 
+		  		 	+ "/stories/" + currentActionTrackerId + "/owners/" ,
+		          beforeSend: function(xhr) {
+		            xhr.setRequestHeader('X-TrackerToken', token);
+		          }
+		  	});
 
+			
+		  	getPromise.then(function(owners){
+		  		
+		  		if(owners.length > 0){
+		  		
+		  			console.log("OWNERS");
+		  			console.log(owners);
+		  			var firstOwner = owners.pop().id;
+		  			console.log("deleting owner: " + firstOwner);
+
+			  		var deletePromise = vm.deleteOwnerFromActionItem(vm.state.projectId, currentActionTrackerId, firstOwner);
+			  		var i = 0;
+
+			  		while(i < owners.length){
+			  			console.log("i = " + i + " owners.length = " + owners.length);
+			  			
+			  			deletePromise = deletePromise.then(function(data){
+							var ownerId = owners.pop().id;
+		  					console.log("OWNER INSIDE CALLBACK");
+		  					console.log(ownerId);
+		  					return vm.deleteOwnerFromActionItem(vm.state.projectId, currentActionTrackerId, ownerId);					
+			  			});
+			  			i++;
+			  		}
+				}
+			});
+		}
+		//post to rails with the new text
 		var postPromise = $.ajax({
-			 method: 'PUT',
-	  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.projectId 
-	  		 	+ "/stories/" + vm.state.currentTrackerActionId,
-	          beforeSend: function(xhr) {
-	            xhr.setRequestHeader('X-TrackerToken', token);
-	          },
-	          data: dataToSend,
-	  	});
+				 method: 'PUT',
+		  		 url: "https://www.pivotaltracker.com/services/v5/projects/"+ vm.state.projectId 
+		  		 	+ "/stories/" + currentActionTrackerId,
+		          beforeSend: function(xhr) {
+		            xhr.setRequestHeader('X-TrackerToken', token);
+		          },
+		          data: dataToSend,
+		});
 
 		postPromise.then(function(data){
 			console.log('Edit Post Promise');
@@ -513,6 +553,20 @@ var Retro = React.createClass({
 	  		});
 	  		
 	  		vm.setState({currentTrackerActionId: null, actionItems: oldActionItems});
+		});
+	},
+
+	deleteOwnerFromActionItem: function(projectId, trackerItemId, trackerOwnerId){
+		var token = localStorage.getItem("tracker_token");
+		console.log("currentOwnerId: " + trackerOwnerId);
+		return $.ajax({
+			method: 'DELETE',
+				url: "https://www.pivotaltracker.com/services/v5/projects/"+ projectId
+					+ "/stories/" + trackerItemId + "/owners/" + trackerOwnerId,
+    		beforeSend: function(xhr) {
+    		  xhr.setRequestHeader('X-TrackerToken', token);
+    		},
+    		crossDomain: true
 		});
 	},
 
@@ -808,7 +862,7 @@ var Retro = React.createClass({
 			modalShow: true, 
 			addActionItem: true, 
 			editingItem: true, 
-			currentSelectedPerson: userId}
+			currentSelectedPerson: userId }
 		);
 	},
 
