@@ -15,7 +15,7 @@ import MobileBreakpoint from './responsive_utilities/phone_breakpoint';
 import Loader from 'react-loader-advanced';
 import UsersDropdown from './project_users_dropdown';
 import CustomModal from './custom_modal';
-
+import ConfirmModal from './confirm_modal';
 
 //Imports for react tabs for mobile view
 var ReactTabs = require('react-tabs');
@@ -44,7 +44,9 @@ var Retro = React.createClass({
 	      refreshActionStatuses: true,
 	      projectUsers: {},
 	      currentRetroVersion: -1,
-	      currentSelectedPerson: -1
+	      currentSelectedPerson: -1,
+	      confirmModalShow: false,
+	      confirmHasAction: false
 	   	}
 	},
 	componentWillMount: function(){
@@ -97,10 +99,20 @@ var Retro = React.createClass({
 					currentPerson = {this.state.currentSelectedPerson}
 					handleChangePerson={this.handleChangePerson}
 					handleEditActionItem = {this.handleEditActionItem}
+					handleClick = {this.handleClick}
+					handleClose = {this.handleClose}
+					showConfirmDeleteModal = {this.showConfirmDeleteModal}/>
+
+				<ConfirmModal 
+					modalShow = {this.state.confirmModalShow}
 					handleDeleteItem = {this.handleDeleteItem}
 					handleDeleteActionItem = {this.handleDeleteActionItem}
 					handleClick = {this.handleClick}
-					handleClose = {this.handleClose}/>
+					handleClose = {this.handleCloseConfirm}
+					isActionItem = {this.state.addActionItem}
+					itemId = {this.state.currentItemId}
+					currentTrackerActionId = {this.state.currentTrackerActionId}
+					hasActionItem = {this.state.confirmHasAction}/>
 
 					<div className="desktop_retro_columns">
 						<RetroColumn HeaderText="Happy :)" 
@@ -179,6 +191,8 @@ var Retro = React.createClass({
 						handleDeleteActionItem = {this.handleDeleteActionItem}
 						handleClick = {this.handleClick}
 						handleClose = {this.handleClose}/>
+
+					<ConfirmModal />
 
 				    <div className="mobile_retro_columns">
 					<Tabs
@@ -307,8 +321,7 @@ var Retro = React.createClass({
 			method: 'POST',
 	  		url: "/retros/editItemText/" + retroId + "/" + itemId,
 	  		data: {text : text}
-	  	});
-		
+	  	});	
 	},
 
 	getItemById: function(itemId){
@@ -369,6 +382,7 @@ var Retro = React.createClass({
 	  		console.log("deleted!");
 	  	});
 	},
+
 	handleAddActionItem: function(itemId, itemText){
 		//e.preventDefault();
 
@@ -426,6 +440,7 @@ var Retro = React.createClass({
 	  		});
 		});
 	},
+
 	handleEditActionItem: function(actionItemText){
 
 		var vm = this;
@@ -638,45 +653,7 @@ var Retro = React.createClass({
 						actionItems: []
 					});
 				}
-			/* else {
-				//getting back new action items, may not be complete in tracker yet. Don't check status until page reload
-				document.title = "RetroActive - " + data.project_name  + dateString;
-				var actionItemsInput = data.action_items || [];
-				
-				//actionItemsInput.forEach(function (actionItem, index){
-				//	actionItem.status="unscheduled";
-				//});
-				var oldActionItemsIdList = [];
-
-				vm.state.actionItems.forEach(function(item, index){
-					oldActionItemsIdList.push(item._id.$oid);
-				});
-
-				var newActionItems = vm.state.actionItems;
-
-				if(data.action_items){
-					data.action_items.forEach(function(item, index){
-						if(oldActionItemsIdList.indexOf(item._id.$oid) <= -1){
-							item.owner = vm.state.currentSelectedPerson;
-							item.status = "unscheduled";
-							newActionItems.push(item);
-						}
-					});
-				}
-				
-				vm.setState({projectName: data.project_name, 
-					retroDate: dateString, 
-					retroItems: itemSet, 
-					projectId: data.project_id, 
-					loading: false,
-					actionItems: newActionItems,
-					userCurrentVotes: userVoteCount,
-					refreshActionStatuses: false,
-				});				
-			}	*/
-
 		});
-
 	},
 
 	addRetroItem: function(column, text){
@@ -743,6 +720,7 @@ var Retro = React.createClass({
 
 	  	vm.setState({currentTrackerActionId: null, actionItems: oldActionItems});
 	},
+
 	deleteTrackerStory: function(trackerItemId){
 		//this deletes the Tracker Story in Tracker ONLY, not from our Mongo DB
 		var token = localStorage.getItem("tracker_token");
@@ -760,13 +738,20 @@ var Retro = React.createClass({
 	  		console.log(data);
 	  	});
 	},
+
 	handleClick: function() 
 	{ 
 		this.setState({modalShow: true, editingItem: true});
 	},
+
 	handleClose: function() { 
 		this.setState({modalShow: false, currentItemText: ""})
 	},
+
+	handleCloseConfirm: function() {
+		this.setState({confirmModalShow: false, currentItemText: "", confirmHasAction: false})
+	},
+
 	handleShowModal: function(id, trackerId, item_text, owner_id){
 		//get the item id of the item being edited to get the text for that item
 		console.log(item_text + " " + owner_id);
@@ -836,6 +821,7 @@ var Retro = React.createClass({
 		  	alert("Max Votes Reached!");
 		  }
 	},
+
 	handleUnVote: function(item){
 		
 		var self = this;
@@ -863,6 +849,16 @@ var Retro = React.createClass({
   			self.setState({retroItems: itemSet});
   		});
 	},
+
+	showConfirmDeleteModal: function(){
+		var retroItem = this.getItemById(this.state.currentItemId);
+		if (retroItem && retroItem.action_item_id != null){
+			this.setState({confirmModalShow: true, confirmHasAction: true});
+		}
+		else{
+			this.setState({confirmModalShow: true, confirmHasAction: false});	
+		}
+    },
 
 });
 
