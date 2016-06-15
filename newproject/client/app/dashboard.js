@@ -40,80 +40,78 @@ var RetroActive = React.createClass({
     document.title = "RetroActive";
 	},
 
-  render() {
-    if(localStorage.getItem("url_redirect") == null){
-      return (
-        <div>
-        <Loader show={this.state.loading}  message={'loading...'} className="loader">
-        	<div className="dashboard">
-          	<DesktopBreakpoint>
-              <Header user_name={this.state.user_name}
-              isDashboard={true} />
-              <div className="main_wrapper">
-                <TrackerTokenForm 
-                    token={this.state.token} 
-                    handleSaveToken={this.handleSaveToken_} 
-                    handleChangeToken={this.handleChangeToken_}
-                    showErrorText={this.state.tokenError}/>
-                 <CreateRetroForm 
-                    projectRetros={this.state.projectRetros} 
-                    handleCreateRetro={this.handleCreateRetro_}
-                    toggleShowHide={this.toggleShowLinks}
-                    deleteRetro={this.deleteRetro}/>
-                </div>
-            </DesktopBreakpoint>
-          </div>
-        </Loader>
+    render() {
+        if(localStorage.getItem("url_redirect") == null){
+          return (
+            <div>
+                <DesktopBreakpoint>
+                    <Loader show={this.state.loading}  message={'loading...'} className="loader">
+                    	<div className="dashboard">
+                            <Header user_name={this.state.user_name} isDashboard={true} />
+                            <div className="main_wrapper">
+                                <TrackerTokenForm 
+                                    token={this.state.token} 
+                                    handleSaveToken={this.handleSaveToken_} 
+                                    handleChangeToken={this.handleChangeToken_}
+                                    showErrorText={this.state.tokenError}/>
+                                 <CreateRetroForm 
+                                    projectRetros={this.state.projectRetros} 
+                                    handleCreateRetro={this.handleCreateRetro_}
+                                    toggleShowHide={this.toggleShowLinks}
+                                    deleteRetro={this.deleteRetro}/>
+                            </div>
+                        </div>
+                    </Loader>
+                </DesktopBreakpoint>
 
-            <Loader show={this.state.loading} message={'loading...'}>
-            <div className="dashboard">
-            <PhoneBreakpoint>
-                <MobileHeader user_name={this.state.user_name}
-                isDashboard={true}  />
-                <div className="mobile_wrapper">
-                  <TrackerTokenForm 
-                    token={this.state.token} 
-                    handleSaveToken={this.handleSaveToken_} 
-                    handleChangeToken={this.handleChangeToken_}
-                    showErrorText={this.state.tokenError}/>
+                <PhoneBreakpoint>
+                    <Loader show={this.state.loading} message={'loading...'}>
+                        <div className="dashboard">
+                            <MobileHeader user_name={this.state.user_name} isDashboard={true} />
+                            <div className="mobile_wrapper">
+                                <TrackerTokenForm 
+                                token={this.state.token} 
+                                handleSaveToken={this.handleSaveToken_} 
+                                handleChangeToken={this.handleChangeToken_}
+                                showErrorText={this.state.tokenError}/>
 
-                  <MobileCreateRetro
-                    projectRetros={this.state.projectRetros} 
-                    handleCreateRetro={this.handleCreateRetro_}
-                    loading={this.state.loading}
-                    current_proj={this.state.current_proj}
-                    handleChangeProject={this.handleChangeProject} />
-                  </div>
-            </PhoneBreakpoint>
-    		  </div>
-        </Loader>
-        </div>
-      );
-    }else{
-      return(<div></div>);
-    }
-  },
-  handleChangeToken_: function(event) {
-	this.setState({token: undefined});
-  },
+                                <MobileCreateRetro
+                                projectRetros={this.state.projectRetros} 
+                                handleCreateRetro={this.handleCreateRetro_}
+                                loading={this.state.loading}
+                                current_proj={this.state.current_proj}
+                                handleChangeProject={this.handleChangeProject} />
+                            </div>
+            	       </div>
+                    </Loader>
+                </PhoneBreakpoint>
+            </div>);
+        } else {
+            return (<div></div>);
+        }
+    },
 
-  handleSaveToken_: function(newToken) {
-  	$.get("/users/token/"+localStorage.getItem("user_email")+"/"+newToken, function( data ) {
-  		localStorage.setItem("tracker_token", newToken);
-  	});
-  	this.setState({token: newToken});
-  },
+    handleChangeToken_: function(event) {
+    this.setState({token: undefined});
+    },
 
-  checkEmail: function(){
-  		var vm = this;
-  		$.get("/users/check/"+localStorage.getItem("user_email"), function( data ) {
-  			localStorage.setItem("tracker_token", data.tracker_token);
-  			vm.setState({token: data.tracker_token});
+    handleSaveToken_: function(newToken) {
+    	$.get("/users/token/"+localStorage.getItem("user_email")+"/"+newToken, function( data ) {
+    		localStorage.setItem("tracker_token", newToken);
+    	});
+    	this.setState({token: newToken});
+    },
+
+    checkEmail: function(){
+    		var vm = this;
+    		$.get("/users/check/"+localStorage.getItem("user_email"), function( data ) {
+    			localStorage.setItem("tracker_token", data.tracker_token);
+    			vm.setState({token: data.tracker_token});
         vm.getProjectsFromTracker();
-  		});
-	},
+    		});
+    },
 
-  getProjectsFromTracker:function(){
+    getProjectsFromTracker:function(){
     var vm = this;
     var token = this.state.token;
     var ajaxPromise = $.ajax({
@@ -178,9 +176,9 @@ var RetroActive = React.createClass({
         vm.syncStatuses();
       });
     });
-  },
+    },
 
-  syncStatuses: function(){
+    syncStatuses: function(){
     var vm = this;
     var actionItemsCount = 0;
     var newProjectRetros = this.state.projectRetros; 
@@ -222,9 +220,9 @@ var RetroActive = React.createClass({
         }
       });
     });
-  },
+    },
 
-  deleteActionItem: function(actionItemId, retroId) {
+    deleteActionItem: function(actionItemId, retroId) {
     //Ajax call to delete the item
 
     console.log("deleting Action Item");
@@ -242,9 +240,9 @@ var RetroActive = React.createClass({
         console.log("error with Delete Call");
         console.log(data);
       });
-  },
+    },
 
-  deleteRetro: function(retro_id){
+    deleteRetro: function(retro_id){
     var vm = this;
     if(confirm("Delete this Retro?")){
       var ajaxPromise = $.ajax({
@@ -258,9 +256,9 @@ var RetroActive = React.createClass({
         },
       });
     }
-  },
+    },
 
-  toggleShowLinks: function(ShowingNow, projectId){
+    toggleShowLinks: function(ShowingNow, projectId){
     var rets = this.state.projectRetros;
     rets.forEach(function (item, index){
       if(item.project_id == projectId){
@@ -268,48 +266,48 @@ var RetroActive = React.createClass({
       }
     });
     this.setState({projectRetros: rets});
-  },
+    },
 
-  startNewRetro: function(projectId){
-  	var vm = this;
-  	var token = this.state.token;
-  	var ajaxPromise = $.ajax({
-  		 url: "https://www.pivotaltracker.com/services/v5/projects/" + projectId,
+    startNewRetro: function(projectId){
+    	var vm = this;
+    	var token = this.state.token;
+    	var ajaxPromise = $.ajax({
+    		 url: "https://www.pivotaltracker.com/services/v5/projects/" + projectId,
           beforeSend: function(xhr) {
             xhr.setRequestHeader('X-TrackerToken', token);
           }
-  	});
+    	});
 
-  	ajaxPromise.then(function(data){
-  		var project = {};
-  		project.name = data.name;
-  		project.id = data.id;
+    	ajaxPromise.then(function(data){
+    		var project = {};
+    		project.name = data.name;
+    		project.id = data.id;
 
-  		vm.saveRetro(project);
+    		vm.saveRetro(project);
 
-  	});
-  },
+    	});
+    },
 
-  saveRetro: function(project){
-		var ajaxPromise = $.ajax({
-			method: 'POST',
-  		url: "/retros/new",
-  		data: project
-  	});
+    saveRetro: function(project){
+    	var ajaxPromise = $.ajax({
+    		method: 'POST',
+    		url: "/retros/new",
+    		data: project
+    	});
 
-  	ajaxPromise.then(function(data){
+    	ajaxPromise.then(function(data){
 
       //redirect to the retrospective
-  		browserHistory.push('/show/' + data._id.$oid);
-  	});
-  },
+    		browserHistory.push('/show/' + data._id.$oid);
+    	});
+    },
 
-  handleCreateRetro_: function(newRetroId) {
-  	this.startNewRetro(newRetroId);
-  },
-  handleChangeProject : function(project){
+    handleCreateRetro_: function(newRetroId) {
+    	this.startNewRetro(newRetroId);
+    },
+    handleChangeProject : function(project){
     this.setState({current_proj: project});
-  }
+    }
 
 });
 

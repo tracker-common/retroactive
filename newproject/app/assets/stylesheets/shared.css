@@ -63,9 +63,6 @@ html {
 }
 
 
-.loader{
-	min-width: 1040px;
-}
 .main_wrapper {
 	width: 950px;
 	margin:0 auto;
@@ -119,6 +116,7 @@ html {
 	width: 25%;
 	padding-bottom: 20px;
 }
+
 
 .mobile_retro_columns .full_height {
 	height: 100%;
