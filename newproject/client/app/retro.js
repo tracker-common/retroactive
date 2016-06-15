@@ -578,7 +578,7 @@ var Retro = React.createClass({
 	checkRetroVersion: function(){
 		var vm = this;
 		var retroId = this.props.params.retroId;
-		console.log("Version: " + this.state.currentRetroVersion);
+		//console.log("Version: " + this.state.currentRetroVersion);
 		$.get("/retros/version/" + retroId, function(data){
 			if(vm.state.currentRetroVersion < data.version){
 				vm.buildRetro();
