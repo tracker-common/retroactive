@@ -104,8 +104,9 @@ var CustomModal = React.createClass({
 		if(this.props.modalShow && this.refs.newText && this.props.editing){
 			this.refs.newText.value = this.props.itemText;
 		}
-		if(this.needsFocus){
-			this.createFocus();
+
+		if(this.needsFocus && ReactDOM.findDOMNode(this.refs.newText) != null){
+			this.createFocus();	
 			this.needsFocus = false;
 		}
 		

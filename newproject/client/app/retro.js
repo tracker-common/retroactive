@@ -297,6 +297,11 @@ var Retro = React.createClass({
 	},
 
 	getProjectUsers: function(projectId){
+		
+		if(this.state.projectUsers.length < 1){
+			return;
+		}
+
 		var projectUsers = {};
 		var token = localStorage.getItem("tracker_token");
 		var usersPromise = $.ajax({
@@ -308,17 +313,11 @@ var Retro = React.createClass({
 		});
 
 		usersPromise.then(function(data){
-			// console.log("Users Data");
-			// console.log(data);
-
 			data.forEach(function(member, index){
 				if(member.role != 'viewer'){
 					projectUsers[member.person.id] = member.person;
 				}
 			});
-
-			// console.log("Our Array");
-			// console.log(projectUsers);
 		});
 
 		usersPromise.error(function(data){
@@ -449,8 +448,6 @@ var Retro = React.createClass({
 	  	});
 
 		postPromise.then(function(data){
-			// console.log("New Item In Tracker");
-	  // 		console.log(data);
 			var postPromise = $.ajax({
 				method: 'POST',
 		  		url: "/retros/addActionItem/" + retroId + "/" + itemId,
@@ -480,7 +477,6 @@ var Retro = React.createClass({
 		var personId = vm.state.currentSelectedPerson;
 		var currentActionTrackerId = vm.state.currentTrackerActionId;
 
-		console.log(personId);
 		if(personId != -1){
 			//Post the data to tracker with the new owner
 			dataToSend.owner_ids = [personId];
@@ -501,22 +497,14 @@ var Retro = React.createClass({
 		  	getPromise.then(function(owners){
 		  		
 		  		if(owners.length > 0){
-		  		
-		  			console.log("OWNERS");
-		  			console.log(owners);
 		  			var firstOwner = owners.pop().id;
-		  			console.log("deleting owner: " + firstOwner);
 
 			  		var deletePromise = vm.deleteOwnerFromActionItem(vm.state.projectId, currentActionTrackerId, firstOwner);
 			  		var i = 0;
 
 			  		while(i < owners.length){
-			  			console.log("i = " + i + " owners.length = " + owners.length);
-			  			
 			  			deletePromise = deletePromise.then(function(data){
 							var ownerId = owners.pop().id;
-		  					console.log("OWNER INSIDE CALLBACK");
-		  					console.log(ownerId);
 		  					return vm.deleteOwnerFromActionItem(vm.state.projectId, currentActionTrackerId, ownerId);					
 			  			});
 			  			i++;
@@ -536,7 +524,6 @@ var Retro = React.createClass({
 		});
 
 		postPromise.then(function(data){
-			console.log('Edit Post Promise');
 			var postPromise = $.ajax({
 				method: 'POST',
 		  		url: "/retros/editActionText/" + retroId + "/" + vm.state.currentItemId,
@@ -544,6 +531,7 @@ var Retro = React.createClass({
 	  		});
 	  		//Update text in retro actions column
 	  		var oldActionItems = vm.state.actionItems;
+	  		
 	  		oldActionItems.forEach(function(actionItem, index){
 	  			if(actionItem._id.$oid == vm.state.currentItemId){
 	  				actionItem.text = actionItemText;
@@ -559,7 +547,6 @@ var Retro = React.createClass({
 
 	deleteOwnerFromActionItem: function(projectId, trackerItemId, trackerOwnerId){
 		var token = localStorage.getItem("tracker_token");
-		console.log("currentOwnerId: " + trackerOwnerId);
 		return $.ajax({
 			method: 'DELETE',
 				url: "https://www.pivotaltracker.com/services/v5/projects/"+ projectId
@@ -572,7 +559,6 @@ var Retro = React.createClass({
 	},
 
 	handleChangePerson: function(personId, newText){
-		console.log("Person: " + personId);
 		this.setState({currentSelectedPerson: personId, currentItemText: newText});
 	},
 
@@ -656,7 +642,6 @@ var Retro = React.createClass({
 					    });
 
 					    ajaxPromise.then(function(trackerData){
-					    	// console.log(trackerData);
 					    	actionIdSet.push(actionItem.tracker_action_id);
 
 					    	actionItem.status = trackerData.current_state;
@@ -667,7 +652,6 @@ var Retro = React.createClass({
 							actionSet[actionItem.tracker_action_id] = actionItem;
 							countActionItems --;
 							//wait for all of the action items to be in
-							//console.log("Count: " + countActionItems);
 							if(countActionItems == 0){
 								//set the state after the syncing of the action item statuses
 
@@ -838,7 +822,6 @@ var Retro = React.createClass({
 
 	handleShowModal: function(id, trackerId, item_text, owner_id){
 		//get the item id of the item being edited to get the text for that item
-		console.log(item_text + " " + owner_id);
 		this.setState(
 			{
 				currentItemId: id, 
@@ -848,8 +831,8 @@ var Retro = React.createClass({
 				addActionItem: false, 
 				editingItem: true,
 				currentSelectedPerson: -1
-			},
-			this.createFocus
+			}/*,
+			this.createFocus*/
 			);
 	},
 
@@ -870,8 +853,8 @@ var Retro = React.createClass({
 	handleActionModal: function(id, item_text){
 		//get the item id of the item being added to get the text for that item
 		this.setState({currentItemId: id, currentItemText: item_text,
-		 modalShow: true, addActionItem: true, editingItem: false},
-			this.createFocus
+		 modalShow: true, addActionItem: true, editingItem: false}/*,
+			this.createFocus*/
 			);
 	},
 
