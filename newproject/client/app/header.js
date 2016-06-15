@@ -17,11 +17,11 @@ var Header = React.createClass({
 						<img src="/RETROACTIVE.svg"/>
 					</Link>
 				</div>
-				<div className="center header__text_box  header__row" >
+				<div className="center header__text_box" >
+			
 					<span className="center__text">{this.props.title}</span>
-							
-							
 				</div>
+				
 				<div className="right header__text_box">
 					<span>
 						{this.props.user_name} 
