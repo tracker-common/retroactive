@@ -52,9 +52,29 @@ var CustomModal = React.createClass({
 			            <form onSubmit={this.handleClick} >
 			            	<h1>{action + " " + name}</h1>
 			            	<input type="text" ref="newText"/>
-			            	<button type="button" className="update_button" onClick={this.handleClick}>{buttonText}</button>
-			            	{this.props.isActionItem ? (<UsersDropdown people={this.props.projectUsers} currentPerson={this.props.currentPerson || -1} handleChangePerson={this.handleChangePerson}/>) : null}
-			            	{this.props.editing ? (<button type="button" onClick={this.handleDeleteItem} className="delete_button">Delete</button>) : null }
+			            	<button type="button" 
+				            	className="update_button" 
+				            	onClick={this.handleClick}>
+				            		{buttonText}
+			            		</button>
+			            	{
+			            		this.props.isActionItem ? 
+			            		(
+			            			<UsersDropdown people={this.props.projectUsers} 
+			            			currentPerson={this.props.currentPerson || -1} 
+			            			handleChangePerson={this.handleChangePerson}/>
+			            		) : 
+			            		null
+			            	}
+			            	{
+			            		this.props.editing ? 
+			            		(
+				            		<button type="button" 
+				            		onClick={this.handleDeleteItem} 
+				            		className="delete_button">Delete</button>
+			            		) : 
+			            		null 
+			            	}
 			            </form>
 			          }
 			        </div>
@@ -63,10 +83,6 @@ var CustomModal = React.createClass({
 		      )}
 		    </div>
 		);
-	},
-
-	handleClose: function(){
-		alert("closing;");
 	},
 
 	handleClick: function(e){
@@ -106,8 +122,6 @@ var CustomModal = React.createClass({
 		this.props.handleEditItem(this.props.itemId, this.refs.newText.value);
 	},
 
-	
-	
 	handleAddActionItem: function(){
 		this.props.handleAddActionItem(this.props.itemId, this.refs.newText.value);
 	},
@@ -115,15 +129,12 @@ var CustomModal = React.createClass({
 	handleEditActionItem: function(){
 		this.props.handleEditActionItem(this.refs.newText.value, this.props.currentPerson);
 	},
-
+	
 	handleDeleteItem: function(e){
+		//show confirm modal
 		e.preventDefault();
-		if(this.props.isActionItem){
-			this.props.handleDeleteActionItem( this.props.currentTrackerActionId, this.props.itemId );	
-		}
-		else{
-			this.props.handleDeleteItem(this.props.itemId);	
-		}
+		this.props.showConfirmDeleteModal();
+		this.props.handleClose()
 	},
 
 	handleChangePerson: function(newPerson){
