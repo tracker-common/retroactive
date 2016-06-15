@@ -140,8 +140,9 @@ class RetroController < ActionController::Base
 		#Look for a vote with the current username
 
 		@votes = @item.votes.where(user_email: @email)
+		
 		if(@votes.size > 0)
-			render status: 500, json: {}
+			render json: @ret.retro_items
 		else
 			@item.votes.build(user_email: @user.email)
 			@item.save

@@ -38,8 +38,6 @@ var CustomModal = React.createClass({
 			action = "New";
 			buttonText = "Save";
 		}
-
-
 		return(
 			<div className="modal" onClick={this.props.handleClick}>
 

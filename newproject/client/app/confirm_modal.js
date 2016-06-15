@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {ModalContainer, ModalDialog} from 'react-modal-dialog';
-import UsersDropdown from './project_users_dropdown'
 
 var ConfirmModal = React.createClass({
 	getDefaultProps: function(){
@@ -18,10 +17,6 @@ var ConfirmModal = React.createClass({
 	},
 
 	render() {
-
-		var action = "";
-		var name = "";
-		var buttonText = "";
 		var text = "";
 
 		if(this.props.isActionItem){
@@ -44,7 +39,7 @@ var ConfirmModal = React.createClass({
 		        	(
 			        <ModalContainer onClose={this.props.handleClose}>
 			          <ModalDialog onClose={this.props.handleClose}>
-			          <div> 
+			          <div className="modal_margin"> 
 			          {text}
 			          {
 			            <form>
