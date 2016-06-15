@@ -218,64 +218,63 @@ var Retro = React.createClass({
 								text = {this.state.alertModalText}/>
 
 						    <div className="mobile_retro_columns">
-							<Tabs onSelect={this.handleSelect}>
-		        			 
-		        			 	<TabList>
-		        			 		<Tab>:)</Tab>
-		        			 		<Tab>:|</Tab>
-		        			 		<Tab>:(</Tab>
-		        			 		<Tab>A</Tab>
-		        			 	</TabList>
-		        			 	<TabPanel>
-									<RetroColumn HeaderText="Happy" 
-										handleAdd={this.addRetroItem} 
-										columnId={0} 
-										items={this.state.retroItems[0]} 
-										showModal={this.state.modalShow}
-										handleShowModal={this.handleShowModal}
-										handleActionModal={this.handleActionModal}
-										handleUnVote={this.handleUnVote}
-										handleVote={this.handleVote}
-										actionItems={this.state.actionItems} />
-								</TabPanel>
-								<TabPanel>
-									<RetroColumn 
-										HeaderText="Puzzler"  
-										handleAdd={this.addRetroItem} 
-										columnId={1} 
-										items={this.state.retroItems[1]} 
-										showModal={this.state.modalShow}
-										handleShowModal={this.handleShowModal} 
-										handleActionModal={this.handleActionModal}
-										handleUnVote={this.handleUnVote}					
-										handleVote={this.handleVote}
-										actionItems={this.state.actionItems}/>
-								</TabPanel>
-								<TabPanel>		
-									<RetroColumn 
-										HeaderText="Sad" 
-										handleAdd={this.addRetroItem} 
-										columnId={2} 
-										items={this.state.retroItems[2]} 
-										showModal={this.state.modalShow} 
-										handleShowModal={this.handleShowModal} 
-										handleActionModal={this.handleActionModal}
-										handleVote={this.handleVote}
-										handleUnVote={this.handleUnVote}
-										actionItems={this.state.actionItems}/>
-								</TabPanel>
-								<TabPanel>		
-									<ActionColumn 
-										HeaderText="Action Items" 
-										columnId={3} 
-										items={this.state.actionItems} 
-										showModal={this.state.modalShow} 
-										handleShowActionEditModal={this.handleShowActionEditModal} 
-										handleActionModal={this.handleActionModal}
-										projectUsers = {this.state.projectUsers}/>
-								</TabPanel>	
-									
-							</Tabs>
+								<Tabs onSelect={this.handleSelect}>
+			        			 
+			        			 	<TabList>
+			        			 		<Tab>:)</Tab>
+			        			 		<Tab>:|</Tab>
+			        			 		<Tab>:(</Tab>
+			        			 		<Tab>A</Tab>
+			        			 	</TabList>
+			        			 	<TabPanel>
+										<RetroColumn HeaderText="Happy" 
+											handleAdd={this.addRetroItem} 
+											columnId={0} 
+											items={this.state.retroItems[0]} 
+											showModal={this.state.modalShow}
+											handleShowModal={this.handleShowModal}
+											handleActionModal={this.handleActionModal}
+											handleUnVote={this.handleUnVote}
+											handleVote={this.handleVote}
+											actionItems={this.state.actionItems} />
+									</TabPanel>
+									<TabPanel>
+										<RetroColumn 
+											HeaderText="Puzzler"  
+											handleAdd={this.addRetroItem} 
+											columnId={1} 
+											items={this.state.retroItems[1]} 
+											showModal={this.state.modalShow}
+											handleShowModal={this.handleShowModal} 
+											handleActionModal={this.handleActionModal}
+											handleUnVote={this.handleUnVote}					
+											handleVote={this.handleVote}
+											actionItems={this.state.actionItems}/>
+									</TabPanel>
+									<TabPanel>		
+										<RetroColumn 
+											HeaderText="Sad" 
+											handleAdd={this.addRetroItem} 
+											columnId={2} 
+											items={this.state.retroItems[2]} 
+											showModal={this.state.modalShow} 
+											handleShowModal={this.handleShowModal} 
+											handleActionModal={this.handleActionModal}
+											handleVote={this.handleVote}
+											handleUnVote={this.handleUnVote}
+											actionItems={this.state.actionItems}/>
+									</TabPanel>
+									<TabPanel>		
+										<ActionColumn 
+											HeaderText="Action Items" 
+											columnId={3} 
+											items={this.state.actionItems} 
+											showModal={this.state.modalShow} 
+											handleShowActionEditModal={this.handleShowActionEditModal} 
+											handleActionModal={this.handleActionModal}
+											projectUsers = {this.state.projectUsers}/>
+									</TabPanel>	
+								</Tabs>
 							</div>
 						</div>
 

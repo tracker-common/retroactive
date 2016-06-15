@@ -5,33 +5,32 @@ module.exports = {
     'display': 'flex',
     'width': '100vw',
     'flex-display': 'row',
-    'border-bottom': '1px solid #aaa',
-    'margin': '0 0 10px',
+    'border-bottom': '0px solid #aaa',
+    'margin': '-1px 0 10px',
     'padding': '0'
   },
 
   '.react-tabs [role=tab]': {
  
-    'border': '1px solid transparent',
+    'border': 'thin solid #a687c4',
     'border-bottom': 'none',
     'bottom': '-1px',
     'position': 'relative',
     'list-style': 'none',
-    'padding': '6px 12px',
+    'padding': '10px 12px 0 12px',
     'cursor': 'pointer',
-    'height': '25px',
+    'height': '35px',
     'width': '25%',
     'background': '#B8A0D0',
     'text-align': 'center',
-    'font-size': '14px'
+    'font-size': '16px',
+    'font-weight': 'bold'
   },
 
   '.react-tabs [role=tab][aria-selected=true]': {
     'background': '#fff',
     'border-color': '#aaa',
-    'color': 'black',
-    'background': '#fff'
-
+    'color': 'black'
   },
 
   '.react-tabs [role=tab][aria-disabled=true]': {

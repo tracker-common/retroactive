@@ -15,10 +15,15 @@ var ProjectRetros = React.createClass({
 		return(
 			<div className="project_retros">
 				<div className="project_retros_header">
-					{this.props.retros.length > 0  &&(<button onClick={this.showOrHide}>{this.props.showLinks ? "V " : ">"}</button>)}
-					{this.props.projectName} 
+					{/*{this.props.retros.length > 0  &&(<button onClick={this.showOrHide}>{this.props.showLinks ? "V " : ">"}</button>)}*/}
+					
+					<div className="project_retros_title">
+						{this.props.projectName} 
+					</div>
+					
 					<button className="project_retros_new_button" type="button" onClick={this.newRetro}>+</button>
 				</div>
+
 				<div className="retro_table">
 					{
 						this.props.showLinks && this.props.retros.length > 0  &&(

@@ -212,10 +212,10 @@ var ModalDialog = (function (_React$Component) {
       boxSizing: 'border-box',
       position: 'relative',
       background: 'white',
-      padding: 20,
+      padding: 10,
       color: '#333',
       boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.4)',
-      borderRadius: 10
+      borderRadius: 5
     },
     'closeButton': {
       position: 'absolute',

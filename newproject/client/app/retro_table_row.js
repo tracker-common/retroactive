@@ -17,20 +17,20 @@ var RetroTableRow = React.createClass({
 		var started = 0;
 		var accepted = 0;
 
-		if(this.props.retro.action_items){
-			this.props.retro.action_items.forEach(function(item, index){
-				switch(item.status){
+		if(this.props.retro.action_items) {
+			this.props.retro.action_items.forEach(function(item, index) {
+				switch (item.status) {
 					case "unscheduled":
-						unscheduled ++;
+						unscheduled++;
 						break;
 					case "unstarted":
 						scheduled++;
 						break;
 					case "scheduled":
-						scheduled ++;
+						scheduled++;
 						break;
 					case "started":
-						started ++;
+						started++;
 						break;
 					case "accepted":
 						accepted++;
