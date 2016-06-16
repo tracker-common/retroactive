@@ -57,8 +57,8 @@ var RetroItem = React.createClass({
 					<div onClick={this.showActionModal} className="action_and_edit_link action_link">
 						<img className="action_img" src="/add_icon.svg" />
 						<span>Action</span> 
-					</div> : 
-					null
+					</div> 
+					: null
 				}
 
 				</div>
