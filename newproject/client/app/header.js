@@ -23,12 +23,12 @@ var Header = React.createClass({
 					{
 						this.props.showToggleItemOrder ? 
 						<div className="center__slider">
-							<span className="switch_label"><img src="/heart_white.svg"/></span>
+							<span className="switch_label"><img src="/clock-with-white-face.svg"/></span>
 								<label className="switch">
 								  <input className="retro__sort_slider" type="checkbox" onChange={this.props.toggleItemOrder}/>
 								  <div className="slider round"></div>
 								</label>
-							<span className="switch_label"><img src="/clock-with-white-face.svg"/></span>
+							<span className="switch_label"><img src="/heart_white.svg"/></span>
 						</div>
 						:
 						null

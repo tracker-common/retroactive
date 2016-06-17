@@ -42,7 +42,7 @@ var Retro = React.createClass({
 	      projectId: "",
 	      addActionItem: false,
 	      loading: true,
-	      maxUserVotes: 15,
+	      maxUserVotes: 5,
 	      userCurrentVotes: 0,
 	      refreshActionStatuses: true,
 	      currentRetroVersion: -1,
@@ -110,13 +110,18 @@ var Retro = React.createClass({
 								showToggleItemOrder={true}
 								toggleItemOrder= {this.toggleItemOrder}/>
 
-							<div className="retro__timer">	
-								<button type="button" onClick={this.startOrStopTimer}>{this.state.timerShow ? "Stop Timer" : "Start Timer"}</button>
-								
-								<Timer 
-									start={this.state.timeStart}
-									timerShow={this.state.timerShow}/>
-							</div>
+							<table className="retro__timer">
+								<tr>	
+									<td valign="center">
+										<button type="button" onClick={this.startOrStopTimer}>{this.state.timerShow ? "Stop Timer" : "Start Timer"}</button>
+									</td>
+									<td valign="center">
+										<Timer 
+											start={this.state.timeStart}
+											timerShow={this.state.timerShow}/>
+									</td>
+								</tr>
+							</table>
 
 							<CustomModal 
 								editing={this.state.editingItem} 
