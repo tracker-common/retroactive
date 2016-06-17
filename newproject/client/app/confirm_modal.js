@@ -18,17 +18,20 @@ var ConfirmModal = React.createClass({
 
 	render() {
 		var text = null;
+		var title = "Action Item";
 
 		if (this.props.isActionItem) {
 			text = (<p>Are you sure you want to delete this action item? <br/>
 				This will also delete the corresponding chore in Pivotal Tracker.</p>);
 		}
 		else if (this.props.hasActionItem) {
+			title="Retro Item";
 			text = (<p>Are you sure you want to delete this retro item?<br/>
 				This will also delete the corresponding action item and the chore in Pivotal Tracker.</p>);
 		}
 
 		else {
+			title="Retro Item";
 			text = (<p>Are you sure you want to delete this retro item?</p>);
 		}
 
@@ -40,6 +43,7 @@ var ConfirmModal = React.createClass({
 			        <ModalContainer onClose={this.props.handleClose}>
 						<ModalDialog onClose={this.props.handleClose}>
 							<div>
+								<span className="confirm_modal_title">{title}</span>
 								<div className="confirm_modal_text"> 
 									{text}
 								</div>

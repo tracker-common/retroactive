@@ -616,6 +616,8 @@ input {
 	float: left;
 }
 
+/* modal.js files */
+
 .custom_modal_dropdown {
 	margin-top: 3px;
 }
@@ -632,4 +634,10 @@ input {
 
 .confirm_modal_buttons {
 	margin-top: 5px;
+}
+
+.confirm_modal_title{
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
 }
