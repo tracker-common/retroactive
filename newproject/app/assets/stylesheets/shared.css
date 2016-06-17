@@ -259,6 +259,7 @@ button:active{
 /* header.js and retro_item.js */
 .img__heart{
 	margin-right: 3px;
+	cursor: pointer;
 }
 
 /* mobile_header.js*/
