@@ -298,7 +298,7 @@ var Retro = React.createClass({
 											columnId={3} 
 											items={this.state.actionItems} 
 											showModal={this.state.modalShow} 
-											handleShowActionEditModal={this.handleShowActionEditModal} 
+										handleShowActionEditModal={this.handleShowActionEditModal} 
 											handleActionModal={this.handleActionModal}
 											projectUsers = {this.state.projectUsers}/>
 									</TabPanel>	
