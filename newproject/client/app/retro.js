@@ -296,35 +296,17 @@ var Retro = React.createClass({
 	},
 
 	getProjectUsers: function(projectId){
-		
-		if(this.state.projectUsers.length < 1){
-			return;
-		}
 
-		var projectUsers = {};
 		var token = localStorage.getItem("tracker_token");
-		var usersPromise = $.ajax({
+		
+
+		return  $.ajax({
 			method: 'GET',
 			url: "https://www.pivotaltracker.com/services/v5/projects/" + projectId + "/memberships",
 			beforeSend: function(xhr) {
 	            xhr.setRequestHeader('X-TrackerToken', token);
 	        }
 		});
-
-		usersPromise.then(function(data){
-			data.forEach(function(member, index){
-				if(member.role != 'viewer'){
-					projectUsers[member.person.id] = member.person;
-				}
-			});
-		});
-
-		usersPromise.error(function(data){
-			console.log("Error with Users data");
-			console.log(data);
-		});
-
-		this.setState({projectUsers: projectUsers, refreshActionStatuses: false});
 	},
 
 	handleEditItem: function(itemId, text){
@@ -590,15 +572,18 @@ var Retro = React.createClass({
 			var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 			//end date magic
 
-
 			var newRetroVersion = data.version;
 
-			//parse items into their own columns, and count votes by current user
+			//Items come from the server in one array, with each item knowing which 
+			//	column it belongs in.
+			//Parse items into their own columns, and count votes by current user.
 			var itemSet = [[],[],[]]
 			var userEmail = localStorage.getItem("user_email")
 			var userVoteCount = 0;
 			if(data.retro_items){
 				data.retro_items.forEach(function(item, index){
+
+					//unshift pushes an item to the front of the array
 					itemSet[item.column].unshift(item);
 					if(item.votes){
 						item.votes.forEach(function(vote, index){
@@ -612,19 +597,29 @@ var Retro = React.createClass({
 							}
 						});
 					}
+
+
 				});
 			}
 
 			var actionSet = {};
-			var actionIdSet = [];
-
+			var actionIdList = [];
 			var projectId = data.project_id;
         	var token = localStorage.getItem("tracker_token");
-
-        	//if(vm.state.refreshActionStatuses == true){
         		
-        		//Get and store all of the project's users, not viewers from tracker
-        		vm.getProjectUsers(projectId);
+    		//Get and store all of the project's users, not viewers from tracker
+    		var projectUsers = {};
+    		var usersPromise = vm.getProjectUsers(projectId);
+
+    		usersPromise.then(function(members){
+
+				members.forEach(function(member, index){
+					if(member.role != 'viewer'){
+						projectUsers[member.person.id] = member.person;
+					}
+				});
+
+				//console.log(projectUsers);
 
 	 			//Re-Sync the action item statuses with the tracker API
 				if(data.action_items && data.action_items.length > 0 ){
@@ -641,7 +636,9 @@ var Retro = React.createClass({
 					    });
 
 					    ajaxPromise.then(function(trackerData){
-					    	actionIdSet.push(actionItem.tracker_action_id);
+					    	//console.log(trackerData);
+					    	actionIdList.push(actionItem.tracker_action_id);
+
 
 					    	actionItem.status = trackerData.current_state;
 					    	if(trackerData.owner_ids.length > 0){
@@ -655,10 +652,10 @@ var Retro = React.createClass({
 								//set the state after the syncing of the action item statuses
 
 								//populate actionSet with all of the actionItems
-								actionIdSet.sort();
-								actionIdSet.reverse();
+								actionIdList.sort();
+								actionIdList.reverse();
 								var actionItemsSortedArray = [];
-								actionIdSet.forEach(function(id, index){
+								actionIdList.forEach(function(id, index){
 									actionItemsSortedArray.push(actionSet[id]);
 								});
 
@@ -671,7 +668,8 @@ var Retro = React.createClass({
 									loading: false,
 									userCurrentVotes: userVoteCount,
 									refreshActionStatuses: false,
-									currentRetroVersion: newRetroVersion
+									currentRetroVersion: newRetroVersion,
+									projectUsers: projectUsers
 								});
 							}
 					    });
@@ -694,11 +692,11 @@ var Retro = React.createClass({
 									loading: false,
 									userCurrentVotes: userVoteCount,
 									refreshActionStatuses: false,
-									currentRetroVersion: newRetroVersion
+									currentRetroVersion: newRetroVersion,
+									projectUsers: projectUsers
 								});
 							}
 					    });
-
 					});
 				} 	
 
@@ -713,9 +711,11 @@ var Retro = React.createClass({
 						userCurrentVotes: userVoteCount,
 						refreshActionStatuses: false,
 						currentRetroVersion: newRetroVersion,
+						projectUsers: projectUsers,
 						actionItems: []
 					});
 				}
+			});
 		});
 	},
 
