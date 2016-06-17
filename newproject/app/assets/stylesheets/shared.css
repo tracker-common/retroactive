@@ -318,6 +318,8 @@ button:active{
 .switch_label{
 	margin-top: 0px;
 	padding-bottom: 4px;
+	margin-left: 3px;
+	margin-right: 3px
 }
 
 /* header.js and retro_item.js */
