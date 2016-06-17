@@ -199,9 +199,14 @@ button:active{
 	top:1px;
 }
 
+.not_link{
+	text-decoration: none;
+}
+
 .retro__timer{
 	display: flex;
 	flex-direction: row;
+	margin: 2px;
 }
 
 .switch {
@@ -735,4 +740,16 @@ input {
 .alert_modal_button {
 	margin-top: 10px;
 	float: right;
+}
+
+/* timer.js */
+.timer_box{
+	border-radius: 3px;
+	border-color: black;
+	background-color: white;
+	border-style: solid;
+	border-width: 1px;
+	padding-left: 2px;
+	padding-right: 2px;
+	margin: 2px;
 }

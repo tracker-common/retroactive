@@ -11,6 +11,7 @@ var ActionItem = React.createClass({
 
 	render() {
 		var statusHtml = "";
+		var linkToTracker = "https://pivotaltracker.com/stories/show/" + this.props.tracker_id
 		return (
 			<div className="retro_item">
 				<div className="retro_item_description">
@@ -31,9 +32,9 @@ var ActionItem = React.createClass({
 						 : null
 					}</span>
 					<span className="item_info">
-						<span style={{fontWeight: "bold"}}>Status:</span> <ActionStatus status={this.props.status}/> 
+						<span style={{fontWeight: "bold"}}>Status:</span> <a className="not_link" href={linkToTracker} target="_blank"><ActionStatus status={this.props.status}/> </a>
 					</span>
-				</div>
+ 				</div>
 			</div>
 		)
 	},

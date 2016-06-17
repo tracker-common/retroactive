@@ -17,7 +17,7 @@ import UsersDropdown from './project_users_dropdown';
 import CustomModal from './custom_modal';
 import ConfirmModal from './confirm_modal';
 import AlertModal from './alert_modal';
-import TimerExample from './timer_example';
+import Timer from './timer';
 
 //Imports for react tabs for mobile view
 var ReactTabs = require('react-tabs');
@@ -98,7 +98,7 @@ var Retro = React.createClass({
 							<div className="retro__timer">	
 								<button type="button" onClick={this.startOrStopTimer}>{this.state.timerShow ? "Stop Timer" : "Start Timer"}</button>
 								
-								<TimerExample 
+								<Timer 
 									start={this.state.timeStart}
 									timerShow={this.state.timerShow}/>
 							</div>

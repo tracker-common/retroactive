@@ -1,5 +1,5 @@
 import React from 'react';
-var TimerExample = React.createClass({
+var Timer = React.createClass({
 
     getInitialState: function(){
 
@@ -48,11 +48,11 @@ var TimerExample = React.createClass({
                 {
                     this.props.timerShow &&
                     ( 
-                        <b>{minutes}: {seconds}</b>
+                        <b className="timer_box">{minutes}: {seconds}</b>
                     )
                 }
             </div>);
     }
 });
 
-export default TimerExample;
+export default Timer;
