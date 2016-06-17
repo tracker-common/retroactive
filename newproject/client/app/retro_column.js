@@ -10,6 +10,7 @@ var RetroColumn = React.createClass({
 
 		var retroItems = this.props.items;
 
+		//sorts retro items in each column by votes
 		if(this.props.orderByVotes){
 			retroItems.sort(function(a,b) {
 			    if(! a.votes) return -1;
@@ -22,6 +23,7 @@ var RetroColumn = React.createClass({
 		}
 		else
 		{
+			//sorts retro items in each column by the creation time
 			retroItems.sort(function(a,b) {
 			    return (a.created_on).localeCompare(b.created_on);
 			});

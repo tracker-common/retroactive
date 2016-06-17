@@ -20,6 +20,19 @@ var Header = React.createClass({
 				<div className="center header__text_box" >
 			
 					<span className="center__text">{this.props.title}</span>
+					{
+						this.props.showToggleItemOrder ? 
+						<div className="center__slider">
+							<span class="switch_label"><img src="/heart_white.svg"/></span>
+								<label className="switch">
+								  <input className="retro__sort_slider" type="checkbox" onChange={this.props.toggleItemOrder}/>
+								  <div className="slider round"></div>
+								</label>
+							<span class="switch_label"><img src="/clock-with-white-face.svg"/></span>
+						</div>
+						:
+						null
+					}
 				</div>
 				
 				<div className="right header__text_box">

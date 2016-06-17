@@ -66,7 +66,6 @@ var Retro = React.createClass({
 		this.buildRetro();
 		this.refreshIntervalId = setInterval(function(){
 			vm.checkRetroVersion();
-			//vm.buildRetro();
 		}, 1000);
 
 	},
@@ -88,8 +87,10 @@ var Retro = React.createClass({
 								user_name={localStorage.getItem("user_name")} 
 								title={this.state.projectName + " - " + this.state.retroDate} 
 								maxVotes={this.state.maxUserVotes}
-								userVotes={this.state.userCurrentVotes}/>
-							<a onClick={this.toggleItemOrder}> Order By: {this.state.orderByVotes ? "Time" : "Votes"}</a>
+								userVotes={this.state.userCurrentVotes}
+								showToggleItemOrder={true}
+								toggleItemOrder= {this.toggleItemOrder}/>
+
 							<CustomModal 
 								editing={this.state.editingItem} 
 								itemText={this.state.currentItemText}
