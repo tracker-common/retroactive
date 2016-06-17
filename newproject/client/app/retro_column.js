@@ -12,17 +12,24 @@ var RetroColumn = React.createClass({
 
 		//sorts retro items in each column by votes
 		if(this.props.orderByVotes){
+			console.log("sorting by votes");
+			console.log(retroItems);
 			retroItems.sort(function(a,b) {
-			    if(! a.votes) return -1;
+				if((!a.votes && !b.votes) || ((a.votes && b.votes) && (a.votes.length == b.votes.length)))  {
+					return (a.created_on).localeCompare(b.created_on);
+				}
+			    else if(! a.votes) return -1;
 			    else if (! b.votes) return 1;
 			    else{
 			    	return (a.votes.length) - (b.votes.length);
 			    }
 			});
 			retroItems.reverse();
+
 		}
 		else
 		{
+			console.log("sorting by time");
 			//sorts retro items in each column by the creation time
 			retroItems.sort(function(a,b) {
 			    return (a.created_on).localeCompare(b.created_on);

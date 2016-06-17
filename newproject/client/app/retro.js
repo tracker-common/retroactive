@@ -17,6 +17,7 @@ import UsersDropdown from './project_users_dropdown';
 import CustomModal from './custom_modal';
 import ConfirmModal from './confirm_modal';
 import AlertModal from './alert_modal';
+import TimerExample from './timer_example';
 
 //Imports for react tabs for mobile view
 var ReactTabs = require('react-tabs');
@@ -50,7 +51,10 @@ var Retro = React.createClass({
 	      alertModalShow: false,
 	      confirmHasAction: false,
 	      alertModalText: "",
-	      orderByVotes: true
+	      orderByVotes: true,
+	      timeElapsed: 0,
+	      timeStart: 0,
+	      timerShow: false
 	   	}
 	},
 	componentWillMount: function(){
@@ -90,6 +94,7 @@ var Retro = React.createClass({
 								userVotes={this.state.userCurrentVotes}
 								showToggleItemOrder={true}
 								toggleItemOrder= {this.toggleItemOrder}/>
+
 
 							<CustomModal 
 								editing={this.state.editingItem} 
@@ -941,6 +946,14 @@ var Retro = React.createClass({
 		}
     },
 
+    startOrStopTimer: function(){
+    	if(this.state.timerShow){
+    		this.setState({timeStart: 0, timerShow: false});
+    	}
+    	else{
+    		this.setState({timeStart: Date.now(), timerShow: true});
+    	}
+    },
 });
 
 export default Retro;
