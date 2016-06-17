@@ -307,6 +307,7 @@ button:active{
 .mobile_project_retros_new_button {
 	align-self: flex-end;
 	margin-top: 5px;
+	cursor: pointer;
 }
 
 /* mobile_create_retro.js */
@@ -544,12 +545,14 @@ input {
 	position: absolute;
 	right: 90px;
 	top: 13px;
+
 }
 
 .project_retros_new {
 	margin-right: 0px;
 	margin-left: auto;
 	color: #A9A9A9;
+	cursor: pointer;
 }
 
 .retro_table {
