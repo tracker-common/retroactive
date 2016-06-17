@@ -11,8 +11,6 @@ var UsersDropdown = React.createClass({
 		    return (vm.props.people[a].name).localeCompare(vm.props.people[b].name);
 		});
 
-		console.log(peopleSortedArray);
-
 		peopleItems = peopleSortedArray.map(function(key, index) {
 			return (
 				<option key={index} value={vm.props.people[key].id}>{vm.props.people[key].name}</option>

@@ -200,7 +200,6 @@ var RetroActive = React.createClass({
             });
 
             ajaxPromise.then(function(trackerData){
-              //console.log(trackerData);
               actionItem.status = trackerData.current_state;
               actionItemsCount --;
               if(actionItemsCount == 0){
@@ -226,16 +225,11 @@ var RetroActive = React.createClass({
     deleteActionItem: function(actionItemId, retroId) {
     //Ajax call to delete the item
 
-    console.log("deleting Action Item");
     var postPromise = $.ajax({
       method: 'DELETE',
         url: "/retros/deleteActionItem/" + retroId + "/" + actionItemId,
       });
 
-      postPromise.then(function(data){
-        console.log("After Delete Call");
-        console.log(data);
-      });
 
       postPromise.error(function(data){
         console.log("error with Delete Call");
@@ -244,29 +238,29 @@ var RetroActive = React.createClass({
     },
 
     deleteRetro: function(retro_id){
-    var vm = this;
-    if(confirm("Delete this Retro?")){
-      var ajaxPromise = $.ajax({
-        method: 'DELETE',
-        url: "/retros/delete/" + retro_id,
-        success: function(data){
-          vm.getProjectsFromTracker();
-        },
-        error: function(data){
-          vm.getProjectsFromTracker();
-        },
-      });
-    }
+      var vm = this;
+      if(confirm("Delete this Retro?")){
+        var ajaxPromise = $.ajax({
+          method: 'DELETE',
+          url: "/retros/delete/" + retro_id,
+          success: function(data){
+            vm.getProjectsFromTracker();
+          },
+          error: function(data){
+            vm.getProjectsFromTracker();
+          },
+        });
+      }
     },
 
     toggleShowLinks: function(ShowingNow, projectId){
-    var rets = this.state.projectRetros;
-    rets.forEach(function (item, index){
-      if(item.project_id == projectId){
-        item.showLinks = !ShowingNow;
-      }
-    });
-    this.setState({projectRetros: rets});
+      var rets = this.state.projectRetros;
+      rets.forEach(function (item, index){
+        if(item.project_id == projectId){
+          item.showLinks = !ShowingNow;
+        }
+      });
+      this.setState({projectRetros: rets});
     },
 
     startNewRetro: function(projectId){

@@ -108,20 +108,12 @@ var Retro = React.createClass({
 								maxVotes={this.state.maxUserVotes}
 								userVotes={this.state.userCurrentVotes}
 								showToggleItemOrder={true}
-								toggleItemOrder= {this.toggleItemOrder}/>
-
-							<table className="retro__timer">
-								<tr>	
-									<td valign="center">
-										<button type="button" onClick={this.startOrStopTimer}>{this.state.timerShow ? "Stop Timer" : "Start Timer"}</button>
-									</td>
-									<td valign="center">
-										<Timer 
-											start={this.state.timeStart}
-											timerShow={this.state.timerShow}/>
-									</td>
-								</tr>
-							</table>
+								toggleItemOrder= {this.toggleItemOrder}
+								start={this.state.timeStart}
+								timerShow={this.state.timerShow}
+								startStopTimer={this.startOrStopTimer}
+								timeElapsed= {this.state.timeElapsed}
+								setElapsed = {this.setElapsed}/>
 
 							<CustomModal 
 								editing={this.state.editingItem} 
@@ -253,7 +245,7 @@ var Retro = React.createClass({
 								text = {this.state.alertModalText}/>
 
 						    <div className="mobile_retro_columns">
-								<Tabs onSelect={this.handleSelect}>
+								<Tabs>
 			        			 
 			        			 	<TabList>
 			        			 		<Tab>:)</Tab>
@@ -325,10 +317,6 @@ var Retro = React.createClass({
 	toggleItemOrder: function(){
 		this.setState({orderByVotes: !this.state.orderByVotes});
 	},
-	
-	handleSelect: function (index, last) {
-    	console.log('Selected tab: ' + index + ', Last tab: ' + last);
-  	},
 
 	handleChangeText: function(){
 		this.setState({currentItemText: this.refs.editRetroItem.value});
@@ -394,8 +382,7 @@ var Retro = React.createClass({
 
 	handleDeleteItem: function( itemId) {
 		//e.preventDefault();
-		console.log("Retro Handle Delete");
-		console.log(itemId);
+
 		this.handleClose();
 		//get the item.
 		var item = this.getItemById(itemId);
@@ -418,15 +405,11 @@ var Retro = React.createClass({
 	  		url: "/retros/deleteItem/" + retroId + "/" + this.state.currentItemId,
 	  	});
 
-	  	postPromise.then(function(data){
-	  		console.log("deleted!");
-	  	});
 	},
 
 	handleAddActionItem: function(itemId, itemText){
 		//e.preventDefault();
 
-		console.log("AddingAnActionItem");
 		var vm = this;
 		this.setState({addActionItem: false});
 		this.handleClose();
@@ -434,7 +417,6 @@ var Retro = React.createClass({
 		//we have the item id
 		var retroId = this.props.params.retroId;
 
-		console.log("handleAddActionItem called");
 
 		var token = localStorage.getItem("tracker_token");
 		var actionItemText = itemText;
@@ -585,7 +567,6 @@ var Retro = React.createClass({
 	checkRetroVersion: function(){
 		var vm = this;
 		var retroId = this.props.params.retroId;
-		//console.log("Version: " + this.state.currentRetroVersion);
 		$.get("/retros/version/" + retroId, function(data){
 			if(vm.state.currentRetroVersion < data.version){
 				vm.buildRetro();
@@ -658,7 +639,6 @@ var Retro = React.createClass({
 					}
 				});
 
-				//console.log(projectUsers);
 
 	 			//Re-Sync the action item statuses with the tracker API
 				if(data.action_items && data.action_items.length > 0 ){
@@ -675,7 +655,6 @@ var Retro = React.createClass({
 					    });
 
 					    ajaxPromise.then(function(trackerData){
-					    	//console.log(trackerData);
 					    	actionIdList.push(actionItem.tracker_action_id);
 
 
@@ -795,20 +774,14 @@ var Retro = React.createClass({
 		var vm = this;
 		this.handleClose();
 
-		console.log("deleting Action Item");
 		var postPromise = $.ajax({
 			method: 'DELETE',
 	  		url: "/retros/deleteActionItem/" + this.props.params.retroId + "/" + actionItemId,
 	  	});
 
-	  	postPromise.then(function(data){
-	  		//console.log("After Delete Call");
-	  		//console.log(data);
-	  	});
-
 	  	postPromise.error(function(data){
-	  		// console.log("error with Delete Call");
-	  		// console.log(data);
+	  		console.log("error with Delete Call");
+	  		console.log(data);
 	  	});
 
 	  	var oldActionItems = vm.state.actionItems;
@@ -835,10 +808,6 @@ var Retro = React.createClass({
 	          }
 	  	});
 
-	  	ajaxPromise.then(function(data){
-	  		console.log("After Delete From Tracker Call");
-	  		console.log(data);
-	  	});
 	},
 
 	handleClick: function() 
@@ -876,7 +845,6 @@ var Retro = React.createClass({
 
 	handleShowActionEditModal: function(dbId, trackerId, item_text, userId){
 		//get the item id of the item being edited to get the text for that item
-		console.log(item_text + " " + userId);
 
 		this.setState({currentItemId: dbId, 
 			currentTrackerActionId: trackerId, 
@@ -949,7 +917,6 @@ var Retro = React.createClass({
   		});
 
   		postPromise.then(function(data){
-  			//console.log(data);
 
 			//parse items into their own columns, and count votes by current user
 			var itemSet = [[],[],[]];
@@ -987,12 +954,16 @@ var Retro = React.createClass({
 
     startOrStopTimer: function(){
     	if(this.state.timerShow){
-    		this.setState({timeStart: 0, timerShow: false});
+    		this.setState({timeStart: 0, timeElapsed: 0, timerShow: false});
     	}
     	else{
-    		this.setState({timeStart: Date.now(), timerShow: true});
+    		this.setState({timeStart: Date.now(), timeElapsed: 0, timerShow: true});
     	}
     },
+
+    setElapsed: function(elapsed){
+    	this.setState({timeElapsed: elapsed});
+    }
 });
 
 export default Retro;

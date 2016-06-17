@@ -1,14 +1,5 @@
 import React from 'react';
 var Timer = React.createClass({
-
-    getInitialState: function(){
-
-        // This is called before our render function. The object that is 
-        // returned is assigned to this.state, so we can use it later.
-
-        return { elapsed: 0 };
-    },
-
     componentDidMount: function(){
 
         // componentDidMount is called by react when the component 
@@ -29,13 +20,12 @@ var Timer = React.createClass({
 
         // This function is called every 50 ms. It updates the 
         // elapsed counter. Calling setState causes the component to be re-rendered
-
-        this.setState({elapsed: new Date() - this.props.start});
+        this.props.setElapsed(new Date() - this.props.start);
     },
 
     render: function() {
         
-        var elapsed = Math.round(this.state.elapsed / 100);
+        var elapsed = Math.round(this.props.timeElapsed/ 100);
 
         // This will give a number with one digit after the decimal dot (xx.x):
         var minutes = (elapsed / 600).toFixed(0);

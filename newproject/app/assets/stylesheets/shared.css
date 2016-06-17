@@ -334,6 +334,10 @@ button:active{
 	margin-right: 3px
 }
 
+.header__middle_right_box{
+	color: black;
+}
+
 /* header.js and retro_item.js */
 .img__heart{
 	margin-right: 3px;

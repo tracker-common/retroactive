@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Timer from './timer';
 
 
 var Header = React.createClass({
@@ -34,6 +35,29 @@ var Header = React.createClass({
 						null
 					}
 				</div>
+				{
+					this.props.timerShow!=null ? 
+					( 
+						<div className="header__middle_right_box">
+							<table className="retro__timer"><tbody>
+								<tr>	
+									<td valign="center">
+										<button type="button" onClick={this.props.startStopTimer}>{this.props.timerShow ? "Stop Timer" : "Start Timer"}</button>
+									</td>
+									<td valign="center">
+										<Timer 
+											start={this.props.start}
+											timerShow={this.props.timerShow}
+											setElapsed={this.props.setElapsed}
+											timeElapsed ={this.props.timeElapsed}/>
+									</td>
+								</tr>
+							</tbody></table>
+						</div>
+					)
+					: null
+				
+				}
 				
 				<div className="right header__text_box">
 					<span>
