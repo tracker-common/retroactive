@@ -110,11 +110,13 @@ var Retro = React.createClass({
 								showToggleItemOrder={true}
 								toggleItemOrder= {this.toggleItemOrder}/>
 
-							<button type="button" onClick={this.startOrStopTimer}>{this.state.timerShow ? "Stop Timer" : "Start Timer"}</button>
-							
-							<TimerExample 
-								start={this.state.timeStart}
-								timerShow={this.state.timerShow}/>
+							<div className="retro__timer">	
+								<button type="button" onClick={this.startOrStopTimer}>{this.state.timerShow ? "Stop Timer" : "Start Timer"}</button>
+								
+								<TimerExample 
+									start={this.state.timeStart}
+									timerShow={this.state.timerShow}/>
+							</div>
 
 							<CustomModal 
 								editing={this.state.editingItem} 

@@ -199,6 +199,12 @@ button:active{
 	position:relative;
 	top:1px;
 }
+
+.retro__timer{
+	display: flex;
+	flex-direction: row;
+}
+
 .switch {
   position: relative;
   display: inline-block;
