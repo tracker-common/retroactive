@@ -38,8 +38,8 @@ var TimerExample = React.createClass({
         var elapsed = Math.round(this.state.elapsed / 100);
 
         // This will give a number with one digit after the decimal dot (xx.x):
-        var minutes = (elapsed / 60);
-        var seconds = (elapsed % 60).toFixed(1);   
+        var minutes = (elapsed / 600).toFixed(0);
+        var seconds = ((elapsed /10) % 60).toFixed(0);   
 
         // Although we return an entire <p> element, react will smartly update
         // only the changed parts, which contain the seconds variable.
@@ -48,7 +48,7 @@ var TimerExample = React.createClass({
                 {
                     this.props.timerShow &&
                     ( 
-                        <b>{seconds} seconds</b>
+                        <b>{minutes}: {seconds}</b>
                     )
                 }
             </div>);

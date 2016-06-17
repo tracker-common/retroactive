@@ -16,7 +16,9 @@ var RetroColumn = React.createClass({
 			console.log(retroItems);
 			retroItems.sort(function(a,b) {
 				if((!a.votes && !b.votes) || ((a.votes && b.votes) && (a.votes.length == b.votes.length)))  {
-					return (a.created_on).localeCompare(b.created_on);
+					if(! a.created_on) return -1;
+			    	else if (! b.created_on) return 1;
+			    	else return (a.created_on).localeCompare(b.created_on);
 				}
 			    else if(! a.votes) return -1;
 			    else if (! b.votes) return 1;
@@ -32,7 +34,9 @@ var RetroColumn = React.createClass({
 			console.log("sorting by time");
 			//sorts retro items in each column by the creation time
 			retroItems.sort(function(a,b) {
-			    return (a.created_on).localeCompare(b.created_on);
+			    if(! a.created_on) return -1;
+		    	else if (! b.created_on) return 1;
+		    	else return (a.created_on).localeCompare(b.created_on);
 			});
 			retroItems.reverse();
 		}
