@@ -52,7 +52,7 @@ var Retro = React.createClass({
 	      alertModalShow: false,
 	      confirmHasAction: false,
 	      alertModalText: "",
-	      orderByVotes: true,
+	      orderByVotes: false,
 	      timeElapsed: 0,
 	      timeStart: 0,
 	      timerShow: false
