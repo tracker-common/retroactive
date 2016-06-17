@@ -18,6 +18,7 @@ import UsersDropdown from './project_users_dropdown';
 import CustomModal from './custom_modal';
 import ConfirmModal from './confirm_modal';
 import AlertModal from './alert_modal';
+import TimerExample from './timer_example';
 
 //Imports for react tabs for mobile view
 var ReactTabs = require('react-tabs');
@@ -50,7 +51,11 @@ var Retro = React.createClass({
 	      confirmModalShow: false,
 	      alertModalShow: false,
 	      confirmHasAction: false,
-	      alertModalText: ""
+	      alertModalText: "",
+	      orderByVotes: true,
+	      timeElapsed: 0,
+	      timeStart: 0,
+	      timerShow: false
 	   	}
 	},
 	componentWillMount: function(){
@@ -79,7 +84,6 @@ var Retro = React.createClass({
 		this.buildRetro();
 		this.refreshIntervalId = setInterval(function(){
 			vm.checkRetroVersion();
-			//vm.buildRetro();
 		}, 1000);
 
 	},
@@ -93,206 +97,209 @@ var Retro = React.createClass({
 
 		if(localStorage.getItem("url_redirect") == null) {
 
-			return (
-				<div>
-					<Loader show={this.state.loading} message={'loading...'} className="loader">
-						<DesktopBreakpoint>
-							<div id="retro_body">
-								<Header 
-									user_name={localStorage.getItem("user_name")} 
-									title={this.state.projectName + " - " + this.state.retroDate} 
-									maxVotes={this.state.maxUserVotes}
-									userVotes={this.state.userCurrentVotes}/>
-								
-								<CustomModal 
-									editing={this.state.editingItem} 
-									itemText={this.state.currentItemText}
-									itemId = {this.state.currentItemId}
-									isActionItem = {this.state.addActionItem}
-									currentTrackerActionId = {this.state.currentTrackerActionId}
-									projectUsers = {this.state.projectUsers}
-									modalShow = {this.state.modalShow}
-									handleEditItem = {this.handleEditItem}
-									handleAddActionItem = {this.handleAddActionItem}
-									currentPerson = {this.state.currentSelectedPerson}
-									handleChangePerson={this.handleChangePerson}
-									handleEditActionItem = {this.handleEditActionItem}
-									handleClick = {this.handleClick}
-									handleClose = {this.handleClose}
-									showConfirmDeleteModal = {this.showConfirmDeleteModal}/>
+		return (
+			<div>
+				<Loader show={this.state.loading} message={'loading...'} className="loader">
+					<DesktopBreakpoint>
+						<div id="retro_body">
+							<Header 
+								user_name={localStorage.getItem("user_name")} 
+								title={this.state.projectName + " - " + this.state.retroDate} 
+								maxVotes={this.state.maxUserVotes}
+								userVotes={this.state.userCurrentVotes}
+								showToggleItemOrder={true}
+								toggleItemOrder= {this.toggleItemOrder}/>
 
-								<ConfirmModal 
-									modalShow = {this.state.confirmModalShow}
-									handleDeleteItem = {this.handleDeleteItem}
-									handleDeleteActionItem = {this.handleDeleteActionItem}
-									handleClick = {this.handleClick}
-									handleClose = {this.handleCloseConfirm}
-									isActionItem = {this.state.addActionItem}
-									itemId = {this.state.currentItemId}
-									currentTrackerActionId = {this.state.currentTrackerActionId}
-									hasActionItem = {this.state.confirmHasAction}/>
 
-								<AlertModal 
-									modalShow = {this.state.alertModalShow}
-									handleClose = {this.handleCloseAlert}
-									text = {this.state.alertModalText}/>
+							<CustomModal 
+								editing={this.state.editingItem} 
+								itemText={this.state.currentItemText}
+								itemId = {this.state.currentItemId}
+								isActionItem = {this.state.addActionItem}
+								currentTrackerActionId = {this.state.currentTrackerActionId}
+								projectUsers = {this.state.projectUsers}
+								modalShow = {this.state.modalShow}
+								handleEditItem = {this.handleEditItem}
+								handleAddActionItem = {this.handleAddActionItem}
+								currentPerson = {this.state.currentSelectedPerson}
+								handleChangePerson={this.handleChangePerson}
+								handleEditActionItem = {this.handleEditActionItem}
+								handleClick = {this.handleClick}
+								handleClose = {this.handleClose}
+								showConfirmDeleteModal = {this.showConfirmDeleteModal}/>
 
-								<div className="desktop_retro_columns">
-									<RetroColumn HeaderText="Happy :)" 
-										handleAdd={this.addRetroItem} 
-										columnId={0} 
-										items={this.state.retroItems[0]} 
-										showModal={this.state.modalShow}
-										handleShowModal={this.handleShowModal}
-										trackerTest={this.addActionItemToTracker}
-										handleActionModal={this.handleActionModal}
-										handleUnVote={this.handleUnVote}
-										handleVote={this.handleVote}
-										actionItems={this.state.actionItems} />
-									<RetroColumn 
-										HeaderText="Puzzler :|"  
-										handleAdd={this.addRetroItem} 
-										columnId={1} 
-										items={this.state.retroItems[1]} 
-										showModal={this.state.modalShow}
-										handleShowModal={this.handleShowModal} 
-										trackerTest={this.addActionItemToTracker}
-										handleActionModal={this.handleActionModal}
-										handleUnVote={this.handleUnVote}					
-										handleVote={this.handleVote}
-										actionItems={this.state.actionItems}/>
-									<RetroColumn 
-										HeaderText="Sad :(" 
-										handleAdd={this.addRetroItem} 
-										columnId={2} 
-										items={this.state.retroItems[2]} 
-										showModal={this.state.modalShow} 
-										handleShowModal={this.handleShowModal} 
-										trackerTest={this.addActionItemToTracker}
-										handleActionModal={this.handleActionModal}
-										handleVote={this.handleVote}
-										handleUnVote={this.handleUnVote}
-										actionItems={this.state.actionItems}/>
-									<ActionColumn 
-										HeaderText="Action Items" 
-										columnId={3} 
-										items={this.state.actionItems} 
-										showModal={this.state.modalShow} 
-										handleShowActionEditModal={this.handleShowActionEditModal} 
-										trackerTest={this.addActionItemToTracker}
-										handleActionModal={this.handleActionModal}
-										projectUsers = {this.state.projectUsers}/>
-								</div>
+							<ConfirmModal 
+								modalShow = {this.state.confirmModalShow}
+								handleDeleteItem = {this.handleDeleteItem}
+								handleDeleteActionItem = {this.handleDeleteActionItem}
+								handleClick = {this.handleClick}
+								handleClose = {this.handleCloseConfirm}
+								isActionItem = {this.state.addActionItem}
+								itemId = {this.state.currentItemId}
+								currentTrackerActionId = {this.state.currentTrackerActionId}
+								hasActionItem = {this.state.confirmHasAction}/>
+
+							<AlertModal 
+								modalShow = {this.state.alertModalShow}
+								handleClose = {this.handleCloseAlert}
+								text = {this.state.alertModalText}/>
+
+							<div className="desktop_retro_columns">
+								<RetroColumn HeaderText="Happy :)" 
+									handleAdd={this.addRetroItem} 
+									columnId={0} 
+									items={this.state.retroItems[0]} 
+									showModal={this.state.modalShow}
+									handleShowModal={this.handleShowModal}
+									trackerTest={this.addActionItemToTracker}
+									handleActionModal={this.handleActionModal}
+									handleUnVote={this.handleUnVote}
+									handleVote={this.handleVote}
+									actionItems={this.state.actionItems}
+									orderByVotes={this.state.orderByVotes} />
+								<RetroColumn 
+									HeaderText="Puzzler :|"  
+									handleAdd={this.addRetroItem} 
+									columnId={1} 
+									items={this.state.retroItems[1]} 
+									showModal={this.state.modalShow}
+									handleShowModal={this.handleShowModal} 
+									trackerTest={this.addActionItemToTracker}
+									handleActionModal={this.handleActionModal}
+									handleUnVote={this.handleUnVote}					
+									handleVote={this.handleVote}
+									actionItems={this.state.actionItems}
+									orderByVotes={this.state.orderByVotes}/>
+								<RetroColumn 
+									HeaderText="Sad :(" 
+									handleAdd={this.addRetroItem} 
+									columnId={2} 
+									items={this.state.retroItems[2]} 
+									showModal={this.state.modalShow} 
+									handleShowModal={this.handleShowModal} 
+									trackerTest={this.addActionItemToTracker}
+									handleActionModal={this.handleActionModal}
+									handleVote={this.handleVote}
+									handleUnVote={this.handleUnVote}
+									actionItems={this.state.actionItems}
+									orderByVotes={this.state.orderByVotes}/>
+								<ActionColumn 
+									HeaderText="Action Items" 
+									columnId={3} 
+									items={this.state.actionItems} 
+									showModal={this.state.modalShow} 
+									handleShowActionEditModal={this.handleShowActionEditModal} 
+									trackerTest={this.addActionItemToTracker}
+									handleActionModal={this.handleActionModal}
+									projectUsers = {this.state.projectUsers}/>
 							</div>
-						</DesktopBreakpoint>
-					</Loader>
+						</div>
+					</DesktopBreakpoint>
+				</Loader>
 
-					<Loader show={this.state.loading} message={'loading...'}>
-						<MobileBreakpoint>
-							<div id="mobile-retro-body">
-								<MobileHeader 
-									user_name={localStorage.getItem("user_name")} 
-									title={this.state.projectName + " - " + this.state.retroDate} 
-									maxVotes={this.state.maxUserVotes}
-									userVotes={this.state.userCurrentVotes}/>
+				<Loader show={this.state.loading} message={'loading...'}>
+					<MobileBreakpoint>
+						<div id="mobile-retro-body">
+							<MobileHeader 
+								user_name={localStorage.getItem("user_name")} 
+								title={this.state.projectName + " - " + this.state.retroDate} 
+								maxVotes={this.state.maxUserVotes}
+								userVotes={this.state.userCurrentVotes}/>
 
+							<CustomModal 
+								editing={this.state.editingItem} 
+								itemText={this.state.currentItemText}
+								itemId = {this.state.currentItemId}
+								isActionItem = {this.state.addActionItem}
+								currentTrackerActionId = {this.state.currentTrackerActionId}
+								projectUsers = {this.state.projectUsers}
+								modalShow = {this.state.modalShow}
+								handleEditItem = {this.handleEditItem}
+								handleAddActionItem = {this.handleAddActionItem}
+								currentPerson = {this.state.currentSelectedPerson}
+								handleChangePerson={this.handleChangePerson}
+								handleEditActionItem = {this.handleEditActionItem}
+								handleDeleteItem = {this.handleDeleteItem}
+								handleDeleteActionItem = {this.handleDeleteActionItem}
+								handleClick = {this.handleClick}
+								handleClose = {this.handleClose}/>
 
-								
-								<CustomModal 
-									editing={this.state.editingItem} 
-									itemText={this.state.currentItemText}
-									itemId = {this.state.currentItemId}
-									isActionItem = {this.state.addActionItem}
-									currentTrackerActionId = {this.state.currentTrackerActionId}
-									projectUsers = {this.state.projectUsers}
-									modalShow = {this.state.modalShow}
-									handleEditItem = {this.handleEditItem}
-									handleAddActionItem = {this.handleAddActionItem}
-									currentPerson = {this.state.currentSelectedPerson}
-									handleChangePerson={this.handleChangePerson}
-									handleEditActionItem = {this.handleEditActionItem}
-									handleDeleteItem = {this.handleDeleteItem}
-									handleDeleteActionItem = {this.handleDeleteActionItem}
-									handleClick = {this.handleClick}
-									handleClose = {this.handleClose}/>
+							<ConfirmModal 
+								modalShow = {this.state.confirmModalShow}
+								handleDeleteItem = {this.handleDeleteItem}
+								handleDeleteActionItem = {this.handleDeleteActionItem}
+								handleClick = {this.handleClick}
+								handleClose = {this.handleCloseConfirm}
+								isActionItem = {this.state.addActionItem}
+								itemId = {this.state.currentItemId}
+								currentTrackerActionId = {this.state.currentTrackerActionId}
+								hasActionItem = {this.state.confirmHasAction}/>
 
-								<ConfirmModal 
-									modalShow = {this.state.confirmModalShow}
-									handleDeleteItem = {this.handleDeleteItem}
-									handleDeleteActionItem = {this.handleDeleteActionItem}
-									handleClick = {this.handleClick}
-									handleClose = {this.handleCloseConfirm}
-									isActionItem = {this.state.addActionItem}
-									itemId = {this.state.currentItemId}
-									currentTrackerActionId = {this.state.currentTrackerActionId}
-									hasActionItem = {this.state.confirmHasAction}/>
+							<AlertModal 
+								modalShow = {this.state.alertModalShow}
+								handleClose = {this.handleCloseAlert}
+								text = {this.state.alertModalText}/>
 
-								<AlertModal 
-									modalShow = {this.state.alertModalShow}
-									handleClose = {this.handleCloseAlert}
-									text = {this.state.alertModalText}/>
-
-							    <div className="mobile_retro_columns">
-									<Tabs onSelect={this.handleSelect}>
-				        			 
-				        			 	<TabList>
-				        			 		<Tab>:)</Tab>
-				        			 		<Tab>:|</Tab>
-				        			 		<Tab>:(</Tab>
-				        			 		<Tab>A</Tab>
-				        			 	</TabList>
-				        			 	<TabPanel>
-											<RetroColumn HeaderText="Happy" 
-												handleAdd={this.addRetroItem} 
-												columnId={0} 
-												items={this.state.retroItems[0]} 
-												showModal={this.state.modalShow}
-												handleShowModal={this.handleShowModal}
-												handleActionModal={this.handleActionModal}
-												handleUnVote={this.handleUnVote}
-												handleVote={this.handleVote}
-												actionItems={this.state.actionItems} />
-										</TabPanel>
-										<TabPanel>
-											<RetroColumn 
-												HeaderText="Puzzler"  
-												handleAdd={this.addRetroItem} 
-												columnId={1} 
-												items={this.state.retroItems[1]} 
-												showModal={this.state.modalShow}
-												handleShowModal={this.handleShowModal} 
-												handleActionModal={this.handleActionModal}
-												handleUnVote={this.handleUnVote}					
-												handleVote={this.handleVote}
-												actionItems={this.state.actionItems}/>
-										</TabPanel>
-										<TabPanel>		
-											<RetroColumn 
-												HeaderText="Sad" 
-												handleAdd={this.addRetroItem} 
-												columnId={2} 
-												items={this.state.retroItems[2]} 
-												showModal={this.state.modalShow} 
-												handleShowModal={this.handleShowModal} 
-												handleActionModal={this.handleActionModal}
-												handleVote={this.handleVote}
-												handleUnVote={this.handleUnVote}
-												actionItems={this.state.actionItems}/>
-										</TabPanel>
-										<TabPanel>		
-											<ActionColumn 
-												HeaderText="Action Items" 
-												columnId={3} 
-												items={this.state.actionItems} 
-												showModal={this.state.modalShow} 
-												handleShowActionEditModal={this.handleShowActionEditModal} 
-												handleActionModal={this.handleActionModal}
-												projectUsers = {this.state.projectUsers}/>
-										</TabPanel>	
-									</Tabs>
-								</div>
+						    <div className="mobile_retro_columns">
+								<Tabs onSelect={this.handleSelect}>
+			        			 
+			        			 	<TabList>
+			        			 		<Tab>:)</Tab>
+			        			 		<Tab>:|</Tab>
+			        			 		<Tab>:(</Tab>
+			        			 		<Tab>A</Tab>
+			        			 	</TabList>
+			        			 	<TabPanel>
+										<RetroColumn HeaderText="Happy" 
+											handleAdd={this.addRetroItem} 
+											columnId={0} 
+											items={this.state.retroItems[0]} 
+											showModal={this.state.modalShow}
+											handleShowModal={this.handleShowModal}
+											handleActionModal={this.handleActionModal}
+											handleUnVote={this.handleUnVote}
+											handleVote={this.handleVote}
+											actionItems={this.state.actionItems} />
+									</TabPanel>
+									<TabPanel>
+										<RetroColumn 
+											HeaderText="Puzzler"  
+											handleAdd={this.addRetroItem} 
+											columnId={1} 
+											items={this.state.retroItems[1]} 
+											showModal={this.state.modalShow}
+											handleShowModal={this.handleShowModal} 
+											handleActionModal={this.handleActionModal}
+											handleUnVote={this.handleUnVote}					
+											handleVote={this.handleVote}
+											actionItems={this.state.actionItems}/>
+									</TabPanel>
+									<TabPanel>		
+										<RetroColumn 
+											HeaderText="Sad" 
+											handleAdd={this.addRetroItem} 
+											columnId={2} 
+											items={this.state.retroItems[2]} 
+											showModal={this.state.modalShow} 
+											handleShowModal={this.handleShowModal} 
+											handleActionModal={this.handleActionModal}
+											handleVote={this.handleVote}
+											handleUnVote={this.handleUnVote}
+											actionItems={this.state.actionItems}/>
+									</TabPanel>
+									<TabPanel>		
+										<ActionColumn 
+											HeaderText="Action Items" 
+											columnId={3} 
+											items={this.state.actionItems} 
+											showModal={this.state.modalShow} 
+											handleShowActionEditModal={this.handleShowActionEditModal} 
+											handleActionModal={this.handleActionModal}
+											projectUsers = {this.state.projectUsers}/>
+									</TabPanel>	
+								</Tabs>
 							</div>
-
+							</div>
 						</MobileBreakpoint> 
 						</Loader>
 					</div>
@@ -301,6 +308,10 @@ var Retro = React.createClass({
 		else {
 			return(<div></div>);
 		}
+	},
+
+	toggleItemOrder: function(){
+		this.setState({orderByVotes: !this.state.orderByVotes});
 	},
 	
 	handleSelect: function (index, last) {
@@ -960,6 +971,15 @@ var Retro = React.createClass({
 				xhr.setRequestHeader('X-TrackerToken', token);
 			}
 	    });
+	},
+
+    startOrStopTimer: function(){
+    	if(this.state.timerShow){
+    		this.setState({timeStart: 0, timerShow: false});
+    	}
+    	else{
+    		this.setState({timeStart: Date.now(), timerShow: true});
+    	}
     },
 });
 

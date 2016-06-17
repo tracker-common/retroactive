@@ -199,7 +199,60 @@ button:active{
 	position:relative;
 	top:1px;
 }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
 
+/* Hide default HTML checkbox */
+.switch .retro__sort_slider {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+
+.retro__sort_slider:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.retro__sort_slider:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 
 /* header.js */
 .header {
@@ -233,7 +286,12 @@ button:active{
 }
 
 .center {
-	margin: 9px auto 0 auto;
+	display: flex;
+}
+
+.center__slider{
+	margin: 10px auto 0 auto;
+	margin-left: 30px;
 }
 
 .header__text_box {
@@ -241,7 +299,7 @@ button:active{
 }
 
 .center__text{
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: bold;
 	margin:auto 0;
 }
@@ -256,6 +314,13 @@ button:active{
 
 .sign_out_button{
 	padding: 1px;
+}
+
+.switch_label{
+	margin-top: 0px;
+	padding-bottom: 4px;
+	margin-left: 3px;
+	margin-right: 3px
 }
 
 /* header.js and retro_item.js */
