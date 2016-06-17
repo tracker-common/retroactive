@@ -5,6 +5,7 @@ import MobileHeader from './mobile_header'
 import RetroColumn from './retro_column';
 import ActionColumn from './action_column';
 import {ModalContainer, ModalDialog} from 'react-modal-dialog';
+import { browserHistory } from 'react-router'
 
 //Imports for responsive media query
 import { Component } from 'react';
@@ -58,12 +59,25 @@ var Retro = React.createClass({
 	   	}
 	},
 	componentWillMount: function(){
-		if(localStorage.getItem("user_email")==null){
+		if (localStorage.getItem("user_email")==null){
         localStorage.setItem("url_redirect", window.location);
         //need to set and then get it otherwise it doesnt persist
         localStorage.getItem("url_redirect");
         window.location.replace("/");
       }
+
+    	if (localStorage.getItem("tracker_token") == null) {
+    		console.log("Your token doesn't exist!");
+    		browserHistory.push('/dashboard');
+    	} else {
+    		var ajaxPromise = this.checkTrackerStatus();
+
+    		ajaxPromise.error(function(error) {
+    			//console.log(error);
+    			console.log("Your token is not valid for this retro");
+    			browserHistory.push('/dashboard');
+    		});
+    	}
     },
 	componentDidMount: function(){
 		var vm = this;
@@ -82,6 +96,7 @@ var Retro = React.createClass({
 		name = localStorage.getItem("user_name");
 
 		if(localStorage.getItem("url_redirect") == null) {
+
 		return (
 			<div>
 				<Loader show={this.state.loading} message={'loading...'} className="loader">
@@ -285,19 +300,19 @@ var Retro = React.createClass({
 											columnId={3} 
 											items={this.state.actionItems} 
 											showModal={this.state.modalShow} 
-											handleShowActionEditModal={this.handleShowActionEditModal} 
+										handleShowActionEditModal={this.handleShowActionEditModal} 
 											handleActionModal={this.handleActionModal}
 											projectUsers = {this.state.projectUsers}/>
 									</TabPanel>	
 								</Tabs>
 							</div>
-						</div>
-
-					</MobileBreakpoint> 
-					</Loader>
-				</div>
-			);
-		}else{
+							</div>
+						</MobileBreakpoint> 
+						</Loader>
+					</div>
+				);
+		}
+		else {
 			return(<div></div>);
 		}
 	},
@@ -952,6 +967,18 @@ var Retro = React.createClass({
 			this.setState({confirmModalShow: true, confirmHasAction: false});	
 		}
     },
+
+    checkTrackerStatus :function(){
+
+       	var token = localStorage.getItem("tracker_token");
+
+		return $.ajax({
+			url: "https://www.pivotaltracker.com/services/v5/me",
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('X-TrackerToken', token);
+			}
+	    });
+	},
 
     startOrStopTimer: function(){
     	if(this.state.timerShow){
