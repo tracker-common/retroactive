@@ -20,10 +20,13 @@ var AlertModal = React.createClass({
 		        	(
 				        <ModalContainer onClose={this.props.handleClose}>
 							<ModalDialog onClose={this.props.handleClose}>
-								<span> 
-									{this.props.text} 
-								</span>
-								<button type="button" className="update_button" onClick={this.handleClose}>OK</button>
+								<div>
+									<span className="alert_modal_title">Uh oh!</span>
+									<div className="alert_modal_text"> 
+										{this.props.text} 
+									</div>
+									<button type="button" className="alert_modal_button" onClick={this.handleClose}>OK</button>
+								</div>
 							</ModalDialog>
 				        </ModalContainer>
 		      		)

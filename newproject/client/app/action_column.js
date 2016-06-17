@@ -22,7 +22,7 @@ var ActionColumn = React.createClass({
 	    });
 
 		return(
-			<div className="full_height">
+			<div className="retro_column__container">
 				<h1 className="retro_columns__title">{this.props.HeaderText}</h1>
 				<div className="retro_column">			
 					<div className="action_column_items">

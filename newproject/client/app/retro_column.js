@@ -14,7 +14,7 @@ var RetroColumn = React.createClass({
 		
 		
 		return(
-			<div className="full_height">
+			<div className="retro_column__container">
 				<span className="retro_columns__title">{this.props.HeaderText}</span>
 				<div className="retro_column">			
 					<input type="text" placeholder="Type and hit enter to add..." onKeyPress={this.handleSubmit} ref="itemText"/>
