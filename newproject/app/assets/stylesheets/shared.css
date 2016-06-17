@@ -32,6 +32,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #F3F3F3;
 }
 ol, ul {
 	list-style: none;
@@ -305,6 +306,11 @@ button:active{
 	padding: 2px;
 }
 
+.project_retros_title {
+	font-size: 17px;
+	font-weight: 500;
+}
+
 /* mobile_project_retros.js */
 .mobile_project_retros_new_button {
 	align-self: flex-end;
@@ -347,10 +353,20 @@ button:active{
 .sign_in {
 	display: flex;
 	justify-content: center;
-	flex-direction:column;
-	width:500px;
-	height:500px; 
+	flex-direction: column;
+	width:200px;
+	height:300px;
 	margin:0 auto;
+	text-align: center;
+}
+
+.sign_in_text {
+	font-size: 16px;
+	margin-top: 5px;
+}
+
+.sign_in_button {
+	margin: 5px auto 0 auto;
 }
 
 

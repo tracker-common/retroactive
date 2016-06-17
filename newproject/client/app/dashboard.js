@@ -35,6 +35,7 @@ var RetroActive = React.createClass({
     }
   },
 	componentDidMount: function(){
+
     var vm = this;
 		this.checkEmail();
     document.title = "RetroActive";
@@ -82,7 +83,7 @@ var RetroActive = React.createClass({
                                 current_proj={this.state.current_proj}
                                 handleChangeProject={this.handleChangeProject} />
                             </div>
-            	       </div>
+            	           </div>
                     </Loader>
                 </PhoneBreakpoint>
             </div>);
@@ -92,7 +93,7 @@ var RetroActive = React.createClass({
     },
 
     handleChangeToken_: function(event) {
-    this.setState({token: undefined});
+      this.setState({token: undefined});
     },
 
     handleSaveToken_: function(newToken) {
