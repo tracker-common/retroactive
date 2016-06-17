@@ -49,7 +49,8 @@ var Retro = React.createClass({
 	      confirmModalShow: false,
 	      alertModalShow: false,
 	      confirmHasAction: false,
-	      alertModalText: ""
+	      alertModalText: "",
+	      orderByVotes: true
 	   	}
 	},
 	componentWillMount: function(){
@@ -88,7 +89,7 @@ var Retro = React.createClass({
 								title={this.state.projectName + " - " + this.state.retroDate} 
 								maxVotes={this.state.maxUserVotes}
 								userVotes={this.state.userCurrentVotes}/>
-							
+							<a onClick={this.toggleItemOrder}> Order By: {this.state.orderByVotes ? "Time" : "Votes"}</a>
 							<CustomModal 
 								editing={this.state.editingItem} 
 								itemText={this.state.currentItemText}
@@ -133,7 +134,8 @@ var Retro = React.createClass({
 									handleActionModal={this.handleActionModal}
 									handleUnVote={this.handleUnVote}
 									handleVote={this.handleVote}
-									actionItems={this.state.actionItems} />
+									actionItems={this.state.actionItems}
+									orderByVotes={this.state.orderByVotes} />
 								<RetroColumn 
 									HeaderText="Puzzler :|"  
 									handleAdd={this.addRetroItem} 
@@ -145,7 +147,8 @@ var Retro = React.createClass({
 									handleActionModal={this.handleActionModal}
 									handleUnVote={this.handleUnVote}					
 									handleVote={this.handleVote}
-									actionItems={this.state.actionItems}/>
+									actionItems={this.state.actionItems}
+									orderByVotes={this.state.orderByVotes}/>
 								<RetroColumn 
 									HeaderText="Sad :(" 
 									handleAdd={this.addRetroItem} 
@@ -157,7 +160,8 @@ var Retro = React.createClass({
 									handleActionModal={this.handleActionModal}
 									handleVote={this.handleVote}
 									handleUnVote={this.handleUnVote}
-									actionItems={this.state.actionItems}/>
+									actionItems={this.state.actionItems}
+									orderByVotes={this.state.orderByVotes}/>
 								<ActionColumn 
 									HeaderText="Action Items" 
 									columnId={3} 
@@ -181,8 +185,6 @@ var Retro = React.createClass({
 								maxVotes={this.state.maxUserVotes}
 								userVotes={this.state.userCurrentVotes}/>
 
-
-							
 							<CustomModal 
 								editing={this.state.editingItem} 
 								itemText={this.state.currentItemText}
@@ -285,6 +287,10 @@ var Retro = React.createClass({
 		}else{
 			return(<div></div>);
 		}
+	},
+
+	toggleItemOrder: function(){
+		this.setState({orderByVotes: !this.state.orderByVotes});
 	},
 	
 	handleSelect: function (index, last) {

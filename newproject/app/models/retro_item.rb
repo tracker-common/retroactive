@@ -4,5 +4,6 @@ class RetroItem
   field :text, type: String
   field :column, type: Integer
   field :action_item_id, type: String
+  field :created_on, type: DateTime
   embedded_in :retro
 end

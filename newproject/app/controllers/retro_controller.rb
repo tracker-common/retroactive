@@ -23,7 +23,7 @@ class RetroController < ActionController::Base
 		retro = Retro.find(id)
 		column = params[:column].to_i
 		text = params[:text]
-		retro.retro_items.build(text: text, column: column)
+		retro.retro_items.build(text: text, column: column, created_on: DateTime.now)
 		retro.version += 1
 		retro.save
 

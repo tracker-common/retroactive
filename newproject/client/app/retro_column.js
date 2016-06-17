@@ -3,15 +3,30 @@ import RetroItem from './retro_item'
 
 
 var RetroColumn = React.createClass({
-
 	//Props: Header Text, Items
 	render() {
 		var self = this;		
 		var trackerTest = this.props.trackerTest;
-		// console.log("Items");
-		// console.log(this.props.items);
 
-		
+		var retroItems = this.props.items;
+
+		if(this.props.orderByVotes){
+			retroItems.sort(function(a,b) {
+			    if(! a.votes) return -1;
+			    else if (! b.votes) return 1;
+			    else{
+			    	return (a.votes.length) - (b.votes.length);
+			    }
+			});
+			retroItems.reverse();
+		}
+		else
+		{
+			retroItems.sort(function(a,b) {
+			    return (a.created_on).localeCompare(b.created_on);
+			});
+			retroItems.reverse();
+		}
 		
 		return(
 			<div className="retro_column__container">
@@ -19,16 +34,16 @@ var RetroColumn = React.createClass({
 				<div className="retro_column">			
 					<input type="text" placeholder="Type and hit enter to add..." onKeyPress={this.handleSubmit} ref="itemText"/>
 					<div className="retro_column_items">
-						{
- 							this.props.items.map(function(item, index) {
+						{	
+						
+ 							retroItems.map(function(item, index) {
 								var actionItem_input= null;
-								//console.log(self.props.actionItems);
 								self.props.actionItems.forEach(function(actionItem, index){
 									if(actionItem._id.$oid == item.action_item_id){
 										actionItem_input = actionItem;
 									}
 								});
-								
+
 							    return (
 							        <RetroItem itemText={item.text} 
 							        object_id={item._id ? item._id.$oid : null} 
