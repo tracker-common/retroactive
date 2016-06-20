@@ -36,7 +36,7 @@ var Header = React.createClass({
 					}
 				</div>
 				{
-					this.props.timerShow!=null ? 
+					/*this.props.timerShow!=null ? 
 					( 
 						<div className="header__middle_right_box">
 							<table className="retro__timer"><tbody>
@@ -56,7 +56,7 @@ var Header = React.createClass({
 						</div>
 					)
 					: null
-				
+				*/
 				}
 				
 				<div className="right header__text_box">

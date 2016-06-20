@@ -32,8 +32,8 @@ var RetroColumn = React.createClass({
 		{
 			//sorts retro items in each column by the creation time
 			retroItems.sort(function(a,b) {
-			    if(! a.created_on) return -1;
-		    	else if (! b.created_on) return 1;
+			    if(! a.created_on) return 1;
+		    	else if (! b.created_on) return -1;
 		    	else return (a.created_on).localeCompare(b.created_on);
 			});
 			retroItems.reverse();
